@@ -1,0 +1,1041 @@
+<title>Planeta Pizza</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Figtree:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+
+  :root{
+    --cream:#FBF6EC;
+    --surface:#F4E9D6;
+    --surface-2:#EEDFC4;
+    --ink:#241533;
+    --ink-soft:#5A4A6C;
+    --cosmos:#1D1138;
+    --cosmos-2:#140B29;
+    --cosmos-ink:#F4ECDD;
+    --flare:#8C2635;
+    --flare-dark:#6E1D29;
+    --gold:#DD8F1E;
+    --basil:#5C7A3B;
+    --atmos:#1E7A90;
+    --critical:#C62828;
+    --line: rgba(36,21,51,.14);
+    --focus: #1E7A90;
+    --radius-card: 22px;
+    --radius-pill: 999px;
+    --shadow-card: 0 10px 28px -14px rgba(29,17,56,.35);
+    --scale: 1;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --cream:#160D2A; --surface:#201436; --surface-2:#2B1C47;
+      --ink:#F4ECDD; --ink-soft:#CBBEE0;
+      --cosmos:#0D0720; --cosmos-2:#070412; --cosmos-ink:#F4ECDD;
+      --flare:#C94A5C; --flare-dark:#8C2635; --gold:#F0B25A; --basil:#8CB069; --atmos:#5CC3DA;
+      --critical:#FF6B5E;
+      --line: rgba(244,236,221,.16);
+      --shadow-card: 0 10px 30px -12px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --cream:#160D2A; --surface:#201436; --surface-2:#2B1C47;
+    --ink:#F4ECDD; --ink-soft:#CBBEE0;
+    --cosmos:#0D0720; --cosmos-2:#070412; --cosmos-ink:#F4ECDD;
+    --flare:#C94A5C; --flare-dark:#8C2635; --gold:#F0B25A; --basil:#8CB069; --atmos:#5CC3DA;
+    --critical:#FF6B5E;
+    --line: rgba(244,236,221,.16);
+    --shadow-card: 0 10px 30px -12px rgba(0,0,0,.6);
+  }
+
+  *{ box-sizing:border-box; }
+  html{ font-size: calc(17px * var(--scale)); }
+  html.text-xl{ --scale: 1.18; }
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family:'Figtree', system-ui, -apple-system, sans-serif;
+    line-height:1.5; padding-inline: clamp(16px, 4vw, 40px);
+  }
+  h1,h2,h3,.display{ font-family:'Unbounded', system-ui, sans-serif; text-wrap: balance; letter-spacing:-0.01em; }
+  .mono{ font-family:'Space Mono', monospace; font-variant-numeric: tabular-nums; }
+  a{ color: var(--atmos); }
+  img{ max-width:100%; }
+  :focus-visible{ outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+  .skip-link{
+    position:absolute; left:-999px; top:0; background:var(--cosmos); color:var(--cosmos-ink);
+    padding:12px 18px; border-radius:0 0 10px 0; z-index:200;
+  }
+  .skip-link:focus{ left:0; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
+  }
+
+  /* ---------- layout shell ---------- */
+  .wrap{ max-width:1180px; margin:0 auto; }
+
+  .site-header{
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding-block:18px; flex-wrap:wrap;
+  }
+  .brand{ display:flex; align-items:center; gap:14px; }
+  .brand-text{ display:flex; flex-direction:column; line-height:1.2; }
+  .brand-name{ font-family:'Unbounded'; font-weight:800; font-size:1.3rem; }
+  .brand-tag{ color:var(--ink-soft); font-size:.82rem; }
+
+  .header-actions{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+
+  /* real logo badge */
+  .planet-mark{
+    --d: 44px; width:var(--d); height:var(--d); border-radius:50%; position:relative; flex:none;
+    object-fit:cover; display:block;
+    box-shadow: 0 2px 8px rgba(0,0,0,.25);
+    background: var(--cream);
+  }
+  .planet-mark.lg{ --d: 150px; box-shadow: 0 8px 24px rgba(0,0,0,.3); }
+
+  /* ---------- buttons ---------- */
+  .btn{
+    font-family:'Figtree'; font-weight:700; font-size:.95rem; cursor:pointer;
+    border-radius: var(--radius-pill); border:2px solid transparent; padding:12px 20px;
+    display:inline-flex; align-items:center; gap:8px; min-height:48px;
+    transition: transform .12s ease, background .15s ease, border-color .15s ease;
+  }
+  .btn:active{ transform: scale(.97); }
+  .btn-primary{ background:var(--flare); color:#fff; }
+  .btn-primary:hover{ background:var(--flare-dark); }
+  .btn-ghost{ background:transparent; color:var(--ink); border-color:var(--line); }
+  .btn-ghost:hover{ border-color:var(--ink-soft); }
+  .btn-admin{ background:var(--cosmos); color:var(--cosmos-ink); border-color:var(--cosmos); }
+  .btn-admin:hover{ opacity:.9; }
+  .btn-outline{ background:transparent; color:var(--flare); border-color:var(--flare); }
+  .btn-block{ width:100%; justify-content:center; font-size:1.05rem; min-height:56px; }
+  .btn-lg{ min-height:60px; font-size:1.1rem; padding-inline:26px; }
+  .btn[disabled]{ opacity:.45; cursor:not-allowed; }
+  .btn-step{
+    width:44px; height:44px; border-radius:50%; border:2px solid var(--line); background:var(--surface);
+    font-size:1.3rem; font-weight:800; color:var(--ink); display:inline-flex; align-items:center; justify-content:center;
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    background: radial-gradient(ellipse at top right, #2A1B53 0%, var(--cosmos) 55%, var(--cosmos-2) 100%);
+    background-image:
+      radial-gradient(1.5px 1.5px at 8% 20%, rgba(255,255,255,.8), transparent),
+      radial-gradient(1.5px 1.5px at 22% 65%, rgba(255,255,255,.6), transparent),
+      radial-gradient(1px 1px at 40% 15%, rgba(255,255,255,.7), transparent),
+      radial-gradient(1.5px 1.5px at 65% 40%, rgba(255,255,255,.5), transparent),
+      radial-gradient(1px 1px at 80% 75%, rgba(255,255,255,.7), transparent),
+      radial-gradient(1.5px 1.5px at 92% 25%, rgba(255,255,255,.6), transparent),
+      radial-gradient(ellipse at top right, #2A1B53 0%, var(--cosmos) 55%, var(--cosmos-2) 100%);
+    color: var(--cosmos-ink);
+    border-radius: 28px; padding: clamp(28px, 5vw, 56px); margin-top:6px;
+    display:grid; grid-template-columns: 1.1fr .8fr; gap: 28px; align-items:center;
+  }
+  @media (max-width: 760px){ .hero{ grid-template-columns: 1fr; text-align:center; } }
+  .hero h1{ font-size: clamp(1.8rem, 4vw, 2.7rem); margin:0 0 .5rem; }
+  .hero p{ color:#D9CEEF; font-size:1.05rem; max-width:48ch; }
+  @media (max-width:760px){ .hero p{ margin-inline:auto; } }
+  .hero-cta{ display:flex; gap:12px; margin-top:20px; flex-wrap:wrap; }
+  @media (max-width:760px){ .hero-cta{ justify-content:center; } }
+  .hero-visual{ display:flex; justify-content:center; position:relative; }
+  .orbit-ring{
+    position:absolute; border:1.5px dashed rgba(255,255,255,.25); border-radius:50%;
+    width:230px; height:230px; animation: spin 40s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .orbit-moon{
+    position:absolute; top:-7px; left:50%; width:14px; height:14px; border-radius:50%;
+    background: var(--gold); box-shadow:0 0 10px var(--gold);
+  }
+
+  /* ---------- category tabs ---------- */
+  .category-tabs{
+    display:flex; gap:10px; overflow-x:auto; padding:22px 2px 8px; scrollbar-width:thin;
+  }
+  .tab{
+    flex:none; font-family:'Unbounded'; font-weight:600; font-size:.92rem;
+    padding:12px 20px; border-radius: var(--radius-pill); border:2px solid var(--line);
+    background:var(--surface); color:var(--ink); cursor:pointer; min-height:48px;
+  }
+  .tab[aria-selected="true"]{ background:var(--flare); border-color:var(--flare); color:#fff; }
+
+  /* ---------- menu grid ---------- */
+  .menu-section-title{ margin: 18px 0 6px; font-size:1.3rem; }
+  .menu-grid{
+    display:grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap:18px; margin-bottom: 34px;
+  }
+  .item-card{
+    background:var(--surface); border-radius:var(--radius-card); padding:18px; box-shadow:var(--shadow-card);
+    display:flex; flex-direction:column; gap:10px; border:1px solid var(--line);
+  }
+  .item-top{ display:flex; gap:14px; align-items:center; }
+  .item-name{ font-family:'Unbounded'; font-weight:700; font-size:1.05rem; margin:0; }
+  .item-nickname{ font-style:italic; color:var(--atmos); font-size:.8rem; display:block; margin-top:2px; }
+  .item-desc{ color:var(--ink-soft); font-size:.9rem; margin:0; min-height:2.6em; }
+
+  /* planet-pizza portraits, CSS only */
+  .planet{ --d:68px; width:var(--d); height:var(--d); border-radius:50%; flex:none; position:relative; background-color:#eee; }
+  .planet::before{ content:""; position:absolute; inset:0; border-radius:50%; box-shadow: inset -8px -8px 14px rgba(0,0,0,.3), inset 5px 5px 10px rgba(255,255,255,.3); }
+  .planet--muzzarella{ background:
+      radial-gradient(circle at 70% 30%, rgba(150,110,40,.45) 0 6%, transparent 7%),
+      radial-gradient(circle at 35% 65%, rgba(150,110,40,.4) 0 5%, transparent 6%),
+      radial-gradient(circle at 55% 50%, rgba(150,110,40,.35) 0 4%, transparent 5%),
+      radial-gradient(circle at 60% 72%, #FFE9A8, #F3C94D 60%, #D99E1E 100%); }
+  .planet--napolitana{ background:
+      radial-gradient(ellipse 10px 5px at 30% 35%, #4F7A3B 0 90%, transparent 95%),
+      radial-gradient(ellipse 8px 4px at 60% 68%, #4F7A3B 0 90%, transparent 95%),
+      radial-gradient(circle at 70% 25%, #fff 0 4%, transparent 5%),
+      radial-gradient(circle at 60% 55%, #E8472A, #C7371E 70%, #9C2A17 100%); }
+  .planet--fugazzeta{ background:
+      repeating-radial-gradient(circle at 50% 50%, rgba(255,255,255,.35) 0 2px, transparent 2px 9px),
+      radial-gradient(circle at 60% 40%, #FBE7B0, #E8B84B 65%, #C4912A 100%); }
+  .planet--calabresa{ background:
+      radial-gradient(circle at 30% 30%, #8A2318 0 7%, transparent 8%),
+      radial-gradient(circle at 65% 28%, #8A2318 0 6%, transparent 7%),
+      radial-gradient(circle at 50% 60%, #8A2318 0 7%, transparent 8%),
+      radial-gradient(circle at 75% 65%, #8A2318 0 5%, transparent 6%),
+      radial-gradient(circle at 60% 45%, #E8472A, #B6311C 75%, #8E2615 100%); }
+  .planet--cuatroquesos{ background:
+      radial-gradient(circle at 25% 30%, #EFEADB 0 32%, transparent 55%),
+      radial-gradient(circle at 75% 25%, #E8B84B 0 32%, transparent 55%),
+      radial-gradient(circle at 28% 75%, #6C7A55 0 24%, transparent 55%),
+      radial-gradient(circle at 72% 72%, #F3DA8B 0 32%, transparent 55%),
+      #D9C486; }
+  .planet--especial{ background:
+      radial-gradient(circle at 30% 35%, #D9512F 0 8%, transparent 9%),
+      radial-gradient(circle at 62% 60%, #D9512F 0 7%, transparent 8%),
+      radial-gradient(circle at 70% 30%, #D9512F 0 6%, transparent 7%),
+      radial-gradient(circle at 55% 45%, #F6D9C3, #E6B892 70%, #C9926A 100%); }
+  .planet--rucula{ background:
+      radial-gradient(circle at 20% 20%, #fff 0 2px, transparent 3px),
+      radial-gradient(circle at 80% 30%, #fff 0 1.5px, transparent 2.5px),
+      radial-gradient(circle at 60% 75%, #fff 0 2px, transparent 3px),
+      radial-gradient(circle at 35% 60%, #fff 0 1.5px, transparent 2.5px),
+      radial-gradient(ellipse 9px 4px at 40% 40%, #5C7A3B 0 90%, transparent 95%),
+      radial-gradient(ellipse 7px 3px at 65% 60%, #5C7A3B 0 90%, transparent 95%),
+      radial-gradient(circle at 50% 50%, #F6EFDD, #E4D7B8 80%, #C9B98E 100%); }
+  .planet--roquefort{ background:
+      radial-gradient(circle at 30% 30%, #4A6B8C 0 3%, transparent 4%),
+      radial-gradient(circle at 55% 55%, #4A6B8C 0 2.5%, transparent 3.5%),
+      radial-gradient(circle at 70% 35%, #4A6B8C 0 2%, transparent 3%),
+      radial-gradient(circle at 40% 70%, #4A6B8C 0 2.5%, transparent 3.5%),
+      radial-gradient(circle at 60% 48%, #FBE7B0, #E8C77C 70%, #C9A35B 100%); }
+  .planet--drink{ background: radial-gradient(circle at 60% 35%, #BFE8EC, var(--atmos) 70%, #155E6E 100%); }
+  .planet--dessert{ background: radial-gradient(circle at 60% 35%, #F6D9C3, var(--gold) 70%, #A66A14 100%); }
+  .planet--panceta{ background:
+      radial-gradient(circle at 30% 30%, #D8A9A0 0 8%, transparent 9%),
+      radial-gradient(circle at 60% 55%, #C98F86 0 7%, transparent 8%),
+      radial-gradient(circle at 75% 30%, #D8A9A0 0 6%, transparent 7%),
+      radial-gradient(circle at 60% 40%, #F6E6D9, #E8C9B8 65%, #C9A08E 100%); }
+  .planet--pollo{ background:
+      radial-gradient(circle at 30% 30%, #F3E3B0 0 10%, transparent 11%),
+      radial-gradient(circle at 65% 60%, #EAD89A 0 8%, transparent 9%),
+      radial-gradient(circle at 60% 40%, #FBF3DC, #F0DFA8 65%, #D8BE6E 100%); }
+  .planet--carne{ background:
+      radial-gradient(circle at 30% 30%, #6B2A1E 0 8%, transparent 9%),
+      radial-gradient(circle at 65% 28%, #6B2A1E 0 6%, transparent 7%),
+      radial-gradient(circle at 50% 62%, #6B2A1E 0 7%, transparent 8%),
+      radial-gradient(circle at 60% 45%, #B6462E, #8E3420 75%, #6B2515 100%); }
+  .planet--mar{ background:
+      radial-gradient(circle at 30% 30%, #5B7A8C 0 5%, transparent 6%),
+      radial-gradient(circle at 65% 55%, #5B7A8C 0 4%, transparent 5%),
+      radial-gradient(circle at 60% 40%, #D8E8EC, #A9CAD4 65%, #6E9CA8 100%); }
+  .planet--dulce{ background:
+      radial-gradient(circle at 30% 30%, #E85C4A 0 4%, transparent 5%),
+      radial-gradient(circle at 60% 60%, #E8C84A 0 10%, transparent 11%),
+      radial-gradient(circle at 60% 40%, #FDE8C8, #F6C96A 65%, #E89A3C 100%); }
+
+  .size-row{ display:flex; gap:8px; flex-wrap:wrap; }
+  .size-btn{
+    flex:1 1 auto; min-width:84px; border-radius:14px; border:2px solid var(--line); background:var(--cream);
+    padding:9px 6px; text-align:center; cursor:pointer; min-height:48px;
+  }
+  .size-btn[aria-pressed="true"]{ border-color:var(--flare); background: color-mix(in srgb, var(--flare) 12%, var(--cream)); }
+  .size-btn .lbl{ display:block; font-size:.8rem; color:var(--ink-soft); }
+  .size-btn .price{ display:block; font-family:'Space Mono'; font-weight:700; }
+
+  .qty-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:4px; }
+  .qty-controls{ display:flex; align-items:center; gap:10px; }
+  .qty-value{ font-family:'Space Mono'; font-weight:700; min-width:1.4em; text-align:center; font-size:1.15rem; }
+
+  /* ---------- sticky cart bar ---------- */
+  .cart-bar{
+    position:sticky; bottom:14px; z-index:40; display:flex; justify-content:center; margin-top: 18px;
+  }
+  .cart-bar-inner{
+    background:var(--cosmos); color:var(--cosmos-ink); border-radius:var(--radius-pill);
+    padding:12px 10px 12px 22px; display:flex; align-items:center; gap:16px; box-shadow:0 14px 30px -10px rgba(0,0,0,.4);
+    width:100%; max-width:560px;
+  }
+  .cart-bar-text{ font-weight:700; }
+  .cart-bar-total{ font-family:'Space Mono'; }
+
+  /* ---------- generic screens ---------- */
+  .screen{ padding-block: 10px 40px; }
+  .back-link{ background:none; border:0; color: var(--atmos); font-weight:700; font-size:1rem; cursor:pointer; padding:10px 0; display:inline-flex; gap:6px; align-items:center; }
+  .panel{
+    background:var(--surface); border-radius: var(--radius-card); padding: clamp(18px,4vw,34px);
+    box-shadow:var(--shadow-card); max-width:720px; margin: 0 auto; border:1px solid var(--line);
+  }
+  .cart-line{ display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 0; border-bottom:1px solid var(--line); }
+  .cart-line:last-child{ border-bottom:0; }
+  .cart-line-name{ font-weight:700; }
+  .cart-line-meta{ color:var(--ink-soft); font-size:.85rem; }
+  .cart-total-row{ display:flex; justify-content:space-between; align-items:center; font-size:1.25rem; font-weight:800; padding-top:16px; margin-top:6px; border-top:2px solid var(--line); }
+  .empty-note{ text-align:center; color:var(--ink-soft); padding: 40px 10px; }
+
+  form .field{ display:flex; flex-direction:column; gap:6px; margin-bottom:18px; }
+  form label{ font-weight:700; }
+  form .hint{ color:var(--ink-soft); font-size:.82rem; font-weight:400; }
+  input[type=text], input[type=tel], textarea{
+    font:inherit; padding:14px 16px; border-radius:14px; border:2px solid var(--line); background:var(--cream); color:var(--ink);
+    min-height:52px;
+  }
+  textarea{ min-height:90px; resize:vertical; }
+  input.invalid{ border-color: var(--critical); }
+  .error-text{ color:var(--critical); font-weight:700; font-size:.85rem; }
+  fieldset{ border:0; padding:0; margin:0 0 18px; }
+  legend{ font-weight:700; padding:0 0 8px; }
+  .radio-group{ display:flex; gap:10px; flex-wrap:wrap; }
+  .radio-pill{ position:relative; }
+  .radio-pill input{ position:absolute; opacity:0; inset:0; cursor:pointer; }
+  .radio-pill span{
+    display:block; padding:12px 18px; border-radius:var(--radius-pill); border:2px solid var(--line); background:var(--cream); font-weight:700;
+    min-height:48px; display:flex; align-items:center;
+  }
+  .radio-pill input:checked + span{ border-color:var(--flare); background: color-mix(in srgb, var(--flare) 12%, var(--cream)); }
+  .radio-pill input:focus-visible + span{ outline:3px solid var(--focus); outline-offset:2px; }
+
+  .confirm-wrap{ text-align:center; max-width:560px; margin:0 auto; }
+  .confirm-code{ font-family:'Space Mono'; font-size:2rem; font-weight:700; background:var(--cosmos); color:var(--cosmos-ink); padding:10px 22px; border-radius:16px; display:inline-block; margin:14px 0; }
+
+  footer{ border-top:1px solid var(--line); margin-top:30px; padding-block:26px 40px; color:var(--ink-soft); font-size:.85rem; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+
+  /* ---------- admin ---------- */
+  .admin-header{ display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:18px; }
+  .admin-title{ display:flex; align-items:center; gap:14px; }
+  .badge-count{ background:var(--critical); color:#fff; font-weight:800; border-radius:var(--radius-pill); padding:4px 12px; font-family:'Space Mono'; }
+  .order-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap:16px; }
+  .order-card{ background:var(--surface); border-radius:18px; padding:16px; border:1px solid var(--line); box-shadow:var(--shadow-card); border-left:8px solid var(--line); }
+  .order-card[data-status="nuevo"]{ border-left-color: var(--critical); }
+  .order-card[data-status="preparando"]{ border-left-color: var(--gold); }
+  .order-card[data-status="en_camino"]{ border-left-color: var(--atmos); }
+  .order-card[data-status="entregado"]{ border-left-color: var(--basil); opacity:.7; }
+  .order-top{ display:flex; justify-content:space-between; gap:10px; align-items:baseline; }
+  .order-code{ font-family:'Space Mono'; font-weight:700; }
+  .order-time{ color:var(--ink-soft); font-size:.8rem; }
+  .order-customer{ font-weight:800; margin:4px 0 2px; }
+  .order-sub{ color:var(--ink-soft); font-size:.85rem; margin-bottom:8px; }
+  .order-items{ font-size:.88rem; margin:0 0 10px; padding-left:18px; }
+  .order-total{ font-family:'Space Mono'; font-weight:700; margin-bottom:12px; }
+  .status-pill{ display:inline-block; font-size:.75rem; font-weight:800; padding:4px 10px; border-radius:var(--radius-pill); margin-bottom:10px; }
+  .status-pill.nuevo{ background: color-mix(in srgb, var(--critical) 18%, var(--surface)); color:var(--critical); }
+  .status-pill.preparando{ background: color-mix(in srgb, var(--gold) 22%, var(--surface)); color:#8a5a00; }
+  .status-pill.en_camino{ background: color-mix(in srgb, var(--atmos) 20%, var(--surface)); color:var(--atmos); }
+  .status-pill.entregado{ background: color-mix(in srgb, var(--basil) 20%, var(--surface)); color:var(--basil); }
+  .status-actions{ display:flex; gap:8px; flex-wrap:wrap; }
+  .status-actions .btn{ font-size:.82rem; padding:9px 14px; min-height:40px; }
+
+  [hidden]{ display:none !important; }
+</style>
+
+<a class="skip-link" href="#main">Saltar al contenido</a>
+
+<div class="wrap">
+  <header class="site-header">
+    <div class="brand">
+      <img class="planet-mark" src="assets/logo-planeta.jpg" alt="Logo de Planeta Pizza">
+      <div class="brand-text">
+        <span class="brand-name">Planeta Pizza</span>
+        <span class="brand-tag">Pizzería de barrio, sabor fuera de este mundo</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-ghost" id="textSizeBtn" type="button" aria-pressed="false">A+ Letra grande</button>
+      <button class="btn btn-admin" id="adminToggleBtn" type="button">Panel del local</button>
+      <button class="btn btn-primary" id="cartBtnHeader" type="button" hidden>
+        Carrito · <span class="mono" id="cartCountHeader">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ===================== CUSTOMER: MENU ===================== -->
+    <section class="screen" id="screen-menu" data-screen>
+      <div class="hero">
+        <div>
+          <h1>Tu pizza favorita, directo desde Planeta Pizza.</h1>
+          <p>Elegí, armá tu pedido y confirmalo en un par de pasos. Sin vueltas, con la letra bien grande para que se lea de taquito.</p>
+          <div class="hero-cta">
+            <button class="btn btn-primary btn-lg" id="verCartaBtn" type="button">Ver la carta</button>
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="orbit-ring"><div class="orbit-moon"></div></div>
+          <img class="planet-mark lg" src="assets/logo-planeta.jpg" alt="" aria-hidden="true">
+        </div>
+      </div>
+
+      <nav class="category-tabs" role="tablist" aria-label="Categorías del menú" id="categoryTabs"></nav>
+
+      <div id="menuSections"></div>
+
+      <div class="cart-bar" id="cartBar" hidden>
+        <button class="cart-bar-inner btn" id="cartBarBtn" type="button" style="border:0;">
+          <span class="cart-bar-text">Ver mi pedido</span>
+          <span style="flex:1"></span>
+          <span class="mono" id="cartBarCount">0</span>
+          <span class="cart-bar-total mono" id="cartBarTotal">$0</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===================== CUSTOMER: CART ===================== -->
+    <section class="screen" id="screen-cart" data-screen hidden>
+      <button class="back-link" data-go="menu" type="button">&larr; Seguir eligiendo</button>
+      <h2>Tu pedido</h2>
+      <div class="panel">
+        <div id="cartLines"></div>
+        <p class="empty-note" id="cartEmptyNote" hidden>Todavía no agregaste nada. Volvé a la carta para elegir tu pizza.</p>
+        <div class="cart-total-row" id="cartTotalRow" hidden>
+          <span>Total</span>
+          <span class="mono" id="cartTotalValue">$0</span>
+        </div>
+        <div style="margin-top:22px;">
+          <button class="btn btn-primary btn-block" id="goCheckoutBtn" type="button">Continuar con mis datos</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CUSTOMER: CHECKOUT ===================== -->
+    <section class="screen" id="screen-checkout" data-screen hidden>
+      <button class="back-link" data-go="cart" type="button">&larr; Volver al pedido</button>
+      <h2>Tus datos</h2>
+      <div class="panel">
+        <form id="checkoutForm" novalidate>
+          <div class="field">
+            <label for="custName">Nombre y apellido</label>
+            <input type="text" id="custName" name="custName" autocomplete="name" required>
+            <span class="error-text" id="err-custName" hidden>Escribí tu nombre para que sepamos a quién entregarle.</span>
+          </div>
+          <div class="field">
+            <label for="custPhone">Teléfono</label>
+            <span class="hint">Por si tenemos que consultarte algo del pedido.</span>
+            <input type="tel" id="custPhone" name="custPhone" autocomplete="tel" required>
+            <span class="error-text" id="err-custPhone" hidden>Dejanos un teléfono de contacto.</span>
+          </div>
+
+          <fieldset>
+            <legend>¿Cómo lo querés recibir?</legend>
+            <div class="radio-group">
+              <label class="radio-pill"><input type="radio" name="deliveryType" value="retiro" checked><span>Retiro en el local</span></label>
+              <label class="radio-pill"><input type="radio" name="deliveryType" value="envio"><span>Envío a domicilio</span></label>
+            </div>
+          </fieldset>
+
+          <div class="field" id="addressField">
+            <label for="custAddress">Dirección de entrega</label>
+            <input type="text" id="custAddress" name="custAddress" autocomplete="street-address">
+            <span class="error-text" id="err-custAddress" hidden>Decinos a qué dirección enviamos el pedido.</span>
+          </div>
+
+          <fieldset>
+            <legend>Medio de pago</legend>
+            <div class="radio-group">
+              <label class="radio-pill"><input type="radio" name="paymentMethod" value="efectivo" checked><span>Efectivo</span></label>
+              <label class="radio-pill"><input type="radio" name="paymentMethod" value="transferencia"><span>Transferencia</span></label>
+              <label class="radio-pill"><input type="radio" name="paymentMethod" value="tarjeta"><span>Tarjeta al recibir</span></label>
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label for="custNotes">Notas para la pizzería <span class="hint">(opcional)</span></label>
+            <textarea id="custNotes" name="custNotes" placeholder="Ej: sin aceitunas, timbre 2B, etc."></textarea>
+          </div>
+
+          <button class="btn btn-primary btn-block" type="submit">Confirmar pedido</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===================== CUSTOMER: CONFIRMATION ===================== -->
+    <section class="screen" id="screen-confirm" data-screen hidden>
+      <div class="confirm-wrap panel">
+        <h2>¡Pedido recibido!</h2>
+        <p>Tu pedido ya está en órbita hacia la cocina.</p>
+        <div class="confirm-code mono" id="confirmCode">PP-0000</div>
+        <p id="confirmEta">Tiempo estimado: 30 a 40 minutos.</p>
+        <p class="hint" id="confirmSyncNote"></p>
+        <button class="btn btn-outline btn-lg" id="newOrderBtn" type="button" style="margin-top:14px;">Hacer otro pedido</button>
+      </div>
+    </section>
+
+    <!-- ===================== ADMIN ===================== -->
+    <section class="screen" id="screen-admin" data-screen hidden>
+      <div class="admin-header">
+        <div class="admin-title">
+          <h2 style="margin:0;">Panel de pedidos</h2>
+          <span class="badge-count" id="newOrdersBadge" hidden>0 nuevos</span>
+        </div>
+        <button class="btn btn-ghost" id="backToMenuFromAdmin" type="button">Volver a la carta</button>
+      </div>
+      <p class="hint" id="adminStatusNote">Conectando con los pedidos en vivo…</p>
+      <div class="order-grid" id="orderGrid"></div>
+      <p class="empty-note" id="adminEmptyNote" hidden>Todavía no llegaron pedidos.</p>
+    </section>
+
+  </main>
+
+  <footer>
+    <div>
+      <strong>Planeta Pizza</strong><br>
+      Centro · 25 de Mayo 2800 · 454-0885 / 342 502-3068<br>
+      Guadalupe · Gral. Paz 6400 · 469-1881 / 342 502-2380<br>
+      Mediodía: Lun a Vie 11:30 a 14:30 hs · Noche: Dom a Jue 19:00 a 23:00 hs, Vie y Sáb 19:30 a 23:30 hs<br>
+      Sitio de demostración — menú cargado desde "Carta OCT2026 (digital)". Precios y horarios a confirmar con el local.
+    </div>
+    <div aria-live="polite" id="liveRegion" style="position:absolute; left:-9999px;"></div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var MENU = {
+    pizzas: { label:"Pizzas", items:[
+      { id:'p1', num:1, name:'Muzzarella', desc:'Salsa de tomate y muzzarella.', planet:'muzzarella', prices:{chica:10500, planetaMitad:9000, planetaEntera:18000, grandeMitad:11500, grandeEntera:23000} },
+      { id:'p2', num:2, name:'Jamón y aceitunas', desc:'Muzzarella, jamón cocido, salsa de tomates y aceitunas.', planet:'especial', prices:{chica:13000, planetaMitad:11000, planetaEntera:22000, grandeMitad:13500, grandeEntera:27000} },
+      { id:'p3', num:3, name:'Panceta', desc:'Panceta, muzzarella y salsa de tomates.', planet:'panceta', prices:{chica:13000, planetaMitad:11000, planetaEntera:22000, grandeMitad:13500, grandeEntera:27000} },
+      { id:'p4', num:4, name:'Morrones y jamón', desc:'Morrones, muzzarella, jamón y salsa de tomates.', planet:'especial', prices:{chica:13000, planetaMitad:11000, planetaEntera:22000, grandeMitad:13500, grandeEntera:27000} },
+      { id:'p5', num:5, name:'Anchoas', desc:'Anchoas, muzzarella y salsa de tomates.', planet:'mar', prices:{chica:14000, planetaMitad:11500, planetaEntera:23000, grandeMitad:14000, grandeEntera:28000} },
+      { id:'p6', num:6, name:'Pollo a la crema', desc:'Pollo a la salsa crema, muzzarella, jamón y salsa de tomate.', planet:'pollo', prices:{chica:16000, planetaMitad:13000, planetaEntera:26000, grandeMitad:16000, grandeEntera:32000} },
+      { id:'p7', num:7, name:'Fugazzeta', desc:'Cebollas, muzzarella y salsa de tomates.', planet:'fugazzeta', prices:{chica:12000, planetaMitad:10500, planetaEntera:21000, grandeMitad:13000, grandeEntera:26000} },
+      { id:'p9', num:9, name:'Palmitos con jamón', desc:'Palmitos, jamón, salsa de tomates, muzzarella y salsa golf.', planet:'dulce', prices:{chica:15000, planetaMitad:12500, planetaEntera:25000, grandeMitad:15000, grandeEntera:30000} },
+      { id:'p10', num:10, name:'Funghi speziale', desc:'Champignón, jamón, muzzarella y salsa de tomates.', planet:'roquefort', prices:{chica:15000, planetaMitad:12500, planetaEntera:25000, grandeMitad:15000, grandeEntera:30000} },
+      { id:'p11', num:11, name:'Napolitana', desc:'Rodajas de tomate, muzzarella y ajo.', planet:'napolitana', prices:{chica:12000, planetaMitad:10500, planetaEntera:21000, grandeMitad:13000, grandeEntera:26000} },
+      { id:'p12', num:12, name:'Tres quesos', desc:'Muzzarella, sardo y roquefort.', planet:'cuatroquesos', prices:{chica:13500, planetaMitad:11500, planetaEntera:23000, grandeMitad:14000, grandeEntera:28000} },
+      { id:'p13', num:13, name:'Agridulce', desc:'Muzzarella, jamón, ananá y cerezas.', planet:'dulce', prices:{chica:14500, planetaMitad:12500, planetaEntera:25000, grandeMitad:15000, grandeEntera:30000} },
+      { id:'p15', num:15, name:'Descontrolada', desc:'Panceta, pimientos rojos y verdes, carne trozada, champignones, muzzarella y salsa de tomates.', planet:'carne', prices:{chica:14500, planetaMitad:12500, planetaEntera:25000, grandeMitad:15000, grandeEntera:30000} },
+      { id:'p16', num:16, name:'Verdeo', desc:'Jamón, cebolla de verdeo, muzzarella y salsa de tomates.', planet:'especial', prices:{chica:13000, planetaMitad:11000, planetaEntera:22000, grandeMitad:13500, grandeEntera:27000} },
+      { id:'p17', num:17, name:'Vegetal primaveral', desc:'Tomate concassé, champignones, aceitunas verdes y negras, palmitos, morrones, muzzarella y un toque de oliva.', planet:'rucula', prices:{chica:14500, planetaMitad:12500, planetaEntera:25000, grandeMitad:15000, grandeEntera:30000} },
+      { id:'p18', num:18, name:'Calabresa', desc:'Salame milán, aceitunas negras, morrones, muzzarella y salsa de tomates.', planet:'calabresa', prices:{chica:13500, planetaMitad:11500, planetaEntera:23000, grandeMitad:14000, grandeEntera:28000} },
+      { id:'p19', num:19, name:'Fungueto al oliva', desc:'Champignones, panceta, muzzarella y salsa de tomates.', planet:'panceta', prices:{chica:15000, planetaMitad:12500, planetaEntera:25000, grandeMitad:15000, grandeEntera:30000} },
+      { id:'p20', num:20, name:'Planetaria', desc:'Ananá, palmitos, jamón, aceitunas negras, cerezas, muzzarella y salsa de tomates.', planet:'dulce', prices:{chica:15000, planetaMitad:13000, planetaEntera:26000, grandeMitad:15500, grandeEntera:31000} },
+      { id:'p21', num:21, name:'Roquefort speziale', desc:'Roquefort, jamón, muzzarella y salsa de tomates.', planet:'roquefort', prices:{chica:14000, planetaMitad:12000, planetaEntera:24000, grandeMitad:14500, grandeEntera:29000} },
+      { id:'p22', num:22, name:'Provenzal', desc:'Ajo, perejil, muzzarella y salsa de tomates.', planet:'rucula', prices:{chica:11500, planetaMitad:10500, planetaEntera:21000, grandeMitad:12500, grandeEntera:25000} },
+      { id:'p23', num:23, name:'Pimpuni', desc:'Rodajas de tomate, roquefort, nueces, muzzarella y salsa de tomates.', planet:'roquefort', prices:{chica:13500, planetaMitad:11500, planetaEntera:23000, grandeMitad:14000, grandeEntera:28000} },
+      { id:'p24', num:24, name:'Siciliana', desc:'Tomate en rodajas, albahaca, aceitunas negras, aceite de oliva, muzzarella y salsa de tomates.', planet:'napolitana', prices:{chica:13000, planetaMitad:11000, planetaEntera:22000, grandeMitad:13500, grandeEntera:27000} },
+      { id:'p25', num:25, name:'Rucucú', desc:'Hojas de rúcula, muzzarella y salsa de tomates.', planet:'rucula', prices:{chica:12000, planetaMitad:10000, planetaEntera:20000, grandeMitad:12500, grandeEntera:25000} },
+      { id:'p27', num:27, name:'Fugazzeta speziale', desc:'Cebolla asada, jamón, queso azul, muzzarella y salsa de tomates.', planet:'roquefort', prices:{chica:15000, planetaMitad:12500, planetaEntera:25000, grandeMitad:15000, grandeEntera:30000} },
+      { id:'p28', num:28, name:'Tres quesos speziale', desc:'Sardo, queso azul, panceta, muzzarella y salsa de tomates.', planet:'cuatroquesos', prices:{chica:15500, planetaMitad:13000, planetaEntera:26000, grandeMitad:15500, grandeEntera:31000} },
+      { id:'p30', num:30, name:'Anchoas speziale', desc:'Anchoas, jamón, huevo duro, morrones asados y olivas.', planet:'mar', prices:{chica:16000, planetaMitad:13000, planetaEntera:26000, grandeMitad:16000, grandeEntera:32000} },
+      { id:'p32', num:32, name:'Salchicha', desc:'Salchicha, huevo duro, muzzarella y salsa de tomates.', planet:'especial', prices:{chica:14000, planetaMitad:11500, planetaEntera:23000, grandeMitad:14000, grandeEntera:28000} },
+      { id:'p39', num:39, name:'Provolone', desc:'Páprika, muzzarella y salsa de tomates.', planet:'calabresa', prices:{chica:13500, planetaMitad:11000, planetaEntera:22000, grandeMitad:13500, grandeEntera:27000} },
+      { id:'p40', num:40, name:'Lomito', desc:'Lomo de cerdo a las finas hierbas, salsa barbacoa, muzzarella y salsa de tomates.', planet:'carne', prices:{chica:14000, planetaMitad:11500, planetaEntera:23000, grandeMitad:14000, grandeEntera:28000} },
+      { id:'p42', num:42, name:'Superespecial', desc:'Jamón cocido, rodajas de tomate, morrones, huevo, muzzarella y salsa de tomates.', planet:'especial', prices:{chica:14000, planetaMitad:11500, planetaEntera:23000, grandeMitad:14000, grandeEntera:28000} },
+      { id:'p43', num:43, name:'La cheta', desc:'Rúcula, tomates disecados, queso sardo, muzzarella y salsa de tomates.', planet:'rucula', prices:{chica:13500, planetaMitad:11500, planetaEntera:23000, grandeMitad:14000, grandeEntera:28000} }
+    ]},
+    italiano: { label:"Estilo italiano", items:[
+      { id:'it-margherita', name:'Margherita', nickname:'Pizza completa · 8 porciones', desc:'Salsa de tomate, mozzarella, albahaca fresca y aceite de oliva.', planet:'napolitana', prices:{unica:22000} },
+      { id:'it-pepperoni', name:'Pepperoni', nickname:'Pizza completa · 8 porciones', desc:'Salsa de tomate, mozzarella y pepperoni.', planet:'calabresa', prices:{unica:24000} },
+      { id:'it-portobella', name:'Portobella', nickname:'Pizza completa · 8 porciones', desc:'Salsa de tomate, mozzarella, panceta ahumada, hongos portobello frescos, ciboulette y aceite de oliva.', planet:'roquefort', prices:{unica:27000} }
+    ]},
+    empanadas: { label:"Empanadas", items:[
+      { id:'e-carnesalada', name:'Carne salada', desc:'Clásica, al horno.', planet:'carne', prices:{unidad:3600} },
+      { id:'e-carnedulce', name:'Carne dulce', desc:'Clásica, al horno.', planet:'carne', prices:{unidad:3600} },
+      { id:'e-caprese', name:'Caprese', desc:'Clásica, al horno.', planet:'napolitana', prices:{unidad:3600} },
+      { id:'e-arabe', name:'Árabe', desc:'Clásica, al horno.', planet:'especial', prices:{unidad:3600} },
+      { id:'e-jamonqueso', name:'Jamón y queso', desc:'Clásica, al horno.', planet:'muzzarella', prices:{unidad:3600} },
+      { id:'e-pollofinas', name:'Pechuga de pollo a las finas hierbas', desc:'Línea Gourmet.', planet:'pollo', prices:{mediaDocena:20000} },
+      { id:'e-gallega', name:'Gallega', desc:'Línea Gourmet.', planet:'especial', prices:{mediaDocena:20000} },
+      { id:'e-lomomalbec', name:'Lomo al malbec', desc:'Línea Gourmet.', planet:'carne', prices:{mediaDocena:20000} },
+      { id:'e-hongos', name:'De hongos', desc:'Línea Gourmet.', planet:'roquefort', prices:{mediaDocena:20000} },
+      { id:'e-cerdobbq', name:'Cerdo a la barbacoa', desc:'Línea Gourmet.', planet:'carne', prices:{mediaDocena:20000} },
+      { id:'e-roquefortnuez', name:'Roquefort y nueces', desc:'Línea Gourmet.', planet:'roquefort', prices:{mediaDocena:20000} },
+      { id:'e-cebollaquesos', name:'Cebolla y tres quesos', desc:'Edición limitada.', planet:'cuatroquesos', prices:{mediaDocena:20000} },
+      { id:'e-acelga', name:'Acelga', desc:'Edición limitada.', planet:'rucula', prices:{mediaDocena:20000} },
+      { id:'e-calabaza', name:'Calabaza', desc:'Edición limitada.', planet:'dulce', prices:{mediaDocena:20000} },
+      { id:'e-puerrochamp', name:'Puerro y champiñones', desc:'Edición limitada.', planet:'roquefort', prices:{mediaDocena:20000} },
+      { id:'e-brocoli', name:'Brócoli', desc:'Edición limitada.', planet:'rucula', prices:{mediaDocena:20000} },
+      { id:'e-wok', name:'Verduras al wok', desc:'Edición limitada.', planet:'rucula', prices:{unidad:3000, mediaDocena:17000} },
+      { id:'e-humita', name:'Humita', desc:'Edición limitada.', planet:'dulce', prices:{unidad:3000, mediaDocena:17000} },
+      { id:'e-cebollaqueso', name:'Cebolla y queso', desc:'Edición limitada.', planet:'muzzarella', prices:{unidad:3000, mediaDocena:17000} },
+      { id:'e-espinaca', name:'Espinaca', desc:'Edición limitada.', planet:'rucula', prices:{unidad:3000, mediaDocena:17000} },
+      { id:'e-mediterraneas', name:'Mediterráneas', desc:'Berenjenas, tomates cherry y mix de quesos. Edición limitada.', planet:'cuatroquesos', prices:{unidad:3000, mediaDocena:17000} }
+    ]}
+  };
+  var SIZE_LABELS = {
+    chica:'Chica · 4 porciones', planetaMitad:'Planeta mitad · 8 porc.', planetaEntera:'Planeta entera · 8 porc.',
+    grandeMitad:'Grande mitad · 12 porc.', grandeEntera:'Grande entera · 12 porc.',
+    unidad:'x unidad', mediaDocena:'x 1/2 docena', unica:'Agregar'
+  };
+
+  var fmt = function(n){ return '$' + n.toLocaleString('es-AR'); };
+
+  var state = {
+    screen: 'menu',
+    activeCategory: 'clasicas',
+    selectedSize: {},
+    cart: {}, // key -> {id,name,size,unitPrice,qty}
+  };
+
+  try {
+    var saved = JSON.parse(localStorage.getItem('pp_cart') || 'null');
+    if (saved) state.cart = saved;
+  } catch(e){}
+
+  function saveCart(){
+    try{ localStorage.setItem('pp_cart', JSON.stringify(state.cart)); }catch(e){}
+  }
+
+  function findItem(id){
+    for (var cat in MENU){
+      for (var i=0;i<MENU[cat].items.length;i++){
+        if (MENU[cat].items[i].id === id) return MENU[cat].items[i];
+      }
+    }
+    return null;
+  }
+
+  function cartArray(){
+    return Object.keys(state.cart).map(function(k){ return state.cart[k]; }).filter(function(l){ return l.qty > 0; });
+  }
+  function cartCount(){ return cartArray().reduce(function(s,l){ return s+l.qty; }, 0); }
+  function cartTotal(){ return cartArray().reduce(function(s,l){ return s + l.qty*l.unitPrice; }, 0); }
+
+  function announce(msg){
+    var el = document.getElementById('liveRegion');
+    el.textContent = '';
+    setTimeout(function(){ el.textContent = msg; }, 30);
+  }
+
+  /* ---------------- rendering: menu ---------------- */
+  var tabsEl = document.getElementById('categoryTabs');
+  var sectionsEl = document.getElementById('menuSections');
+
+  function renderTabs(){
+    tabsEl.innerHTML = '';
+    Object.keys(MENU).forEach(function(cat){
+      var b = document.createElement('button');
+      b.className = 'tab'; b.type='button'; b.setAttribute('role','tab');
+      b.setAttribute('aria-selected', String(cat === state.activeCategory));
+      b.textContent = MENU[cat].label;
+      b.addEventListener('click', function(){
+        state.activeCategory = cat;
+        renderTabs();
+        document.getElementById('cat-' + cat).scrollIntoView({behavior:'smooth', block:'start'});
+      });
+      tabsEl.appendChild(b);
+    });
+  }
+
+  function sizeKeys(item){ return Object.keys(item.prices); }
+
+  function renderMenu(){
+    sectionsEl.innerHTML = '';
+    Object.keys(MENU).forEach(function(cat){
+      var section = document.createElement('section');
+      section.id = 'cat-' + cat;
+      var h = document.createElement('h2');
+      h.className = 'menu-section-title'; h.textContent = MENU[cat].label;
+      section.appendChild(h);
+      var grid = document.createElement('div'); grid.className = 'menu-grid';
+
+      MENU[cat].items.forEach(function(item){
+        var sizes = sizeKeys(item);
+        var isPizza = sizes.length > 1;
+        var selSize = state.selectedSize[item.id] || sizes[0];
+
+        var card = document.createElement('article'); card.className = 'item-card';
+
+        var top = document.createElement('div'); top.className = 'item-top';
+        var planet = document.createElement('div'); planet.className = 'planet planet--' + item.planet;
+        planet.setAttribute('aria-hidden','true');
+        var nameWrap = document.createElement('div');
+        var nm = document.createElement('h3'); nm.className = 'item-name';
+        nm.textContent = item.num ? ('N° ' + item.num + ' · ' + item.name) : item.name;
+        nameWrap.appendChild(nm);
+        if (item.nickname){
+          var nick = document.createElement('span'); nick.className = 'item-nickname'; nick.textContent = '“' + item.nickname + '”';
+          nameWrap.appendChild(nick);
+        }
+        top.appendChild(planet); top.appendChild(nameWrap);
+        card.appendChild(top);
+
+        if (item.desc){
+          var d = document.createElement('p'); d.className = 'item-desc'; d.textContent = item.desc;
+          card.appendChild(d);
+        }
+
+        if (isPizza){
+          var sizeRow = document.createElement('div'); sizeRow.className = 'size-row';
+          sizes.forEach(function(sz){
+            var sb = document.createElement('button');
+            sb.type='button'; sb.className='size-btn'; sb.setAttribute('aria-pressed', String(sz===selSize));
+            sb.innerHTML = '<span class="lbl">' + SIZE_LABELS[sz] + '</span><span class="price mono">' + fmt(item.prices[sz]) + '</span>';
+            sb.addEventListener('click', function(){
+              state.selectedSize[item.id] = sz;
+              renderMenu();
+            });
+            sizeRow.appendChild(sb);
+          });
+          card.appendChild(sizeRow);
+        }
+
+        var qtyRow = document.createElement('div'); qtyRow.className = 'qty-row';
+        var key = item.id + ':' + selSize;
+        var currentQty = (state.cart[key] && state.cart[key].qty) || 0;
+
+        if (isPizza){
+          var controls = document.createElement('div'); controls.className = 'qty-controls';
+          var minus = document.createElement('button'); minus.type='button'; minus.className='btn-step'; minus.setAttribute('aria-label','Quitar uno'); minus.textContent = '−';
+          var qv = document.createElement('span'); qv.className='qty-value mono'; qv.textContent = currentQty;
+          var plus = document.createElement('button'); plus.type='button'; plus.className='btn-step'; plus.setAttribute('aria-label','Agregar uno'); plus.textContent = '+';
+          minus.addEventListener('click', function(){ changeQty(item, selSize, -1); });
+          plus.addEventListener('click', function(){ changeQty(item, selSize, 1); });
+          controls.appendChild(minus); controls.appendChild(qv); controls.appendChild(plus);
+          qtyRow.appendChild(controls);
+
+          var addBtn = document.createElement('button');
+          addBtn.type='button'; addBtn.className='btn btn-primary';
+          addBtn.textContent = currentQty > 0 ? 'En tu pedido ✓' : 'Agregar';
+          addBtn.addEventListener('click', function(){
+            changeQty(item, selSize, 1);
+            announce(item.name + ' agregada al pedido');
+          });
+          qtyRow.appendChild(addBtn);
+        } else {
+          var price = document.createElement('span'); price.className='mono'; price.style.fontWeight='700'; price.textContent = fmt(item.prices.unica);
+          qtyRow.appendChild(price);
+          var addBtn2 = document.createElement('button');
+          addBtn2.type='button'; addBtn2.className='btn btn-primary';
+          addBtn2.textContent = currentQty > 0 ? 'En tu pedido (' + currentQty + ') ✓' : 'Agregar';
+          addBtn2.addEventListener('click', function(){
+            changeQty(item, 'unica', 1);
+            announce(item.name + ' agregado al pedido');
+          });
+          qtyRow.appendChild(addBtn2);
+        }
+
+        card.appendChild(qtyRow);
+        grid.appendChild(card);
+      });
+
+      section.appendChild(grid);
+      sectionsEl.appendChild(section);
+    });
+  }
+
+  function changeQty(item, size, delta){
+    var key = item.id + ':' + size;
+    var line = state.cart[key] || { id:item.id, name:item.name, size:size, unitPrice:item.prices[size], qty:0 };
+    line.qty = Math.max(0, line.qty + delta);
+    if (line.qty === 0) delete state.cart[key]; else state.cart[key] = line;
+    saveCart();
+    renderMenu();
+    renderCartBits();
+  }
+
+  /* ---------------- cart bits (bars, screen) ---------------- */
+  function renderCartBits(){
+    var count = cartCount(), total = cartTotal();
+    var hasItems = count > 0;
+
+    document.getElementById('cartBar').hidden = !hasItems || state.screen !== 'menu';
+    document.getElementById('cartBarCount').textContent = count + (count===1 ? ' producto' : ' productos');
+    document.getElementById('cartBarTotal').textContent = fmt(total);
+
+    var headerBtn = document.getElementById('cartBtnHeader');
+    headerBtn.hidden = !hasItems;
+    document.getElementById('cartCountHeader').textContent = count;
+
+    renderCartScreen();
+  }
+
+  function renderCartScreen(){
+    var wrap = document.getElementById('cartLines');
+    var lines = cartArray();
+    wrap.innerHTML = '';
+    document.getElementById('cartEmptyNote').hidden = lines.length > 0;
+    document.getElementById('cartTotalRow').hidden = lines.length === 0;
+    document.getElementById('goCheckoutBtn').disabled = lines.length === 0;
+
+    lines.forEach(function(line){
+      var row = document.createElement('div'); row.className = 'cart-line';
+      var left = document.createElement('div');
+      var nm = document.createElement('div'); nm.className='cart-line-name'; nm.textContent = line.name + (line.size !== 'unica' ? ' (' + SIZE_LABELS[line.size] + ')' : '');
+      var meta = document.createElement('div'); meta.className='cart-line-meta'; meta.textContent = fmt(line.unitPrice) + ' c/u';
+      left.appendChild(nm); left.appendChild(meta);
+
+      var right = document.createElement('div'); right.style.display='flex'; right.style.alignItems='center'; right.style.gap='10px';
+      var minus = document.createElement('button'); minus.className='btn-step'; minus.type='button'; minus.textContent='−'; minus.setAttribute('aria-label','Quitar uno de ' + line.name);
+      var qv = document.createElement('span'); qv.className='qty-value mono'; qv.textContent = line.qty;
+      var plus = document.createElement('button'); plus.className='btn-step'; plus.type='button'; plus.textContent='+'; plus.setAttribute('aria-label','Agregar uno de ' + line.name);
+      minus.addEventListener('click', function(){ changeQty({id:line.id,name:line.name,prices:{}},'',0); state.cart[line.id+':'+line.size].qty--; if(state.cart[line.id+':'+line.size].qty<=0) delete state.cart[line.id+':'+line.size]; saveCart(); renderMenu(); renderCartBits(); });
+      plus.addEventListener('click', function(){ state.cart[line.id+':'+line.size].qty++; saveCart(); renderMenu(); renderCartBits(); });
+      right.appendChild(minus); right.appendChild(qv); right.appendChild(plus);
+
+      row.appendChild(left); row.appendChild(right);
+      wrap.appendChild(row);
+    });
+
+    document.getElementById('cartTotalValue').textContent = fmt(cartTotal());
+  }
+
+  /* ---------------- screen navigation ---------------- */
+  function goScreen(name){
+    state.screen = name;
+    document.querySelectorAll('[data-screen]').forEach(function(s){ s.hidden = true; });
+    document.getElementById('screen-' + name).hidden = false;
+    window.scrollTo({top:0, behavior:'smooth'});
+    renderCartBits();
+    if (name === 'checkout') prefillCheckout();
+  }
+
+  document.getElementById('verCartaBtn').addEventListener('click', function(){
+    document.getElementById('categoryTabs').scrollIntoView({behavior:'smooth'});
+  });
+  document.getElementById('cartBarBtn').addEventListener('click', function(){ goScreen('cart'); });
+  document.getElementById('cartBtnHeader').addEventListener('click', function(){ goScreen('cart'); });
+  document.querySelectorAll('[data-go]').forEach(function(b){
+    b.addEventListener('click', function(){ goScreen(b.getAttribute('data-go')); });
+  });
+  document.getElementById('goCheckoutBtn').addEventListener('click', function(){
+    if (cartCount() > 0) goScreen('checkout');
+  });
+
+  /* ---------------- checkout form ---------------- */
+  var deliveryRadios = document.getElementsByName('deliveryType');
+  function updateAddressVisibility(){
+    var isEnvio = document.querySelector('input[name=deliveryType]:checked').value === 'envio';
+    document.getElementById('addressField').style.display = isEnvio ? '' : 'none';
+    document.getElementById('custAddress').required = isEnvio;
+  }
+  Array.prototype.forEach.call(deliveryRadios, function(r){ r.addEventListener('change', updateAddressVisibility); });
+  updateAddressVisibility();
+
+  function prefillCheckout(){
+    try{
+      var saved = JSON.parse(localStorage.getItem('pp_customer') || 'null');
+      if (saved){
+        document.getElementById('custName').value = saved.name || '';
+        document.getElementById('custPhone').value = saved.phone || '';
+      }
+    }catch(e){}
+  }
+
+  function setError(id, show){
+    document.getElementById(id).classList.toggle('invalid', show);
+    document.getElementById('err-' + id).hidden = !show;
+  }
+
+  document.getElementById('checkoutForm').addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var name = document.getElementById('custName').value.trim();
+    var phone = document.getElementById('custPhone').value.trim();
+    var deliveryType = document.querySelector('input[name=deliveryType]:checked').value;
+    var address = document.getElementById('custAddress').value.trim();
+    var paymentMethod = document.querySelector('input[name=paymentMethod]:checked').value;
+    var notes = document.getElementById('custNotes').value.trim();
+
+    var ok = true;
+    if (!name){ setError('custName', true); ok = false; } else setError('custName', false);
+    if (!phone){ setError('custPhone', true); ok = false; } else setError('custPhone', false);
+    if (deliveryType === 'envio' && !address){ setError('custAddress', true); ok = false; } else setError('custAddress', false);
+    if (!ok) return;
+
+    try{ localStorage.setItem('pp_customer', JSON.stringify({name:name, phone:phone})); }catch(e){}
+
+    submitOrder({ name:name, phone:phone, deliveryType:deliveryType, address:address, paymentMethod:paymentMethod, notes:notes });
+  });
+
+  /* ---------------- orders: db integration ---------------- */
+  var dbPromise = (window.claude && window.claude.use) ? window.claude.use('db') : Promise.resolve(null);
+  var dbRef = null;
+  dbPromise.then(function(db){ dbRef = db; if (state.screen === 'admin') subscribeAdmin(); });
+
+  function orderCode(){
+    return 'PP-' + Math.floor(1000 + Math.random()*9000);
+  }
+
+  function submitOrder(customer){
+    var lines = cartArray();
+    var total = cartTotal();
+    var code = orderCode();
+    var payload = {
+      code: code,
+      createdAt: Date.now(),
+      status: 'nuevo',
+      deliveryType: customer.deliveryType,
+      customerName: customer.name,
+      phone: customer.phone,
+      address: customer.address,
+      paymentMethod: customer.paymentMethod,
+      notes: customer.notes,
+      items: lines.map(function(l){ return { name:l.name, size:l.size, qty:l.qty, unitPrice:l.unitPrice }; }),
+      total: total
+    };
+
+    document.getElementById('confirmCode').textContent = code;
+    document.getElementById('confirmEta').textContent = customer.deliveryType === 'envio'
+      ? 'Tiempo estimado de entrega: 40 a 55 minutos.'
+      : 'Tiempo estimado para retirar: 25 a 35 minutos.';
+
+    var syncNote = document.getElementById('confirmSyncNote');
+    syncNote.textContent = 'Avisando a la pizzería…';
+
+    state.cart = {};
+    saveCart();
+    renderMenu();
+    renderCartBits();
+    goScreen('confirm');
+
+    if (dbRef){
+      dbRef.collection('orders').add(payload).then(function(){
+        syncNote.textContent = 'La pizzería ya recibió tu pedido.';
+      }).catch(function(){
+        syncNote.textContent = 'Guardamos tu pedido; si no te contactan en unos minutos, llamá al local.';
+      });
+    } else {
+      syncNote.textContent = 'Guardamos tu pedido en este dispositivo.';
+    }
+  }
+
+  document.getElementById('newOrderBtn').addEventListener('click', function(){ goScreen('menu'); });
+
+  /* ---------------- admin ---------------- */
+  var adminUnsub = null;
+  var STATUS_LABEL = { nuevo:'Nuevo', preparando:'Preparando', en_camino:'En camino / listo', entregado:'Entregado' };
+  var STATUS_FLOW = ['nuevo','preparando','en_camino','entregado'];
+
+  function subscribeAdmin(){
+    if (!dbRef){
+      document.getElementById('adminStatusNote').textContent = 'No se pudo conectar con los pedidos en este momento.';
+      return;
+    }
+    if (adminUnsub) return;
+    document.getElementById('adminStatusNote').textContent = 'Conectando con los pedidos en vivo…';
+    var timeout = setTimeout(function(){
+      document.getElementById('adminStatusNote').textContent = 'Todavía no hay respuesta del servidor; puede tardar unos segundos.';
+    }, 10000);
+
+    adminUnsub = dbRef.collection('orders').orderBy('createdAt','desc').limit(50).onSnapshot(function(snap){
+      clearTimeout(timeout);
+      document.getElementById('adminStatusNote').textContent = 'Pedidos en vivo.';
+      var orders = snap.docs.map(function(d){ var o = d.data(); o._id = d.id; return o; });
+      renderOrders(orders);
+    }, function(err){
+      clearTimeout(timeout);
+      document.getElementById('adminStatusNote').textContent = 'No se pudieron cargar los pedidos (' + err.code + ').';
+    });
+  }
+
+  function timeAgo(ts){
+    var mins = Math.max(0, Math.round((Date.now() - ts) / 60000));
+    if (mins < 1) return 'recién';
+    if (mins === 1) return 'hace 1 min';
+    if (mins < 60) return 'hace ' + mins + ' min';
+    var hrs = Math.round(mins/60);
+    return 'hace ' + hrs + (hrs===1 ? ' hora' : ' horas');
+  }
+
+  function renderOrders(orders){
+    var grid = document.getElementById('orderGrid');
+    grid.innerHTML = '';
+    document.getElementById('adminEmptyNote').hidden = orders.length > 0;
+
+    var newCount = orders.filter(function(o){ return o.status === 'nuevo'; }).length;
+    var badge = document.getElementById('newOrdersBadge');
+    badge.hidden = newCount === 0;
+    badge.textContent = newCount + (newCount===1 ? ' nuevo' : ' nuevos');
+
+    orders.forEach(function(o){
+      var card = document.createElement('article');
+      card.className = 'order-card'; card.setAttribute('data-status', o.status || 'nuevo');
+
+      var pill = document.createElement('span'); pill.className = 'status-pill ' + (o.status||'nuevo'); pill.textContent = STATUS_LABEL[o.status] || 'Nuevo';
+
+      var top = document.createElement('div'); top.className = 'order-top';
+      var code = document.createElement('span'); code.className='order-code'; code.textContent = o.code || o._id;
+      var time = document.createElement('span'); time.className='order-time'; time.textContent = timeAgo(o.createdAt || Date.now());
+      top.appendChild(code); top.appendChild(time);
+
+      var cust = document.createElement('div'); cust.className='order-customer'; cust.textContent = o.customerName || 'Cliente';
+      var sub = document.createElement('div'); sub.className='order-sub';
+      sub.textContent = (o.deliveryType === 'envio' ? ('Envío · ' + (o.address||'')) : 'Retira en el local') + ' · ' + (o.phone||'');
+
+      var ul = document.createElement('ul'); ul.className='order-items';
+      (o.items||[]).forEach(function(it){
+        var li = document.createElement('li');
+        li.textContent = it.qty + 'x ' + it.name + (it.size && it.size!=='unica' ? ' (' + (SIZE_LABELS[it.size]||it.size) + ')' : '');
+        ul.appendChild(li);
+      });
+
+      var total = document.createElement('div'); total.className='order-total'; total.textContent = 'Total: ' + fmt(o.total||0);
+      if (o.paymentMethod) total.textContent += ' · ' + o.paymentMethod;
+      if (o.notes) {
+        var notes = document.createElement('div'); notes.className='order-sub'; notes.textContent = 'Nota: ' + o.notes;
+      }
+
+      var actions = document.createElement('div'); actions.className = 'status-actions';
+      var idx = STATUS_FLOW.indexOf(o.status || 'nuevo');
+      if (idx < STATUS_FLOW.length - 1){
+        var nextStatus = STATUS_FLOW[idx+1];
+        var nb = document.createElement('button'); nb.type='button'; nb.className='btn btn-primary';
+        nb.textContent = 'Marcar: ' + STATUS_LABEL[nextStatus];
+        nb.addEventListener('click', function(){ updateStatus(o._id, nextStatus); });
+        actions.appendChild(nb);
+      }
+      if ((o.status||'nuevo') !== 'entregado'){
+        var done = document.createElement('button'); done.type='button'; done.className='btn btn-ghost';
+        done.textContent = 'Entregado';
+        done.addEventListener('click', function(){ updateStatus(o._id, 'entregado'); });
+        actions.appendChild(done);
+      }
+
+      card.appendChild(pill);
+      card.appendChild(top);
+      card.appendChild(cust);
+      card.appendChild(sub);
+      if (o.items && o.items.length) card.appendChild(ul);
+      card.appendChild(total);
+      if (notes) card.appendChild(notes);
+      card.appendChild(actions);
+
+      grid.appendChild(card);
+    });
+  }
+
+  function updateStatus(id, status){
+    if (!dbRef) return;
+    dbRef.collection('orders').doc(id).update({ status: status }).catch(function(){});
+  }
+
+  document.getElementById('adminToggleBtn').addEventListener('click', function(){
+    goScreen('admin');
+    subscribeAdmin();
+  });
+  document.getElementById('backToMenuFromAdmin').addEventListener('click', function(){ goScreen('menu'); });
+
+  /* ---------------- text size toggle ---------------- */
+  var textBtn = document.getElementById('textSizeBtn');
+  function applyTextSize(on){
+    document.documentElement.classList.toggle('text-xl', on);
+    textBtn.setAttribute('aria-pressed', String(on));
+    textBtn.textContent = on ? 'A+ Letra normal' : 'A+ Letra grande';
+  }
+  var storedTextSize = false;
+  try{ storedTextSize = localStorage.getItem('pp_text_xl') === '1'; }catch(e){}
+  applyTextSize(storedTextSize);
+  textBtn.addEventListener('click', function(){
+    var on = document.documentElement.classList.contains('text-xl');
+    applyTextSize(!on);
+    try{ localStorage.setItem('pp_text_xl', !on ? '1' : '0'); }catch(e){}
+  });
+
+  /* ---------------- init ---------------- */
+  renderTabs();
+  renderMenu();
+  renderCartBits();
+})();
+</script>
