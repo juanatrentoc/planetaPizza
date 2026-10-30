@@ -40,11 +40,16 @@ Guadalupe) ya están en el pie de página.
 - Confirmar si la paleta bordó/dorado debe ser la identidad oficial del sitio.
 
 ## Cómo seguir trabajando
-Este repo tiene dos skills de Claude Code para no perder el hilo entre sesiones:
-- `/iniciar-sesion` — trae lo último del repo (git pull) y lee este archivo para
-  retomar el contexto.
-- `/cerrar-sesion` — guarda este archivo actualizado, commitea y sube los
-  cambios al repo.
+Todo el proyecto vive en este repo (`C:\Users\usuario\PlanetaPizza` en la máquina
+de Juana) — abrir Claude Code ahí, no en otra carpeta. Incluye:
+- `prototipo-pedidos.html` + `assets/logo-planeta.jpg` — el sitio.
+- `imagenes/` — material de referencia real del local (logo original, horarios,
+  zona de delivery, notas de direcciones), usado para cargar datos reales.
+- `.claude/skills/` — dos skills para no perder el hilo entre sesiones:
+  - `/iniciar-sesion` — trae lo último del repo (git pull) y lee este archivo
+    para retomar el contexto.
+  - `/cerrar-sesion` — guarda este archivo actualizado, commitea y sube los
+    cambios al repo.
 
 ## Última actualización
 2026-10-30
