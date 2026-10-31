@@ -3,51 +3,30 @@
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=Unbounded:wght@600;700;800&family=Figtree:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
 
   :root{
-    --cream:#FBF6EC;
-    --surface:#F4E9D6;
-    --surface-2:#EEDFC4;
-    --ink:#241533;
-    --ink-soft:#5A4A6C;
-    --cosmos:#4A1119;
-    --cosmos-2:#2E0A0F;
-    --cosmos-ink:#FBF6EC;
-    --flare:#8C2635;
-    --flare-dark:#6E1D29;
-    --gold:#DD8F1E;
-    --basil:#5C7A3B;
-    --transit:#B5651D;
-    --critical:#C62828;
-    --line: rgba(36,21,51,.14);
-    --focus: #B5651D;
+    --cream:#0E0A0C;
+    --surface:#171013;
+    --surface-2:#211719;
+    --ink:#F3ECE4;
+    --ink-soft:#B8ADA6;
+    --cosmos:#1A0E10;
+    --cosmos-2:#0D0709;
+    --cosmos-ink:#F3ECE4;
+    --flare:#E8472A;
+    --flare-dark:#C7371E;
+    --gold:#D9A85C;
+    --basil:#8CB069;
+    --transit:#E08A3C;
+    --critical:#FF6B5E;
+    --line: rgba(243,236,228,.14);
+    --focus: #D9A85C;
     --radius-card: 22px;
     --radius-pill: 999px;
-    --shadow-card: 0 10px 28px -14px rgba(29,17,56,.35);
-    --scale: 1;
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --cream:#160D2A; --surface:#201436; --surface-2:#2B1C47;
-      --ink:#F4ECDD; --ink-soft:#CBBEE0;
-      --cosmos:#2E0A0F; --cosmos-2:#1A0609; --cosmos-ink:#FBF6EC;
-      --flare:#C94A5C; --flare-dark:#8C2635; --gold:#F0B25A; --basil:#8CB069; --transit:#E08A3C;
-      --critical:#FF6B5E;
-      --line: rgba(244,236,221,.16);
-      --shadow-card: 0 10px 30px -12px rgba(0,0,0,.6);
-    }
-  }
-  :root[data-theme="dark"]{
-    --cream:#160D2A; --surface:#201436; --surface-2:#2B1C47;
-    --ink:#F4ECDD; --ink-soft:#CBBEE0;
-    --cosmos:#2E0A0F; --cosmos-2:#1A0609; --cosmos-ink:#FBF6EC;
-    --flare:#C94A5C; --flare-dark:#8C2635; --gold:#F0B25A; --basil:#8CB069; --transit:#E08A3C;
-    --critical:#FF6B5E;
-    --line: rgba(244,236,221,.16);
     --shadow-card: 0 10px 30px -12px rgba(0,0,0,.6);
+    --scale: 1;
   }
 
   *{ box-sizing:border-box; }
   html{ font-size: calc(17px * var(--scale)); }
-  html.text-xl{ --scale: 1.18; }
   body{
     margin:0; background:var(--cream); color:var(--ink);
     font-family:'Figtree', system-ui, -apple-system, sans-serif;
@@ -130,14 +109,41 @@
       linear-gradient(0deg, rgba(46,10,15,.93) 0%, rgba(46,10,15,.8) 26%, rgba(46,10,15,.32) 58%, rgba(74,17,25,.18) 100%),
       linear-gradient(100deg, rgba(74,17,25,.6) 0%, rgba(74,17,25,.05) 55%);
   }
-  .hero-content{ position:relative; z-index:2; padding: clamp(24px, 5vw, 48px); max-width:600px; }
+  .hero-content{ position:relative; z-index:2; padding: clamp(28px, 5vw, 52px) clamp(24px,5vw,48px) clamp(46px,6vw,62px); max-width:600px; }
   .hero .hero-eyebrow{
-    font-family:'Space Mono', monospace; text-transform:uppercase; letter-spacing:.14em; font-size:.74rem;
-    color: var(--gold); margin:0 0 10px;
+    font-family:'Space Mono', monospace; text-transform:uppercase; letter-spacing:.16em; font-size:.72rem;
+    color: var(--gold); margin:0 0 12px;
   }
-  .hero h1{ font-style:italic; font-size: clamp(1.7rem, 4.2vw, 2.6rem); margin:0 0 .6rem; }
-  .hero p{ color:#F0DDBE; font-size:1.02rem; max-width:48ch; }
+  .hero h1{ font-size: clamp(2.4rem, 7vw, 4.2rem); line-height:.95; margin:0 0 .5rem; letter-spacing:.01em; }
+  .hero-tagline{
+    display:block; font-family:'Playfair Display', Georgia, serif; font-style:italic; font-weight:500;
+    font-size: clamp(1rem, 2vw, 1.3rem); color: var(--gold); margin-top:4px;
+  }
+  .hero p.hero-desc{ color:#E8DCCC; font-size:1.02rem; max-width:48ch; margin-top:16px; }
   .hero-cta{ display:flex; gap:12px; margin-top:22px; flex-wrap:wrap; }
+
+  /* ---------- hero: detalles tipo "visor de cámara" (inspirado en el video de referencia) ---------- */
+  .hero-frame{ position:absolute; inset: clamp(14px,2.5vw,22px); z-index:2; pointer-events:none; }
+  .hf-corner{ position:absolute; width:22px; height:22px; border: 2px solid rgba(217,168,92,.75); }
+  .hf-corner.tl{ top:0; left:0; border-right:0; border-bottom:0; }
+  .hf-corner.tr{ top:0; right:0; border-left:0; border-bottom:0; }
+  .hf-corner.bl{ bottom:0; left:0; border-right:0; border-top:0; }
+  .hf-corner.br{ bottom:0; right:0; border-left:0; border-top:0; }
+  .hf-readout{
+    position:absolute; font-family:'Space Mono', monospace; font-size:.68rem; letter-spacing:.06em;
+    color: rgba(232,220,204,.85); text-transform:uppercase; white-space:nowrap;
+  }
+  .hf-readout.tl{ top:-20px; left:28px; }
+  .hf-readout.tr{ top:-20px; right:28px; }
+  .hf-readout .dot{ color:var(--flare); }
+  @media (max-width:640px){ .hf-readout.tr{ display:none; } }
+  .hero-scrub{
+    position:absolute; left: clamp(14px,2.5vw,22px); right: clamp(14px,2.5vw,22px); bottom: clamp(14px,2.5vw,22px);
+    z-index:2; display:flex; align-items:center; gap:12px;
+  }
+  .hero-scrub-label{ font-family:'Space Mono', monospace; font-size:.68rem; letter-spacing:.08em; color:var(--gold); text-transform:uppercase; }
+  .hero-scrub-track{ flex:1; height:2px; background:rgba(232,220,204,.25); position:relative; }
+  .hero-scrub-fill{ position:absolute; left:0; top:0; bottom:0; width:38%; background:var(--gold); }
 
   /* ---------- category tabs ---------- */
   .category-tabs{
@@ -150,33 +156,49 @@
   }
   .tab[aria-selected="true"]{ background:var(--flare); border-color:var(--flare); color:#fff; }
 
-  /* ---------- carta: lista editorial (al estilo de la carta real) ---------- */
-  .section-header{ margin: 30px 0 4px; }
+  /* ---------- menu grid (tarjetas estilo "signature", tema oscuro) ---------- */
+  .section-header{ margin: 30px 0 18px; }
   .section-eyebrow{
     font-family:'Space Mono', monospace; text-transform:uppercase; letter-spacing:.16em; font-size:.72rem;
-    color: var(--flare-dark); margin: 0; display:block;
+    color: var(--gold); margin: 0; display:block;
   }
   .menu-section-title{ margin: 2px 0 0; font-size: clamp(1.6rem, 3.4vw, 2.1rem); }
-  .section-rule{ height:2px; background: linear-gradient(90deg, var(--flare) 0%, var(--gold) 45%, transparent 100%); margin: 12px 0 2px; border:0; }
+  .section-rule{ height:1px; background: linear-gradient(90deg, var(--flare) 0%, var(--gold) 45%, transparent 100%); margin: 14px 0 0; border:0; }
 
-  .menu-list{ display:flex; flex-direction:column; margin-bottom: 36px; }
-  .menu-row{
-    font:inherit; text-align:left; background:none; border:0; border-bottom:1px solid var(--line);
-    width:100%; display:flex; align-items:center; gap:16px; padding:17px 4px; cursor:pointer;
+  .menu-grid{
+    display:grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap:20px; margin-bottom: 38px;
   }
-  .menu-row:hover, .menu-row:focus-visible{ background: color-mix(in srgb, var(--flare) 6%, transparent); }
-  .row-num{ font-family:'Space Mono'; color:var(--flare-dark); font-weight:700; font-size:.82rem; flex:none; width:2.5em; }
-  .row-main{ flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
-  .row-name{ font-family:'Playfair Display', Georgia, serif; font-weight:700; font-size:1.08rem; color:var(--ink); }
-  .row-tag{ font-style:italic; color:var(--flare-dark); font-size:.82rem; }
-  .row-desc{ color:var(--ink-soft); font-size:.84rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .row-end{ flex:none; display:flex; align-items:center; gap:10px; }
-  .row-price{ font-family:'Space Mono'; font-weight:700; color:var(--ink); white-space:nowrap; }
-  .row-badge{
-    background:var(--flare); color:#fff; font-family:'Space Mono'; font-weight:700; font-size:.72rem;
-    min-width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; padding:0 4px;
+  .card{
+    font: inherit; text-align:left; background:var(--surface); border-radius:18px; overflow:hidden;
+    box-shadow:var(--shadow-card); border:1px solid var(--line); cursor:pointer; position:relative;
+    display:flex; flex-direction:column;
   }
+  .card:hover, .card:focus-visible{ border-color:var(--flare); }
+  .card-media{
+    aspect-ratio: 4 / 3; display:flex; align-items:center; justify-content:center;
+    background: radial-gradient(ellipse at 50% 30%, var(--surface-2) 0%, var(--cream) 100%);
+    position:relative;
+  }
+  .card-media .planet{ --d: clamp(86px, 22vw, 128px); }
+  .card-tag{
+    position:absolute; top:12px; left:12px; background: var(--flare); color:#fff; font-size:.68rem; font-weight:700;
+    text-transform:uppercase; letter-spacing:.04em; padding:4px 10px; border-radius:999px;
+  }
+  .card-badge{
+    position:absolute; top:10px; right:10px; background:var(--gold); color:#1a1210; font-family:'Space Mono'; font-weight:700;
+    font-size:.78rem; min-width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    padding:0 4px; box-shadow:0 2px 6px rgba(0,0,0,.3);
+  }
+  .card-body{ padding: 14px 16px 16px; display:flex; flex-direction:column; gap:6px; flex:1; }
+  .card-name{ font-size:1.08rem; margin:0; }
+  .card-desc{ color:var(--ink-soft); font-size:.85rem; margin:0; flex:1; }
   .item-desc{ color:var(--ink-soft); font-size:.9rem; margin:0; }
+  .card-footer{
+    display:flex; justify-content:space-between; align-items:center; gap:10px;
+    border-top:1px solid var(--line); margin-top:10px; padding-top:12px;
+  }
+  .card-price{ font-family:'Space Mono'; font-weight:700; }
+  .card-cta{ font-size:.85rem; padding:9px 16px; min-height:40px; }
 
   /* ---------- item modal (gusto -> tamaño -> cantidad) ---------- */
   .modal-overlay{
@@ -380,8 +402,6 @@
       </div>
     </div>
     <div class="header-actions">
-      <button class="btn btn-ghost" id="textSizeBtn" type="button" aria-pressed="false">A+ Letra grande</button>
-      <button class="btn btn-admin" id="adminToggleBtn" type="button">Panel del local</button>
       <button class="btn btn-primary" id="cartBtnHeader" type="button" hidden>
         Carrito · <span class="mono" id="cartCountHeader">0</span>
       </button>
@@ -397,13 +417,25 @@
           <source src="assets/hero-pizza.mp4" type="video/mp4">
         </video>
         <div class="hero-scrim" aria-hidden="true"></div>
+        <div class="hero-frame" aria-hidden="true">
+          <span class="hf-corner tl"></span>
+          <span class="hf-corner tr"></span>
+          <span class="hf-corner bl"></span>
+          <span class="hf-corner br"></span>
+          <span class="hf-readout tl"><span class="dot">●</span> PLANETA · EN VIVO</span>
+          <span class="hf-readout tr">HORNO DE PIEDRA · AL PUNTO</span>
+        </div>
         <div class="hero-content">
-          <p class="hero-eyebrow">Desde 2008 · Santa Fe</p>
-          <h1>Tu pizza favorita, directo desde Planeta.</h1>
-          <p>Elegí, armá tu pedido y confirmalo en un par de pasos. Sin vueltas, con la letra bien grande para que se lea de taquito.</p>
+          <p class="hero-eyebrow">// Desde 2008 · Santa Fe</p>
+          <h1>Planeta<span class="hero-tagline">// pizza artesanal, sabor fuera de este mundo</span></h1>
+          <p class="hero-desc">Elegí, armá tu pedido y confirmalo en un par de pasos. Sin vueltas, con la letra bien grande para que se lea de taquito.</p>
           <div class="hero-cta">
             <button class="btn btn-primary btn-lg" id="verCartaBtn" type="button">Ver la carta</button>
           </div>
+        </div>
+        <div class="hero-scrub" aria-hidden="true">
+          <span class="hero-scrub-label">01 · Carta</span>
+          <span class="hero-scrub-track"><span class="hero-scrub-fill"></span></span>
         </div>
       </div>
 
@@ -739,7 +771,7 @@
       header.appendChild(rule);
       section.appendChild(header);
 
-      var list = document.createElement('div'); list.className = 'menu-list';
+      var grid = document.createElement('div'); grid.className = 'menu-grid';
 
       MENU[cat].items.forEach(function(item){
         var sizes = sizeKeys(item);
@@ -747,42 +779,51 @@
         var minPrice = Math.min.apply(null, prices);
         var qty = qtyInCartFor(item.id);
 
-        var row = document.createElement('button');
-        row.type = 'button'; row.className = 'menu-row'; row.setAttribute('aria-haspopup','dialog');
-        row.setAttribute('aria-label', item.name + ', ' + (sizes.length > 1 ? 'desde ' : '') + fmt(minPrice));
+        var card = document.createElement('button');
+        card.type = 'button'; card.className = 'card'; card.setAttribute('aria-haspopup','dialog');
+        card.setAttribute('aria-label', item.name + ', ' + (sizes.length > 1 ? 'desde ' : '') + fmt(minPrice));
 
+        var media = document.createElement('div'); media.className = 'card-media';
+        var planet = document.createElement('div'); planet.className = 'planet planet--' + item.planet;
+        planet.setAttribute('aria-hidden','true');
+        media.appendChild(planet);
         if (item.num){
-          var num = document.createElement('span'); num.className = 'row-num'; num.textContent = 'N° ' + item.num;
-          row.appendChild(num);
+          var numTag = document.createElement('span'); numTag.className = 'card-tag'; numTag.textContent = 'N° ' + item.num;
+          media.appendChild(numTag);
         }
-
-        var main = document.createElement('span'); main.className = 'row-main';
-        var nm = document.createElement('span'); nm.className = 'row-name'; nm.textContent = item.name;
-        main.appendChild(nm);
-        if (item.nickname){
-          var nick = document.createElement('span'); nick.className = 'row-tag'; nick.textContent = item.nickname;
-          main.appendChild(nick);
-        } else if (item.desc){
-          var d = document.createElement('span'); d.className = 'row-desc'; d.textContent = item.desc;
-          main.appendChild(d);
-        }
-        row.appendChild(main);
-
-        var end = document.createElement('span'); end.className = 'row-end';
-        var price = document.createElement('span'); price.className = 'row-price mono';
-        price.textContent = sizes.length > 1 ? ('Desde ' + fmt(minPrice)) : fmt(minPrice);
-        end.appendChild(price);
         if (qty > 0){
-          var badge = document.createElement('span'); badge.className = 'row-badge'; badge.textContent = qty;
-          end.appendChild(badge);
+          var badge = document.createElement('span'); badge.className = 'card-badge'; badge.textContent = qty;
+          media.appendChild(badge);
         }
-        row.appendChild(end);
+        card.appendChild(media);
 
-        row.addEventListener('click', function(){ openItemModal(item); });
-        list.appendChild(row);
+        var body = document.createElement('div'); body.className = 'card-body';
+        var nm = document.createElement('h3'); nm.className = 'card-name'; nm.textContent = item.name;
+        body.appendChild(nm);
+        if (item.nickname){
+          var nick = document.createElement('p'); nick.className = 'card-desc'; nick.style.fontStyle = 'italic'; nick.style.color = 'var(--flare-dark)'; nick.textContent = item.nickname;
+          body.appendChild(nick);
+        }
+        if (item.desc){
+          var d = document.createElement('p'); d.className = 'card-desc'; d.textContent = item.desc;
+          body.appendChild(d);
+        }
+
+        var footer = document.createElement('div'); footer.className = 'card-footer';
+        var price = document.createElement('span'); price.className = 'card-price mono';
+        price.textContent = sizes.length > 1 ? ('Desde ' + fmt(minPrice)) : fmt(minPrice);
+        footer.appendChild(price);
+        var cta = document.createElement('span'); cta.className = 'btn btn-primary card-cta';
+        cta.textContent = qty > 0 ? ('En tu pedido (' + qty + ')') : 'Agregar';
+        footer.appendChild(cta);
+        body.appendChild(footer);
+
+        card.appendChild(body);
+        card.addEventListener('click', function(){ openItemModal(item); });
+        grid.appendChild(card);
       });
 
-      section.appendChild(list);
+      section.appendChild(grid);
       sectionsEl.appendChild(section);
     });
   }
@@ -1171,27 +1212,9 @@
     dbRef.collection('orders').doc(id).update({ status: status }).catch(function(){});
   }
 
-  document.getElementById('adminToggleBtn').addEventListener('click', function(){
-    goScreen('admin');
-    subscribeAdmin();
-  });
   document.getElementById('backToMenuFromAdmin').addEventListener('click', function(){ goScreen('menu'); });
-
-  /* ---------------- text size toggle ---------------- */
-  var textBtn = document.getElementById('textSizeBtn');
-  function applyTextSize(on){
-    document.documentElement.classList.toggle('text-xl', on);
-    textBtn.setAttribute('aria-pressed', String(on));
-    textBtn.textContent = on ? 'A+ Letra normal' : 'A+ Letra grande';
-  }
-  var storedTextSize = false;
-  try{ storedTextSize = localStorage.getItem('pp_text_xl') === '1'; }catch(e){}
-  applyTextSize(storedTextSize);
-  textBtn.addEventListener('click', function(){
-    var on = document.documentElement.classList.contains('text-xl');
-    applyTextSize(!on);
-    try{ localStorage.setItem('pp_text_xl', !on ? '1' : '0'); }catch(e){}
-  });
+  // Nota: el acceso al panel del local se maneja aparte (ruta /admin con contraseña,
+  // a definir). Esta pantalla queda sin botón de entrada en el sitio de pedidos.
 
   /* ---------------- hero video: respect reduced motion ---------------- */
   try{
