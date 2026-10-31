@@ -132,14 +132,41 @@
       linear-gradient(0deg, rgba(46,10,15,.93) 0%, rgba(46,10,15,.8) 26%, rgba(46,10,15,.32) 58%, rgba(74,17,25,.18) 100%),
       linear-gradient(100deg, rgba(74,17,25,.6) 0%, rgba(74,17,25,.05) 55%);
   }
-  .hero-content{ position:relative; z-index:2; padding: clamp(24px, 5vw, 48px); max-width:600px; }
+  .hero-content{ position:relative; z-index:2; padding: clamp(28px, 5vw, 52px) clamp(24px,5vw,48px) clamp(44px,6vw,60px); max-width:600px; }
   .hero .hero-eyebrow{
-    font-family:'Space Mono', monospace; text-transform:uppercase; letter-spacing:.14em; font-size:.74rem;
-    color: var(--gold); margin:0 0 10px;
+    font-family:'Space Mono', monospace; text-transform:uppercase; letter-spacing:.16em; font-size:.72rem;
+    color: var(--gold); margin:0 0 12px;
   }
-  .hero h1{ font-style:italic; font-size: clamp(1.7rem, 4.2vw, 2.6rem); margin:0 0 .6rem; }
-  .hero p{ color:#F0DDBE; font-size:1.02rem; max-width:48ch; }
+  .hero h1{ font-size: clamp(2.4rem, 7vw, 4.2rem); line-height:.95; margin:0 0 .5rem; letter-spacing:.01em; }
+  .hero-tagline{
+    display:block; font-family:'Playfair Display', Georgia, serif; font-style:italic; font-weight:500;
+    font-size: clamp(1rem, 2vw, 1.3rem); color: var(--gold); margin-top:4px;
+  }
+  .hero p.hero-desc{ color:#F0DDBE; font-size:1.02rem; max-width:48ch; margin-top:16px; }
   .hero-cta{ display:flex; gap:12px; margin-top:22px; flex-wrap:wrap; }
+
+  /* ---------- hero: detalles tipo "visor de cámara" (inspirado en el video de referencia) ---------- */
+  .hero-frame{ position:absolute; inset: clamp(14px,2.5vw,22px); z-index:2; pointer-events:none; }
+  .hf-corner{ position:absolute; width:22px; height:22px; border: 2px solid rgba(240,178,90,.75); }
+  .hf-corner.tl{ top:0; left:0; border-right:0; border-bottom:0; }
+  .hf-corner.tr{ top:0; right:0; border-left:0; border-bottom:0; }
+  .hf-corner.bl{ bottom:0; left:0; border-right:0; border-top:0; }
+  .hf-corner.br{ bottom:0; right:0; border-left:0; border-top:0; }
+  .hf-readout{
+    position:absolute; font-family:'Space Mono', monospace; font-size:.68rem; letter-spacing:.06em;
+    color: rgba(240,221,190,.85); text-transform:uppercase; white-space:nowrap;
+  }
+  .hf-readout.tl{ top:-20px; left:28px; }
+  .hf-readout.tr{ top:-20px; right:28px; }
+  .hf-readout .dot{ color:#E8472A; }
+  @media (max-width:640px){ .hf-readout.tr{ display:none; } }
+  .hero-scrub{
+    position:absolute; left: clamp(14px,2.5vw,22px); right: clamp(14px,2.5vw,22px); bottom: clamp(14px,2.5vw,22px);
+    z-index:2; display:flex; align-items:center; gap:12px;
+  }
+  .hero-scrub-label{ font-family:'Space Mono', monospace; font-size:.68rem; letter-spacing:.08em; color:var(--gold); text-transform:uppercase; }
+  .hero-scrub-track{ flex:1; height:2px; background:rgba(240,221,190,.25); position:relative; }
+  .hero-scrub-fill{ position:absolute; left:0; top:0; bottom:0; width:38%; background:var(--gold); }
 
   /* ---------- category tabs ---------- */
   .category-tabs{
@@ -385,13 +412,25 @@
       <div class="hero">
         <div class="hero-bg" aria-hidden="true"></div>
         <div class="hero-scrim" aria-hidden="true"></div>
+        <div class="hero-frame" aria-hidden="true">
+          <span class="hf-corner tl"></span>
+          <span class="hf-corner tr"></span>
+          <span class="hf-corner bl"></span>
+          <span class="hf-corner br"></span>
+          <span class="hf-readout tl"><span class="dot">●</span> PLANETA · EN VIVO</span>
+          <span class="hf-readout tr">HORNO DE PIEDRA · AL PUNTO</span>
+        </div>
         <div class="hero-content">
-          <p class="hero-eyebrow">Desde 2008 · Santa Fe</p>
-          <h1>Tu pizza favorita, directo desde Planeta.</h1>
-          <p>Elegí, armá tu pedido y confirmalo en un par de pasos. Sin vueltas, con la letra bien grande para que se lea de taquito.</p>
+          <p class="hero-eyebrow">// Desde 2008 · Santa Fe</p>
+          <h1>Planeta<span class="hero-tagline">// pizza artesanal, sabor fuera de este mundo</span></h1>
+          <p class="hero-desc">Elegí, armá tu pedido y confirmalo en un par de pasos. Sin vueltas, con la letra bien grande para que se lea de taquito.</p>
           <div class="hero-cta">
             <button class="btn btn-primary btn-lg" id="verCartaBtn" type="button">Ver la carta</button>
           </div>
+        </div>
+        <div class="hero-scrub" aria-hidden="true">
+          <span class="hero-scrub-label">01 · Carta</span>
+          <span class="hero-scrub-track"><span class="hero-scrub-fill"></span></span>
         </div>
       </div>
 
