@@ -132,41 +132,14 @@
       linear-gradient(0deg, rgba(46,10,15,.93) 0%, rgba(46,10,15,.8) 26%, rgba(46,10,15,.32) 58%, rgba(74,17,25,.18) 100%),
       linear-gradient(100deg, rgba(74,17,25,.6) 0%, rgba(74,17,25,.05) 55%);
   }
-  .hero-content{ position:relative; z-index:2; padding: clamp(28px, 5vw, 52px) clamp(24px,5vw,48px) clamp(44px,6vw,60px); max-width:600px; }
+  .hero-content{ position:relative; z-index:2; padding: clamp(24px, 5vw, 48px); max-width:600px; }
   .hero .hero-eyebrow{
-    font-family:'Space Mono', monospace; text-transform:uppercase; letter-spacing:.16em; font-size:.72rem;
-    color: var(--gold); margin:0 0 12px;
+    font-family:'Space Mono', monospace; text-transform:uppercase; letter-spacing:.14em; font-size:.74rem;
+    color: var(--gold); margin:0 0 10px;
   }
-  .hero h1{ font-size: clamp(2.4rem, 7vw, 4.2rem); line-height:.95; margin:0 0 .5rem; letter-spacing:.01em; }
-  .hero-tagline{
-    display:block; font-family:'Playfair Display', Georgia, serif; font-style:italic; font-weight:500;
-    font-size: clamp(1rem, 2vw, 1.3rem); color: var(--gold); margin-top:4px;
-  }
-  .hero p.hero-desc{ color:#F0DDBE; font-size:1.02rem; max-width:48ch; margin-top:16px; }
+  .hero h1{ font-style:italic; font-size: clamp(1.7rem, 4.2vw, 2.6rem); margin:0 0 .6rem; }
+  .hero p{ color:#F0DDBE; font-size:1.02rem; max-width:48ch; }
   .hero-cta{ display:flex; gap:12px; margin-top:22px; flex-wrap:wrap; }
-
-  /* ---------- hero: detalles tipo "visor de cámara" (inspirado en el video de referencia) ---------- */
-  .hero-frame{ position:absolute; inset: clamp(14px,2.5vw,22px); z-index:2; pointer-events:none; }
-  .hf-corner{ position:absolute; width:22px; height:22px; border: 2px solid rgba(240,178,90,.75); }
-  .hf-corner.tl{ top:0; left:0; border-right:0; border-bottom:0; }
-  .hf-corner.tr{ top:0; right:0; border-left:0; border-bottom:0; }
-  .hf-corner.bl{ bottom:0; left:0; border-right:0; border-top:0; }
-  .hf-corner.br{ bottom:0; right:0; border-left:0; border-top:0; }
-  .hf-readout{
-    position:absolute; font-family:'Space Mono', monospace; font-size:.68rem; letter-spacing:.06em;
-    color: rgba(240,221,190,.85); text-transform:uppercase; white-space:nowrap;
-  }
-  .hf-readout.tl{ top:-20px; left:28px; }
-  .hf-readout.tr{ top:-20px; right:28px; }
-  .hf-readout .dot{ color:#E8472A; }
-  @media (max-width:640px){ .hf-readout.tr{ display:none; } }
-  .hero-scrub{
-    position:absolute; left: clamp(14px,2.5vw,22px); right: clamp(14px,2.5vw,22px); bottom: clamp(14px,2.5vw,22px);
-    z-index:2; display:flex; align-items:center; gap:12px;
-  }
-  .hero-scrub-label{ font-family:'Space Mono', monospace; font-size:.68rem; letter-spacing:.08em; color:var(--gold); text-transform:uppercase; }
-  .hero-scrub-track{ flex:1; height:2px; background:rgba(240,221,190,.25); position:relative; }
-  .hero-scrub-fill{ position:absolute; left:0; top:0; bottom:0; width:38%; background:var(--gold); }
 
   /* ---------- category tabs ---------- */
   .category-tabs{
@@ -179,26 +152,47 @@
   }
   .tab[aria-selected="true"]{ background:var(--flare); border-color:var(--flare); color:#fff; }
 
-  /* ---------- menu grid (recuadritos) ---------- */
-  .menu-section-title{ margin: 18px 0 6px; font-size:1.2rem; }
+  /* ---------- menu grid (tarjetas estilo "signature") ---------- */
   .menu-grid{
-    display:grid; grid-template-columns: repeat(auto-fill, minmax(108px, 1fr)); gap:10px; margin-bottom: 30px;
+    display:grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap:20px; margin-bottom: 38px;
   }
-  .tile{
-    font: inherit; background:var(--surface); border-radius:16px; padding:10px 6px 12px;
-    box-shadow:var(--shadow-card); border:2px solid var(--line); cursor:pointer; position:relative;
-    display:flex; flex-direction:column; align-items:center; gap:6px; text-align:center; min-height:132px;
+  .section-eyebrow{
+    font-family:'Space Mono', monospace; text-transform:uppercase; letter-spacing:.14em; font-size:.74rem;
+    color: var(--flare-dark); margin: 0; display:block;
   }
-  .tile:hover, .tile:focus-visible{ border-color:var(--flare); }
-  .tile .planet{ --d:52px; }
-  .tile-name{ font-family:'Unbounded'; font-weight:700; font-size:.76rem; line-height:1.2; }
-  .tile-from{ color:var(--ink-soft); font-size:.68rem; }
-  .tile-badge{
-    position:absolute; top:-8px; right:-8px; background:var(--flare); color:#fff; font-family:'Space Mono'; font-weight:700;
-    font-size:.72rem; min-width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  .menu-section-title{ margin: 2px 0 14px; font-size:1.3rem; }
+
+  .card{
+    font: inherit; text-align:left; background:var(--surface); border-radius:18px; overflow:hidden;
+    box-shadow:var(--shadow-card); border:1px solid var(--line); cursor:pointer; position:relative;
+    display:flex; flex-direction:column;
+  }
+  .card:hover, .card:focus-visible{ border-color:var(--flare); }
+  .card-media{
+    aspect-ratio: 4 / 3; display:flex; align-items:center; justify-content:center;
+    background: radial-gradient(ellipse at 50% 30%, var(--surface-2) 0%, var(--cream) 100%);
+    position:relative;
+  }
+  .card-media .planet{ --d: clamp(86px, 22vw, 128px); }
+  .card-tag{
+    position:absolute; top:12px; left:12px; background: var(--flare); color:#fff; font-size:.68rem; font-weight:700;
+    text-transform:uppercase; letter-spacing:.04em; padding:4px 10px; border-radius:999px;
+  }
+  .card-badge{
+    position:absolute; top:10px; right:10px; background:var(--cosmos); color:var(--cosmos-ink); font-family:'Space Mono'; font-weight:700;
+    font-size:.78rem; min-width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center;
     padding:0 4px; box-shadow:0 2px 6px rgba(0,0,0,.3);
   }
+  .card-body{ padding: 14px 16px 16px; display:flex; flex-direction:column; gap:6px; flex:1; }
+  .card-name{ font-size:1.08rem; margin:0; }
+  .card-desc{ color:var(--ink-soft); font-size:.85rem; margin:0; flex:1; }
   .item-desc{ color:var(--ink-soft); font-size:.9rem; margin:0; }
+  .card-footer{
+    display:flex; justify-content:space-between; align-items:center; gap:10px;
+    border-top:1px solid var(--line); margin-top:10px; padding-top:12px;
+  }
+  .card-price{ font-family:'Space Mono'; font-weight:700; }
+  .card-cta{ font-size:.85rem; padding:9px 16px; min-height:40px; }
 
   /* ---------- item modal (gusto -> tamaño -> cantidad) ---------- */
   .modal-overlay{
@@ -223,10 +217,15 @@
   .modal-panel h3{ text-align:center; margin:2px 0 4px; }
   .modal-item-nick{ text-align:center; color:var(--flare-dark); font-style:italic; font-size:.85rem; margin:0 0 10px; }
   .modal-item-desc{ text-align:center; margin-bottom:16px; }
-  select.field-select{
-    font:inherit; width:100%; padding:14px 16px; border-radius:14px; border:2px solid var(--line);
-    background:var(--cream); color:var(--ink); min-height:52px;
+
+  .size-choice-row{ display:flex; gap:8px; flex-wrap:wrap; }
+  .size-choice{
+    font:inherit; flex:1 1 auto; min-width:100px; border-radius:14px; border:2px solid var(--line); background:var(--cream);
+    padding:10px 8px; text-align:center; cursor:pointer; min-height:56px; display:flex; flex-direction:column; gap:2px; justify-content:center;
   }
+  .size-choice[aria-pressed="true"]{ border-color:var(--flare); background: color-mix(in srgb, var(--flare) 12%, var(--cream)); }
+  .sc-label{ font-size:.76rem; color:var(--ink-soft); }
+  .sc-price{ font-weight:700; }
 
   /* planet-pizza portraits, CSS only */
   .planet{ --d:68px; width:var(--d); height:var(--d); border-radius:50%; flex:none; position:relative; background-color:#eee; }
@@ -412,25 +411,13 @@
       <div class="hero">
         <div class="hero-bg" aria-hidden="true"></div>
         <div class="hero-scrim" aria-hidden="true"></div>
-        <div class="hero-frame" aria-hidden="true">
-          <span class="hf-corner tl"></span>
-          <span class="hf-corner tr"></span>
-          <span class="hf-corner bl"></span>
-          <span class="hf-corner br"></span>
-          <span class="hf-readout tl"><span class="dot">●</span> PLANETA · EN VIVO</span>
-          <span class="hf-readout tr">HORNO DE PIEDRA · AL PUNTO</span>
-        </div>
         <div class="hero-content">
-          <p class="hero-eyebrow">// Desde 2008 · Santa Fe</p>
-          <h1>Planeta<span class="hero-tagline">// pizza artesanal, sabor fuera de este mundo</span></h1>
-          <p class="hero-desc">Elegí, armá tu pedido y confirmalo en un par de pasos. Sin vueltas, con la letra bien grande para que se lea de taquito.</p>
+          <p class="hero-eyebrow">Desde 2008 · Santa Fe</p>
+          <h1>Tu pizza favorita, directo desde Planeta.</h1>
+          <p>Elegí, armá tu pedido y confirmalo en un par de pasos. Sin vueltas, con la letra bien grande para que se lea de taquito.</p>
           <div class="hero-cta">
             <button class="btn btn-primary btn-lg" id="verCartaBtn" type="button">Ver la carta</button>
           </div>
-        </div>
-        <div class="hero-scrub" aria-hidden="true">
-          <span class="hero-scrub-label">01 · Carta</span>
-          <span class="hero-scrub-track"><span class="hero-scrub-fill"></span></span>
         </div>
       </div>
 
@@ -554,8 +541,8 @@
       <p class="item-desc modal-item-desc" id="modalItemDesc"></p>
 
       <div class="field" id="modalSizeField">
-        <label for="modalSizeSelect">Tamaño</label>
-        <select class="field-select" id="modalSizeSelect"></select>
+        <label id="modalSizeLabel">Tamaño</label>
+        <div class="size-choice-row" id="modalSizeChoices" role="group" aria-labelledby="modalSizeLabel"></div>
       </div>
 
       <div class="qty-row">
@@ -751,9 +738,14 @@
 
   function renderMenu(){
     sectionsEl.innerHTML = '';
-    Object.keys(MENU).forEach(function(cat){
+    Object.keys(MENU).forEach(function(cat, catIndex){
       var section = document.createElement('section');
       section.id = 'cat-' + cat;
+
+      var eyebrow = document.createElement('span'); eyebrow.className = 'section-eyebrow';
+      eyebrow.textContent = '// ' + String(catIndex + 1).padStart(2, '0');
+      section.appendChild(eyebrow);
+
       var h = document.createElement('h2');
       h.className = 'menu-section-title'; h.textContent = MENU[cat].label;
       section.appendChild(h);
@@ -765,29 +757,48 @@
         var minPrice = Math.min.apply(null, prices);
         var qty = qtyInCartFor(item.id);
 
-        var tile = document.createElement('button');
-        tile.type = 'button'; tile.className = 'tile'; tile.setAttribute('aria-haspopup','dialog');
-        tile.setAttribute('aria-label', item.name + ', ' + (sizes.length > 1 ? 'desde ' : '') + fmt(minPrice));
+        var card = document.createElement('button');
+        card.type = 'button'; card.className = 'card'; card.setAttribute('aria-haspopup','dialog');
+        card.setAttribute('aria-label', item.name + ', ' + (sizes.length > 1 ? 'desde ' : '') + fmt(minPrice));
 
+        var media = document.createElement('div'); media.className = 'card-media';
         var planet = document.createElement('div'); planet.className = 'planet planet--' + item.planet;
         planet.setAttribute('aria-hidden','true');
-        tile.appendChild(planet);
-
-        var nm = document.createElement('span'); nm.className = 'tile-name';
-        nm.textContent = item.num ? ('N° ' + item.num + ' · ' + item.name) : item.name;
-        tile.appendChild(nm);
-
-        var price = document.createElement('span'); price.className = 'tile-from mono';
-        price.textContent = sizes.length > 1 ? ('Desde ' + fmt(minPrice)) : fmt(minPrice);
-        tile.appendChild(price);
-
+        media.appendChild(planet);
+        if (item.num){
+          var numTag = document.createElement('span'); numTag.className = 'card-tag'; numTag.textContent = 'N° ' + item.num;
+          media.appendChild(numTag);
+        }
         if (qty > 0){
-          var badge = document.createElement('span'); badge.className = 'tile-badge'; badge.textContent = qty;
-          tile.appendChild(badge);
+          var badge = document.createElement('span'); badge.className = 'card-badge'; badge.textContent = qty;
+          media.appendChild(badge);
+        }
+        card.appendChild(media);
+
+        var body = document.createElement('div'); body.className = 'card-body';
+        var nm = document.createElement('h3'); nm.className = 'card-name'; nm.textContent = item.name;
+        body.appendChild(nm);
+        if (item.nickname){
+          var nick = document.createElement('p'); nick.className = 'card-desc'; nick.style.fontStyle = 'italic'; nick.style.color = 'var(--flare-dark)'; nick.textContent = item.nickname;
+          body.appendChild(nick);
+        }
+        if (item.desc){
+          var d = document.createElement('p'); d.className = 'card-desc'; d.textContent = item.desc;
+          body.appendChild(d);
         }
 
-        tile.addEventListener('click', function(){ openItemModal(item); });
-        grid.appendChild(tile);
+        var footer = document.createElement('div'); footer.className = 'card-footer';
+        var price = document.createElement('span'); price.className = 'card-price mono';
+        price.textContent = sizes.length > 1 ? ('Desde ' + fmt(minPrice)) : fmt(minPrice);
+        footer.appendChild(price);
+        var cta = document.createElement('span'); cta.className = 'btn btn-primary card-cta';
+        cta.textContent = qty > 0 ? ('En tu pedido (' + qty + ')') : 'Agregar';
+        footer.appendChild(cta);
+        body.appendChild(footer);
+
+        card.appendChild(body);
+        card.addEventListener('click', function(){ openItemModal(item); });
+        grid.appendChild(card);
       });
 
       section.appendChild(grid);
@@ -817,8 +828,26 @@
 
   /* ---------------- item modal: gusto (ya elegido) -> tamaño -> cantidad ---------------- */
   var modalOverlay = document.getElementById('itemModalOverlay');
-  var modalSizeSelect = document.getElementById('modalSizeSelect');
+  var modalSizeChoices = document.getElementById('modalSizeChoices');
   var modalState = { item:null, size:null, qty:1 };
+
+  function renderModalSizeChoices(){
+    var item = modalState.item;
+    var sizes = sizeKeys(item);
+    modalSizeChoices.innerHTML = '';
+    sizes.forEach(function(sz){
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'size-choice';
+      b.setAttribute('aria-pressed', String(sz === modalState.size));
+      b.innerHTML = '<span class="sc-label">' + SIZE_LABELS[sz] + '</span><span class="sc-price mono">' + fmt(item.prices[sz]) + '</span>';
+      b.addEventListener('click', function(){
+        modalState.size = sz;
+        renderModalSizeChoices();
+        updateModalPrice();
+      });
+      modalSizeChoices.appendChild(b);
+    });
+  }
 
   function openItemModal(item){
     modalState.item = item;
@@ -838,15 +867,9 @@
     descEl.hidden = !item.desc;
 
     var sizeField = document.getElementById('modalSizeField');
-    modalSizeSelect.innerHTML = '';
     if (sizes.length > 1){
       sizeField.hidden = false;
-      sizes.forEach(function(sz){
-        var opt = document.createElement('option');
-        opt.value = sz;
-        opt.textContent = SIZE_LABELS[sz] + ' — ' + fmt(item.prices[sz]);
-        modalSizeSelect.appendChild(opt);
-      });
+      renderModalSizeChoices();
     } else {
       sizeField.hidden = true;
     }
@@ -854,7 +877,7 @@
     updateModalPrice();
     modalOverlay.hidden = false;
     document.body.style.overflow = 'hidden';
-    (sizes.length > 1 ? modalSizeSelect : document.getElementById('modalCloseBtn')).focus();
+    (sizes.length > 1 ? modalSizeChoices.querySelector('.size-choice') : document.getElementById('modalCloseBtn')).focus();
   }
 
   function closeItemModal(){
@@ -870,10 +893,6 @@
     document.getElementById('modalAddPrice').textContent = fmt(unit * modalState.qty);
   }
 
-  modalSizeSelect.addEventListener('change', function(){
-    modalState.size = this.value;
-    updateModalPrice();
-  });
   document.getElementById('modalMinus').addEventListener('click', function(){
     modalState.qty = Math.max(1, modalState.qty - 1);
     updateModalPrice();
