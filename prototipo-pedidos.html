@@ -121,11 +121,9 @@
     display:flex; align-items:flex-end; color: var(--cosmos-ink);
   }
   .hero-bg{
-    position:absolute; inset:-4%; z-index:0;
-    background-image:url('assets/hero-pizza.jpg'); background-size:cover; background-position:center 60%;
-    animation: heroZoom 17s ease-in-out infinite alternate;
+    position:absolute; inset:0; z-index:0; width:100%; height:100%;
+    object-fit:cover; object-position:center 55%;
   }
-  @keyframes heroZoom{ from{ transform:scale(1); } to{ transform:scale(1.1); } }
   .hero-scrim{
     position:absolute; inset:0; z-index:1;
     background:
@@ -152,47 +150,33 @@
   }
   .tab[aria-selected="true"]{ background:var(--flare); border-color:var(--flare); color:#fff; }
 
-  /* ---------- menu grid (tarjetas estilo "signature") ---------- */
-  .menu-grid{
-    display:grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap:20px; margin-bottom: 38px;
-  }
+  /* ---------- carta: lista editorial (al estilo de la carta real) ---------- */
+  .section-header{ margin: 30px 0 4px; }
   .section-eyebrow{
-    font-family:'Space Mono', monospace; text-transform:uppercase; letter-spacing:.14em; font-size:.74rem;
+    font-family:'Space Mono', monospace; text-transform:uppercase; letter-spacing:.16em; font-size:.72rem;
     color: var(--flare-dark); margin: 0; display:block;
   }
-  .menu-section-title{ margin: 2px 0 14px; font-size:1.3rem; }
+  .menu-section-title{ margin: 2px 0 0; font-size: clamp(1.6rem, 3.4vw, 2.1rem); }
+  .section-rule{ height:2px; background: linear-gradient(90deg, var(--flare) 0%, var(--gold) 45%, transparent 100%); margin: 12px 0 2px; border:0; }
 
-  .card{
-    font: inherit; text-align:left; background:var(--surface); border-radius:18px; overflow:hidden;
-    box-shadow:var(--shadow-card); border:1px solid var(--line); cursor:pointer; position:relative;
-    display:flex; flex-direction:column;
+  .menu-list{ display:flex; flex-direction:column; margin-bottom: 36px; }
+  .menu-row{
+    font:inherit; text-align:left; background:none; border:0; border-bottom:1px solid var(--line);
+    width:100%; display:flex; align-items:center; gap:16px; padding:17px 4px; cursor:pointer;
   }
-  .card:hover, .card:focus-visible{ border-color:var(--flare); }
-  .card-media{
-    aspect-ratio: 4 / 3; display:flex; align-items:center; justify-content:center;
-    background: radial-gradient(ellipse at 50% 30%, var(--surface-2) 0%, var(--cream) 100%);
-    position:relative;
+  .menu-row:hover, .menu-row:focus-visible{ background: color-mix(in srgb, var(--flare) 6%, transparent); }
+  .row-num{ font-family:'Space Mono'; color:var(--flare-dark); font-weight:700; font-size:.82rem; flex:none; width:2.5em; }
+  .row-main{ flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
+  .row-name{ font-family:'Playfair Display', Georgia, serif; font-weight:700; font-size:1.08rem; color:var(--ink); }
+  .row-tag{ font-style:italic; color:var(--flare-dark); font-size:.82rem; }
+  .row-desc{ color:var(--ink-soft); font-size:.84rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .row-end{ flex:none; display:flex; align-items:center; gap:10px; }
+  .row-price{ font-family:'Space Mono'; font-weight:700; color:var(--ink); white-space:nowrap; }
+  .row-badge{
+    background:var(--flare); color:#fff; font-family:'Space Mono'; font-weight:700; font-size:.72rem;
+    min-width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; padding:0 4px;
   }
-  .card-media .planet{ --d: clamp(86px, 22vw, 128px); }
-  .card-tag{
-    position:absolute; top:12px; left:12px; background: var(--flare); color:#fff; font-size:.68rem; font-weight:700;
-    text-transform:uppercase; letter-spacing:.04em; padding:4px 10px; border-radius:999px;
-  }
-  .card-badge{
-    position:absolute; top:10px; right:10px; background:var(--cosmos); color:var(--cosmos-ink); font-family:'Space Mono'; font-weight:700;
-    font-size:.78rem; min-width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center;
-    padding:0 4px; box-shadow:0 2px 6px rgba(0,0,0,.3);
-  }
-  .card-body{ padding: 14px 16px 16px; display:flex; flex-direction:column; gap:6px; flex:1; }
-  .card-name{ font-size:1.08rem; margin:0; }
-  .card-desc{ color:var(--ink-soft); font-size:.85rem; margin:0; flex:1; }
   .item-desc{ color:var(--ink-soft); font-size:.9rem; margin:0; }
-  .card-footer{
-    display:flex; justify-content:space-between; align-items:center; gap:10px;
-    border-top:1px solid var(--line); margin-top:10px; padding-top:12px;
-  }
-  .card-price{ font-family:'Space Mono'; font-weight:700; }
-  .card-cta{ font-size:.85rem; padding:9px 16px; min-height:40px; }
 
   /* ---------- item modal (gusto -> tamaño -> cantidad) ---------- */
   .modal-overlay{
@@ -409,7 +393,9 @@
     <!-- ===================== CUSTOMER: MENU ===================== -->
     <section class="screen" id="screen-menu" data-screen>
       <div class="hero">
-        <div class="hero-bg" aria-hidden="true"></div>
+        <video class="hero-bg" id="heroVideo" aria-hidden="true" autoplay muted loop playsinline preload="auto" poster="assets/hero-pizza.jpg">
+          <source src="assets/hero-pizza.mp4" type="video/mp4">
+        </video>
         <div class="hero-scrim" aria-hidden="true"></div>
         <div class="hero-content">
           <p class="hero-eyebrow">Desde 2008 · Santa Fe</p>
@@ -575,7 +561,7 @@
   "use strict";
 
   var MENU = {
-    pizzas: { label:"Pizzas", items:[
+    pizzas: { label:"Nuestras Pizzas", eyebrow:"Carta #PizzaFan", items:[
       { id:'p1', num:1, name:'Muzzarella', desc:'Salsa de tomate y muzzarella.', planet:'muzzarella', prices:{chica:10500, planetaMitad:9000, planetaEntera:18000, grandeMitad:11500, grandeEntera:23000} },
       { id:'p2', num:2, name:'Jamón y aceitunas', desc:'Muzzarella, jamón cocido, salsa de tomates y aceitunas.', planet:'especial', prices:{chica:13000, planetaMitad:11000, planetaEntera:22000, grandeMitad:13500, grandeEntera:27000} },
       { id:'p3', num:3, name:'Panceta', desc:'Panceta, muzzarella y salsa de tomates.', planet:'panceta', prices:{chica:13000, planetaMitad:11000, planetaEntera:22000, grandeMitad:13500, grandeEntera:27000} },
@@ -608,12 +594,12 @@
       { id:'p42', num:42, name:'Superespecial', desc:'Jamón cocido, rodajas de tomate, morrones, huevo, muzzarella y salsa de tomates.', planet:'especial', prices:{chica:14000, planetaMitad:11500, planetaEntera:23000, grandeMitad:14000, grandeEntera:28000} },
       { id:'p43', num:43, name:'La cheta', desc:'Rúcula, tomates disecados, queso sardo, muzzarella y salsa de tomates.', planet:'rucula', prices:{chica:13500, planetaMitad:11500, planetaEntera:23000, grandeMitad:14000, grandeEntera:28000} }
     ]},
-    italiano: { label:"Estilo italiano", items:[
+    italiano: { label:"Planeta Estilo Italiano", eyebrow:"Pizzas gourmet · masa madre", items:[
       { id:'it-margherita', name:'Margherita', nickname:'8 porciones · Exclusivo Planeta Centro', desc:'Salsa de tomate, mozzarella, albahaca fresca y aceite de oliva.', planet:'napolitana', prices:{unica:22000} },
       { id:'it-pepperoni', name:'Pepperoni', nickname:'8 porciones · Exclusivo Planeta Centro', desc:'Salsa de tomate, mozzarella y pepperoni.', planet:'calabresa', prices:{unica:24000} },
       { id:'it-portobella', name:'Portobella', nickname:'8 porciones · Exclusivo Planeta Centro', desc:'Salsa de tomate, mozzarella, panceta ahumada, hongos portobello frescos, ciboulette y aceite de oliva.', planet:'roquefort', prices:{unica:27000} }
     ]},
-    empanadas: { label:"Empanadas", items:[
+    empanadas: { label:"Empanadas", eyebrow:"Carta Planeta", items:[
       { id:'e-carnesalada', name:'Carne salada', desc:'Artesanales al horno.', planet:'carne', prices:{unidad:3000, mediaDocena:17000, docena:33000} },
       { id:'e-carnedulce', name:'Carne dulce', desc:'Artesanales al horno.', planet:'carne', prices:{unidad:3000, mediaDocena:17000, docena:33000} },
       { id:'e-caprese', name:'Caprese', desc:'Artesanales al horno.', planet:'napolitana', prices:{unidad:3000, mediaDocena:17000, docena:33000} },
@@ -631,7 +617,7 @@
       { id:'e-cerdobbq', name:'Cerdo a la barbacoa', nickname:'Edición limitada', desc:'Línea Gourmet.', planet:'carne', prices:{unidad:3600, mediaDocena:20000, docena:39000} },
       { id:'e-roquefortnuez', name:'Roquefort y nueces', nickname:'Edición limitada', desc:'Línea Gourmet.', planet:'roquefort', prices:{unidad:3600, mediaDocena:20000, docena:39000} }
     ]},
-    tartas: { label:"Tartas", items:[
+    tartas: { label:"Tartas", eyebrow:"Carta Planeta", items:[
       { id:'t-jamonqueso', name:'Jamón y queso', desc:'', planet:'muzzarella', prices:{individual:14000, grande:20000} },
       { id:'t-puerropanceta', name:'Puerro y panceta', desc:'', planet:'panceta', prices:{individual:14000, grande:20000} },
       { id:'t-caprese', name:'Caprese', desc:'', planet:'napolitana', prices:{individual:14000, grande:20000} },
@@ -644,7 +630,7 @@
       { id:'t-puerrochamp', name:'Puerro y champiñones', desc:'', planet:'roquefort', prices:{individual:14000, grande:20000} },
       { id:'t-brocoli', name:'Brócoli', desc:'', planet:'rucula', prices:{individual:14000, grande:20000} }
     ]},
-    hamburguesas: { label:"Hamburguesas", items:[
+    hamburguesas: { label:"Hamburguesas", eyebrow:"Desde el planeta, con papas", items:[
       { id:'h-halley', name:'Halley', desc:'Carne, pan artesanal, queso cheddar, panceta y papas fritas.', planet:'carne', prices:{unica:14000} },
       { id:'h-doblehalley', name:'Doble Halley', desc:'Doble carne, pan artesanal, queso cheddar, panceta, huevo frito y papas fritas.', planet:'carne', prices:{unica:17000} },
       { id:'h-cosmica', name:'Cósmica', desc:'Carne, pan artesanal, lechuga, tomate y papas fritas.', planet:'especial', prices:{unica:11000} },
@@ -659,7 +645,7 @@
       { id:'h-extracebolla', name:'Extra: cebolla morada', nickname:'Adicional para tu hamburguesa', desc:'', planet:'rucula', prices:{unica:1000} },
       { id:'h-extrapepinos', name:'Extra: pepinos agridulces', nickname:'Adicional para tu hamburguesa', desc:'', planet:'dulce', prices:{unica:1500} }
     ]},
-    promos: { label:"Promos", items:[
+    promos: { label:"Promos", eyebrow:"Ofertas de la semana", items:[
       { id:'promo-12porciones', name:'Pizza de 12 porciones, 3 sabores a elección', desc:'Elegí tus 3 sabores de la carta de pizzas y escribilos en las notas de tu pedido.', planet:'especial', prices:{unica:28000} },
       { id:'kit-casa', name:'Kit Planeta en casa', desc:'2 masas Planeta pre cocidas + muzzarella molida + salsa de tomate, para armar 2 pizzas en casa. Elegí los 2 tipos de masa (ovalada tradicional o estilo italiano) en las notas de tu pedido.', planet:'dulce', prices:{unica:26000} }
     ]}
@@ -738,18 +724,22 @@
 
   function renderMenu(){
     sectionsEl.innerHTML = '';
-    Object.keys(MENU).forEach(function(cat, catIndex){
+    Object.keys(MENU).forEach(function(cat){
       var section = document.createElement('section');
       section.id = 'cat-' + cat;
 
+      var header = document.createElement('div'); header.className = 'section-header';
       var eyebrow = document.createElement('span'); eyebrow.className = 'section-eyebrow';
-      eyebrow.textContent = '// ' + String(catIndex + 1).padStart(2, '0');
-      section.appendChild(eyebrow);
-
+      eyebrow.textContent = MENU[cat].eyebrow || MENU[cat].label;
+      header.appendChild(eyebrow);
       var h = document.createElement('h2');
       h.className = 'menu-section-title'; h.textContent = MENU[cat].label;
-      section.appendChild(h);
-      var grid = document.createElement('div'); grid.className = 'menu-grid';
+      header.appendChild(h);
+      var rule = document.createElement('hr'); rule.className = 'section-rule';
+      header.appendChild(rule);
+      section.appendChild(header);
+
+      var list = document.createElement('div'); list.className = 'menu-list';
 
       MENU[cat].items.forEach(function(item){
         var sizes = sizeKeys(item);
@@ -757,51 +747,42 @@
         var minPrice = Math.min.apply(null, prices);
         var qty = qtyInCartFor(item.id);
 
-        var card = document.createElement('button');
-        card.type = 'button'; card.className = 'card'; card.setAttribute('aria-haspopup','dialog');
-        card.setAttribute('aria-label', item.name + ', ' + (sizes.length > 1 ? 'desde ' : '') + fmt(minPrice));
+        var row = document.createElement('button');
+        row.type = 'button'; row.className = 'menu-row'; row.setAttribute('aria-haspopup','dialog');
+        row.setAttribute('aria-label', item.name + ', ' + (sizes.length > 1 ? 'desde ' : '') + fmt(minPrice));
 
-        var media = document.createElement('div'); media.className = 'card-media';
-        var planet = document.createElement('div'); planet.className = 'planet planet--' + item.planet;
-        planet.setAttribute('aria-hidden','true');
-        media.appendChild(planet);
         if (item.num){
-          var numTag = document.createElement('span'); numTag.className = 'card-tag'; numTag.textContent = 'N° ' + item.num;
-          media.appendChild(numTag);
+          var num = document.createElement('span'); num.className = 'row-num'; num.textContent = 'N° ' + item.num;
+          row.appendChild(num);
         }
-        if (qty > 0){
-          var badge = document.createElement('span'); badge.className = 'card-badge'; badge.textContent = qty;
-          media.appendChild(badge);
-        }
-        card.appendChild(media);
 
-        var body = document.createElement('div'); body.className = 'card-body';
-        var nm = document.createElement('h3'); nm.className = 'card-name'; nm.textContent = item.name;
-        body.appendChild(nm);
+        var main = document.createElement('span'); main.className = 'row-main';
+        var nm = document.createElement('span'); nm.className = 'row-name'; nm.textContent = item.name;
+        main.appendChild(nm);
         if (item.nickname){
-          var nick = document.createElement('p'); nick.className = 'card-desc'; nick.style.fontStyle = 'italic'; nick.style.color = 'var(--flare-dark)'; nick.textContent = item.nickname;
-          body.appendChild(nick);
+          var nick = document.createElement('span'); nick.className = 'row-tag'; nick.textContent = item.nickname;
+          main.appendChild(nick);
+        } else if (item.desc){
+          var d = document.createElement('span'); d.className = 'row-desc'; d.textContent = item.desc;
+          main.appendChild(d);
         }
-        if (item.desc){
-          var d = document.createElement('p'); d.className = 'card-desc'; d.textContent = item.desc;
-          body.appendChild(d);
-        }
+        row.appendChild(main);
 
-        var footer = document.createElement('div'); footer.className = 'card-footer';
-        var price = document.createElement('span'); price.className = 'card-price mono';
+        var end = document.createElement('span'); end.className = 'row-end';
+        var price = document.createElement('span'); price.className = 'row-price mono';
         price.textContent = sizes.length > 1 ? ('Desde ' + fmt(minPrice)) : fmt(minPrice);
-        footer.appendChild(price);
-        var cta = document.createElement('span'); cta.className = 'btn btn-primary card-cta';
-        cta.textContent = qty > 0 ? ('En tu pedido (' + qty + ')') : 'Agregar';
-        footer.appendChild(cta);
-        body.appendChild(footer);
+        end.appendChild(price);
+        if (qty > 0){
+          var badge = document.createElement('span'); badge.className = 'row-badge'; badge.textContent = qty;
+          end.appendChild(badge);
+        }
+        row.appendChild(end);
 
-        card.appendChild(body);
-        card.addEventListener('click', function(){ openItemModal(item); });
-        grid.appendChild(card);
+        row.addEventListener('click', function(){ openItemModal(item); });
+        list.appendChild(row);
       });
 
-      section.appendChild(grid);
+      section.appendChild(list);
       sectionsEl.appendChild(section);
     });
   }
@@ -1211,6 +1192,14 @@
     applyTextSize(!on);
     try{ localStorage.setItem('pp_text_xl', !on ? '1' : '0'); }catch(e){}
   });
+
+  /* ---------------- hero video: respect reduced motion ---------------- */
+  try{
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      var heroVideo = document.getElementById('heroVideo');
+      if (heroVideo){ heroVideo.removeAttribute('autoplay'); heroVideo.pause(); }
+    }
+  }catch(e){}
 
   /* ---------------- init ---------------- */
   renderTabs();
