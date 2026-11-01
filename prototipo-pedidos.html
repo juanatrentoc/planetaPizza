@@ -54,14 +54,10 @@
     display:flex; align-items:center; justify-content:flex-end; gap:16px;
     padding-block:14px; flex-wrap:wrap; min-height:1px;
   }
-  .hero-brand{ display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+  .hero-title-row{ display:flex; align-items:center; gap:12px; margin-bottom:4px; }
   .hero-brand-logo{
-    width:34px; height:34px; border-radius:50%; object-fit:cover; flex:none;
+    width:44px; height:44px; border-radius:50%; object-fit:cover; flex:none;
     box-shadow: 0 2px 8px rgba(0,0,0,.35);
-  }
-  .hero-brand-name{
-    font-family:'Figtree'; font-weight:700; font-size:.78rem; letter-spacing:.14em; text-transform:uppercase;
-    color: var(--ink-soft);
   }
 
   .header-actions{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
@@ -119,7 +115,7 @@
     font-family:'Figtree', sans-serif; text-transform:uppercase; letter-spacing:.16em; font-size:.72rem;
     color: var(--gold); margin:0 0 12px;
   }
-  .hero h1{ font-size: clamp(1.7rem, 4vw, 2.6rem); line-height:1.05; margin:0 0 .5rem; letter-spacing:.01em; }
+  .hero h1{ font-size: clamp(1.7rem, 4vw, 2.6rem); line-height:1.05; margin:0; letter-spacing:.01em; }
   .hero-tagline{
     display:block; font-family:'Fraunces', Georgia, serif; font-style:italic; font-weight:500;
     font-size: clamp(1rem, 2vw, 1.3rem); color: var(--gold); margin-top:4px;
@@ -328,14 +324,13 @@
   .qty-controls{ display:flex; align-items:center; gap:10px; }
   .qty-value{ font-family:'Figtree'; font-weight:700; min-width:1.4em; text-align:center; font-size:1.15rem; }
 
-  /* ---------- sticky cart bar ---------- */
+  /* ---------- floating cart button (derecha) ---------- */
   .cart-bar{
-    position:sticky; bottom:14px; z-index:40; display:flex; justify-content:center; margin-top: 18px;
+    position:fixed; right: clamp(14px,3vw,28px); bottom: clamp(14px,3vw,28px); z-index:40;
   }
   .cart-bar-inner{
     background:var(--cosmos); color:var(--cosmos-ink); border-radius:var(--radius-pill);
-    padding:12px 10px 12px 22px; display:flex; align-items:center; gap:16px; box-shadow:0 14px 30px -10px rgba(0,0,0,.4);
-    width:100%; max-width:560px;
+    padding:14px 22px; display:flex; align-items:center; gap:14px; box-shadow:0 14px 30px -10px rgba(0,0,0,.5);
   }
   .cart-bar-text{ font-weight:700; }
   .cart-bar-total{ font-family:'Figtree'; }
@@ -425,9 +420,7 @@
     <!-- ===================== CUSTOMER: MENU ===================== -->
     <section class="screen" id="screen-menu" data-screen>
       <div class="hero">
-        <video class="hero-bg" id="heroVideo" aria-hidden="true" autoplay muted loop playsinline preload="auto" poster="assets/hero-pizza.jpg">
-          <source src="assets/hero-pizza.mp4" type="video/mp4">
-        </video>
+        <img class="hero-bg" src="assets/hero-pizza.jpg" alt="" aria-hidden="true">
         <div class="hero-scrim" aria-hidden="true"></div>
         <div class="hero-frame" aria-hidden="true">
           <span class="hf-corner tl"></span>
@@ -437,12 +430,12 @@
           <span class="hf-readout tr">HORNO DE PIEDRA · AL PUNTO</span>
         </div>
         <div class="hero-content">
-          <div class="hero-brand">
-            <img class="hero-brand-logo" src="assets/logo-planeta.jpg" alt="Logo de Planeta Pizza">
-            <span class="hero-brand-name">Planeta Pizza</span>
-          </div>
           <p class="hero-eyebrow">// Desde 2008 · Santa Fe</p>
-          <h1>Planeta Pizza<span class="hero-tagline">// pizza artesanal, sabor fuera de este mundo</span></h1>
+          <div class="hero-title-row">
+            <img class="hero-brand-logo" src="assets/logo-planeta.jpg" alt="Logo de Planeta Pizza">
+            <h1>Planeta Pizza</h1>
+          </div>
+          <span class="hero-tagline">// pizza artesanal, sabor fuera de este mundo</span>
           <p class="hero-desc">Pizzas, empanadas, tartas y hamburguesas para pedir online, con retiro en el local o envío a domicilio.</p>
           <div class="hero-cta">
             <button class="btn btn-primary btn-lg" id="verCartaBtn" type="button">Ver la carta</button>
@@ -484,7 +477,6 @@
       <div class="cart-bar" id="cartBar" hidden>
         <button class="cart-bar-inner btn" id="cartBarBtn" type="button" style="border:0;">
           <span class="cart-bar-text">Ver mi pedido</span>
-          <span style="flex:1"></span>
           <span class="mono" id="cartBarCount">0</span>
           <span class="cart-bar-total mono" id="cartBarTotal">$0</span>
         </button>
@@ -1270,14 +1262,6 @@
   document.getElementById('backToMenuFromAdmin').addEventListener('click', function(){ goScreen('menu'); });
   // Nota: el acceso al panel del local se maneja aparte (ruta /admin con contraseña,
   // a definir). Esta pantalla queda sin botón de entrada en el sitio de pedidos.
-
-  /* ---------------- hero video: respect reduced motion ---------------- */
-  try{
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-      var heroVideo = document.getElementById('heroVideo');
-      if (heroVideo){ heroVideo.removeAttribute('autoplay'); heroVideo.pause(); }
-    }
-  }catch(e){}
 
   /* ---------------- init ---------------- */
   renderTabs();
