@@ -157,7 +157,16 @@
   .tab[aria-selected="true"]{ background:var(--flare); border-color:var(--flare); color:#fff; }
 
   /* ---------- menu grid (tarjetas estilo "signature", tema oscuro) ---------- */
+  .section-header-wrap{ margin-top:8px; }
   .section-header{ margin: 30px 0 18px; }
+  .process-grid{
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap:18px; margin-bottom:38px;
+  }
+  .process-tile{
+    border:1px solid var(--line); border-radius:16px; padding:18px 20px; background:var(--surface);
+  }
+  .process-title{ font-family:'Playfair Display', Georgia, serif; font-weight:700; color:var(--gold); display:block; margin-bottom:6px; }
+  .process-tile p{ margin:0; color:var(--ink-soft); font-size:.9rem; }
   .section-eyebrow{
     font-family:'Space Mono', monospace; text-transform:uppercase; letter-spacing:.16em; font-size:.72rem;
     color: var(--gold); margin: 0; display:block;
@@ -223,6 +232,16 @@
   .modal-panel h3{ text-align:center; margin:2px 0 4px; }
   .modal-item-nick{ text-align:center; color:var(--flare-dark); font-style:italic; font-size:.85rem; margin:0 0 10px; }
   .modal-item-desc{ text-align:center; margin-bottom:16px; }
+
+  .step-label{
+    font-family:'Space Mono', monospace; text-transform:uppercase; letter-spacing:.08em; font-size:.74rem;
+    color: var(--flare); font-weight:700; display:block; margin-bottom:8px;
+  }
+  .total-build{ margin-top:18px; }
+  .total-build-row{ display:flex; justify-content:space-between; align-items:baseline; font-size:1.1rem; font-weight:800; margin-bottom:8px; }
+  .total-build-label{ font-family:'Space Mono', monospace; text-transform:uppercase; letter-spacing:.06em; font-size:.74rem; font-weight:700; color:var(--ink-soft); }
+  .total-build-track{ height:6px; border-radius:999px; background:var(--surface-2); overflow:hidden; }
+  .total-build-fill{ height:100%; width:0%; background: linear-gradient(90deg, var(--flare), var(--gold)); transition: width .25s ease; }
 
   .size-choice-row{ display:flex; gap:8px; flex-wrap:wrap; }
   .size-choice{
@@ -439,9 +458,52 @@
         </div>
       </div>
 
+      <section class="section-header-wrap">
+        <div class="section-header">
+          <span class="section-eyebrow">// 01 — Nuestra selección</span>
+          <h2 class="menu-section-title">Especiales Planeta</h2>
+          <hr class="section-rule">
+        </div>
+        <div class="menu-grid" id="signatureGrid"></div>
+      </section>
+
+      <section class="section-header-wrap">
+        <div class="section-header">
+          <span class="section-eyebrow">// 02 — Elegí tu pedido</span>
+          <h2 class="menu-section-title">Toda la carta</h2>
+          <hr class="section-rule">
+        </div>
+      </section>
+
       <nav class="category-tabs" role="tablist" aria-label="Categorías del menú" id="categoryTabs"></nav>
 
       <div id="menuSections"></div>
+
+      <section class="section-header-wrap">
+        <div class="section-header">
+          <span class="section-eyebrow">// 03 — Nuestro proceso</span>
+          <h2 class="menu-section-title">Desde 2008, a fuego real</h2>
+          <hr class="section-rule">
+        </div>
+        <div class="process-grid">
+          <div class="process-tile">
+            <span class="process-title">Desde 2008</span>
+            <p>Dos sucursales en Santa Fe: Centro y Guadalupe.</p>
+          </div>
+          <div class="process-tile">
+            <span class="process-title">Masa a la parrilla</span>
+            <p>Nuestra masa ovalada tradicional, ideal para cocción a la parrilla.</p>
+          </div>
+          <div class="process-tile">
+            <span class="process-title">Masa madre</span>
+            <p>La línea Estilo Italiano se hace con masa madre y cocción en horno.</p>
+          </div>
+          <div class="process-tile">
+            <span class="process-title">Ingredientes reales</span>
+            <p>Muzzarella, salsa de tomate y frescos de verdad, sin atajos.</p>
+          </div>
+        </div>
+      </section>
 
       <div class="cart-bar" id="cartBar" hidden>
         <button class="cart-bar-inner btn" id="cartBarBtn" type="button" style="border:0;">
@@ -559,20 +621,31 @@
       <p class="item-desc modal-item-desc" id="modalItemDesc"></p>
 
       <div class="field" id="modalSizeField">
-        <label id="modalSizeLabel">Tamaño</label>
+        <label id="modalSizeLabel" class="step-label">Paso 1 — Elegí el tamaño</label>
         <div class="size-choice-row" id="modalSizeChoices" role="group" aria-labelledby="modalSizeLabel"></div>
       </div>
 
-      <div class="qty-row">
-        <span style="font-weight:700;">Cantidad</span>
-        <div class="qty-controls">
-          <button class="btn-step" type="button" id="modalMinus" aria-label="Quitar uno">−</button>
-          <span class="qty-value mono" id="modalQtyValue">1</span>
-          <button class="btn-step" type="button" id="modalPlus" aria-label="Agregar uno">+</button>
+      <div class="field">
+        <label class="step-label">Paso 2 — Cantidad</label>
+        <div class="qty-row">
+          <span>¿Cuántas querés?</span>
+          <div class="qty-controls">
+            <button class="btn-step" type="button" id="modalMinus" aria-label="Quitar uno">−</button>
+            <span class="qty-value mono" id="modalQtyValue">1</span>
+            <button class="btn-step" type="button" id="modalPlus" aria-label="Agregar uno">+</button>
+          </div>
         </div>
       </div>
 
-      <button class="btn btn-primary btn-block" type="button" id="modalAddBtn" style="margin-top:18px;">Agregar — <span class="mono" id="modalAddPrice"></span></button>
+      <div class="total-build">
+        <div class="total-build-row">
+          <span class="total-build-label">Total del pedido</span>
+          <span class="mono" id="modalAddPrice"></span>
+        </div>
+        <div class="total-build-track"><div class="total-build-fill" id="modalTotalFill"></div></div>
+      </div>
+
+      <button class="btn btn-primary btn-block" type="button" id="modalAddBtn" style="margin-top:14px;">Agregar al pedido</button>
     </div>
   </div>
 
@@ -754,7 +827,69 @@
     return cartArray().filter(function(l){ return l.id === itemId; }).reduce(function(s,l){ return s + l.qty; }, 0);
   }
 
+  function buildItemCard(item){
+    var sizes = sizeKeys(item);
+    var prices = sizes.map(function(s){ return item.prices[s]; });
+    var minPrice = Math.min.apply(null, prices);
+    var qty = qtyInCartFor(item.id);
+
+    var card = document.createElement('button');
+    card.type = 'button'; card.className = 'card'; card.setAttribute('aria-haspopup','dialog');
+    card.setAttribute('aria-label', item.name + ', ' + (sizes.length > 1 ? 'desde ' : '') + fmt(minPrice));
+
+    var media = document.createElement('div'); media.className = 'card-media';
+    var planet = document.createElement('div'); planet.className = 'planet planet--' + item.planet;
+    planet.setAttribute('aria-hidden','true');
+    media.appendChild(planet);
+    if (item.num){
+      var numTag = document.createElement('span'); numTag.className = 'card-tag'; numTag.textContent = 'N° ' + item.num;
+      media.appendChild(numTag);
+    }
+    if (qty > 0){
+      var badge = document.createElement('span'); badge.className = 'card-badge'; badge.textContent = qty;
+      media.appendChild(badge);
+    }
+    card.appendChild(media);
+
+    var body = document.createElement('div'); body.className = 'card-body';
+    var nm = document.createElement('h3'); nm.className = 'card-name'; nm.textContent = item.name;
+    body.appendChild(nm);
+    if (item.nickname){
+      var nick = document.createElement('p'); nick.className = 'card-desc'; nick.style.fontStyle = 'italic'; nick.style.color = 'var(--flare-dark)'; nick.textContent = item.nickname;
+      body.appendChild(nick);
+    }
+    if (item.desc){
+      var d = document.createElement('p'); d.className = 'card-desc'; d.textContent = item.desc;
+      body.appendChild(d);
+    }
+
+    var footer = document.createElement('div'); footer.className = 'card-footer';
+    var price = document.createElement('span'); price.className = 'card-price mono';
+    price.textContent = sizes.length > 1 ? ('Desde ' + fmt(minPrice)) : fmt(minPrice);
+    footer.appendChild(price);
+    var cta = document.createElement('span'); cta.className = 'btn btn-primary card-cta';
+    cta.textContent = qty > 0 ? ('En tu pedido (' + qty + ')') : 'Agregar';
+    footer.appendChild(cta);
+    body.appendChild(footer);
+
+    card.appendChild(body);
+    card.addEventListener('click', function(){ openItemModal(item); });
+    return card;
+  }
+
+  var SIGNATURE_IDS = ['p20', 'p21', 'p12'];
+  function renderSignature(){
+    var grid = document.getElementById('signatureGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    SIGNATURE_IDS.forEach(function(id){
+      var item = findItem(id);
+      if (item) grid.appendChild(buildItemCard(item));
+    });
+  }
+
   function renderMenu(){
+    renderSignature();
     sectionsEl.innerHTML = '';
     Object.keys(MENU).forEach(function(cat){
       var section = document.createElement('section');
@@ -772,56 +907,7 @@
       section.appendChild(header);
 
       var grid = document.createElement('div'); grid.className = 'menu-grid';
-
-      MENU[cat].items.forEach(function(item){
-        var sizes = sizeKeys(item);
-        var prices = sizes.map(function(s){ return item.prices[s]; });
-        var minPrice = Math.min.apply(null, prices);
-        var qty = qtyInCartFor(item.id);
-
-        var card = document.createElement('button');
-        card.type = 'button'; card.className = 'card'; card.setAttribute('aria-haspopup','dialog');
-        card.setAttribute('aria-label', item.name + ', ' + (sizes.length > 1 ? 'desde ' : '') + fmt(minPrice));
-
-        var media = document.createElement('div'); media.className = 'card-media';
-        var planet = document.createElement('div'); planet.className = 'planet planet--' + item.planet;
-        planet.setAttribute('aria-hidden','true');
-        media.appendChild(planet);
-        if (item.num){
-          var numTag = document.createElement('span'); numTag.className = 'card-tag'; numTag.textContent = 'N° ' + item.num;
-          media.appendChild(numTag);
-        }
-        if (qty > 0){
-          var badge = document.createElement('span'); badge.className = 'card-badge'; badge.textContent = qty;
-          media.appendChild(badge);
-        }
-        card.appendChild(media);
-
-        var body = document.createElement('div'); body.className = 'card-body';
-        var nm = document.createElement('h3'); nm.className = 'card-name'; nm.textContent = item.name;
-        body.appendChild(nm);
-        if (item.nickname){
-          var nick = document.createElement('p'); nick.className = 'card-desc'; nick.style.fontStyle = 'italic'; nick.style.color = 'var(--flare-dark)'; nick.textContent = item.nickname;
-          body.appendChild(nick);
-        }
-        if (item.desc){
-          var d = document.createElement('p'); d.className = 'card-desc'; d.textContent = item.desc;
-          body.appendChild(d);
-        }
-
-        var footer = document.createElement('div'); footer.className = 'card-footer';
-        var price = document.createElement('span'); price.className = 'card-price mono';
-        price.textContent = sizes.length > 1 ? ('Desde ' + fmt(minPrice)) : fmt(minPrice);
-        footer.appendChild(price);
-        var cta = document.createElement('span'); cta.className = 'btn btn-primary card-cta';
-        cta.textContent = qty > 0 ? ('En tu pedido (' + qty + ')') : 'Agregar';
-        footer.appendChild(cta);
-        body.appendChild(footer);
-
-        card.appendChild(body);
-        card.addEventListener('click', function(){ openItemModal(item); });
-        grid.appendChild(card);
-      });
+      MENU[cat].items.forEach(function(item){ grid.appendChild(buildItemCard(item)); });
 
       section.appendChild(grid);
       sectionsEl.appendChild(section);
@@ -911,8 +997,14 @@
     var item = modalState.item;
     if (!item) return;
     var unit = item.prices[modalState.size];
+    var total = unit * modalState.qty;
     document.getElementById('modalQtyValue').textContent = modalState.qty;
-    document.getElementById('modalAddPrice').textContent = fmt(unit * modalState.qty);
+    document.getElementById('modalAddPrice').textContent = fmt(total);
+
+    var maxUnit = Math.max.apply(null, sizeKeys(item).map(function(s){ return item.prices[s]; }));
+    var pct = Math.min(100, (total / (maxUnit * 3)) * 100);
+    var fillEl = document.getElementById('modalTotalFill');
+    if (fillEl) fillEl.style.width = pct + '%';
   }
 
   document.getElementById('modalMinus').addEventListener('click', function(){
