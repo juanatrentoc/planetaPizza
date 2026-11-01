@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Planeta Pizza — Plan: paneles de administración</title>
+<style>
+  @media print {
+    @page { margin: 2cm; }
+    body { font-size: 11pt; }
+    .no-print { display: none; }
+  }
+  body{
+    font-family: Georgia, 'Times New Roman', serif;
+    max-width: 780px; margin: 0 auto; padding: 40px 24px 80px;
+    color: #241017; line-height: 1.55; background:#fff;
+  }
+  h1{ font-size: 1.7rem; color:#7A1A2B; margin-bottom:4px; }
+  .subtitle{ color:#6b5a60; font-size:.95rem; margin-top:0; margin-bottom:30px; }
+  h2{
+    font-size: 1.15rem; color:#7A1A2B; border-bottom: 2px solid #7A1A2B;
+    padding-bottom:6px; margin-top:38px;
+  }
+  h3{ font-size:1rem; color:#4a1a22; margin-bottom:6px; }
+  p{ margin: 8px 0; }
+  ul, ol{ margin:8px 0; padding-left:22px; }
+  li{ margin-bottom:5px; }
+  table{ border-collapse:collapse; width:100%; margin:14px 0; font-size:.92rem; }
+  th, td{ border:1px solid #d8c8cb; padding:8px 10px; text-align:left; }
+  th{ background:#f5efe6; color:#4a1a22; }
+  .callout{
+    background:#f9f3ea; border-left:4px solid #C8102E; padding:12px 16px;
+    margin:16px 0; font-size:.95rem;
+  }
+  .callout strong{ color:#C8102E; }
+  .question{
+    background:#fbeef0; border:1px solid #e3c3c9; border-radius:8px;
+    padding:12px 16px; margin:10px 0;
+  }
+  .question strong{ color:#7A1A2B; }
+  .print-note{
+    background:#fff6d8; border:1px solid #e0cf8f; padding:12px 16px; border-radius:8px;
+    margin-bottom:30px; font-family: Arial, sans-serif; font-size:.9rem;
+  }
+  code{ background:#f2eae7; padding:1px 5px; border-radius:4px; font-size:.9em; }
+  .toc{ font-family: Arial, sans-serif; font-size:.92rem; }
+  .toc a{ color:#7A1A2B; text-decoration:none; }
+</style>
+</head>
+<body>
+
+  <div class="print-note no-print">
+    📄 Para guardarlo como PDF: <strong>Ctrl+P</strong> (o Cmd+P en Mac) → destino "Guardar como PDF".
+  </div>
+
+  <h1>Planeta Pizza — Plan de paneles de administración</h1>
+  <p class="subtitle">Documento de revisión — antes de programar nada. 30/10/2026 (actualizado 01/11/2026)</p>
+
+  <div class="toc">
+    <strong>Contenido:</strong>
+    1. Decisión técnica de base ·
+    2. Panel <code>/admin</code> (local) ·
+    3. Panel <code>/adminSup</code> (base de datos) ·
+    4. Clientes ·
+    5. Qué cambia en el proyecto ·
+    6. Lo que necesito que confirmes
+  </div>
+
+  <h2>1. Decisión técnica de base</h2>
+  <p>
+    Lo que pediste (pedidos que le saltan en vivo al local, estados que se actualizan en tiempo real,
+    precios/productos editables de forma permanente) <strong>no se puede hacer de forma segura</strong>
+    en el archivo HTML suelto que tenemos hoy — no tiene "atrás" ningún servidor ni base de datos real;
+    todo vive en el navegador de cada persona (localStorage).
+  </p>
+  <p>
+    La solución es convertir este proyecto en un <strong>Artifact publicado de Claude</strong>: eso le da
+    una base de datos compartida de verdad y una noción real de "quién sos" al abrir el link.
+  </p>
+  <div class="callout">
+    <strong>Importante:</strong> esa identidad real está atada a cuentas de Claude de tu organización o
+    personas invitadas — no es un sistema de usuario/contraseña como Instagram o Mercado Libre. Por eso,
+    "roles" como admin de local / admin general van a usar los permisos reales para compartir de Claude
+    (Propietario / Editor), no un usuario <code>adminpzzr</code> inventado por mí con contraseña. Es más
+    seguro que inventar una contraseña a mano, pero funciona distinto a lo que imaginabas — lo marco para
+    que lo tengas claro antes de avanzar.
+  </div>
+  <p>
+    Esto también significa: en vez de una dirección propia como <code>planetapizza.com/admin</code>, vas a
+    tener un único link de Claude, y dentro de esa misma página vas a ver una pantalla u otra según quién
+    sos (cliente / persona del local / vos). Le decimos "ruta" más por costumbre que porque sea literalmente
+    otra dirección web.
+  </p>
+
+  <h2>2. Panel <code>/admin</code> — para quien recibe los pedidos en el local</h2>
+  <h3>Quién entra</h3>
+  <p>Cualquier persona a la que invites como Editora del Artifact (le pasás el link, entra con su cuenta de Claude).</p>
+
+  <h3>Qué ve y qué hace</h3>
+  <ul>
+    <li>Pedidos en vivo, a medida que van entrando.</li>
+    <li>Puede ir marcando el estado del pedido a medida que avanza.</li>
+    <li>Historial de pedidos (cuánto tiempo se guarda queda para definir después, como dijiste).</li>
+    <li>Puede marcar un producto como "sin stock" por el día.</li>
+  </ul>
+
+  <h3>Estados del pedido — vista interna vs. lo que ve el cliente</h3>
+  <p>Separé el estado que maneja el local del texto que le aparece al cliente, porque no tiene que ser
+  igual (y porque el flujo es distinto si es retiro o envío):</p>
+  <table>
+    <tr><th>Estado interno (local)</th><th>El cliente ve</th><th>Aplica a</th></tr>
+    <tr><td>Nuevo</td><td>Pedido recibido</td><td>Ambos</td></tr>
+    <tr><td>En preparación</td><td>En preparación</td><td>Ambos</td></tr>
+    <tr><td>Esperando cadete</td><td>En camino</td><td>Solo envío</td></tr>
+    <tr><td>Enviando</td><td>En camino</td><td>Solo envío</td></tr>
+    <tr><td>Listo para retirar</td><td>Listo para retirar</td><td>Solo retiro</td></tr>
+    <tr><td>Finalizado</td><td>Finalizado</td><td>Ambos</td></tr>
+  </table>
+
+  <div class="question">
+    <strong>Pregunta 1 — "Sin stock":</strong> ¿se marca por producto completo (ej. "no hay Fugazzeta" en
+    ningún tamaño) o por una variante puntual (ej. "no hay Fugazzeta chica pero sí mediana/grande")?
+    Lo segundo es más preciso pero un poco más de trabajo marcarlo cada vez.
+  </div>
+
+  <h3>Cosas que yo sumaría (decime si las querés o no)</h3>
+  <ol>
+    <li><strong>Filtro por sucursal.</strong> Tenés Centro y Guadalupe — sin esto, el de Guadalupe vería
+    también los pedidos de Centro y viceversa. Para mí esto no es opcional, es necesario.</li>
+    <li><strong>Aviso sonoro o notificación</strong> cuando entra un pedido nuevo, para que no tengan que
+    estar mirando la pantalla fijo.</li>
+    <li><strong>Cancelar pedido</strong> con un motivo corto (sin stock, local cerrado, etc.) que el
+    cliente pueda ver.</li>
+    <li><strong>Imprimir el pedido</strong>, si en algún momento usan una impresora de tickets.</li>
+  </ol>
+
+  <h2>3. Panel <code>/adminSup</code> — base de datos (precios, productos, local)</h2>
+  <h3>Quién entra</h3>
+  <p>El Propietario del Artifact (vos, o a quien se lo transfieras/compartas como dueño) — es el
+  equivalente real a tu idea de "adminpzzr".</p>
+
+  <h3>Qué puede hacer</h3>
+  <ul>
+    <li>Agregar, editar o eliminar pizzas/empanadas/tartas/hamburguesas (nombre, descripción, precios,
+    categoría).</li>
+    <li>Deshabilitar un producto de forma permanente (distinto del "sin stock" del día a día del panel
+    <code>/admin</code> — esto es más del estilo "ya no lo vendemos más").</li>
+    <li>Editar los datos del local: nombre, direcciones, teléfonos, horarios, logo — esto conecta con lo
+    que me habías pedido antes como "Panel de Alta de Pizzería".</li>
+    <li>Definir promociones para clientes registrados (descuento, envío gratis, etc.).</li>
+  </ul>
+
+  <h3>Cosas que yo sumaría</h3>
+  <ol>
+    <li><strong>Confirmación antes de borrar</strong> un producto, para que no se borre por error.</li>
+    <li><strong>Historial de cambios</strong> (quién cambió qué precio y cuándo) — es una buena práctica,
+    pero lo marco como opcional, no imprescindible para arrancar.</li>
+  </ol>
+
+  <h2>4. Clientes</h2>
+  <p>
+    Arriba a la derecha va un ícono de perfil. Al tocarlo, un formulario simple: nombre, teléfono, email.
+    Sin contraseña, sin "iniciar sesión" de verdad — es solo para sumarlos a una lista y que el dueño les
+    pueda mandar promociones más adelante (el envío en sí, por WhatsApp/email/etc., sería otro proyecto
+    aparte, esto solo arma la lista).
+  </p>
+
+  <h2>5. Qué cambia en el proyecto</h2>
+  <ul>
+    <li>El sitio deja de vivir solo como archivo HTML en tu computadora; pasa a ser un Artifact publicado
+    con su propio link.</li>
+    <li>Los pedidos, precios y productos dejan de guardarse solo en el navegador de cada uno (localStorage)
+    y pasan a una base compartida de verdad.</li>
+    <li>El acceso de "administrador" se maneja con los permisos reales para compartir de Claude
+    (Propietario/Editor), no con usuarios y contraseñas inventados.</li>
+  </ul>
+
+  <h2>6. Lo que necesito que confirmes</h2>
+  <div class="question"><strong>a.</strong> ¿Avanzamos con la conversión a Artifact (recomendado) para que
+  todo esto funcione de verdad, con las implicancias de la sección 1?</div>
+  <div class="question"><strong>b.</strong> "Sin stock": ¿por producto completo o por variante/tamaño
+  puntual? (sección 2)</div>
+  <div class="question"><strong>c.</strong> Las 4 cosas que sumaría en <code>/admin</code> — ¿las incluyo
+  todas, alguna no, o se te ocurre otra?</div>
+  <div class="question"><strong>d.</strong> Las 2 cosas que sumaría en <code>/adminSup</code> — ¿las
+  incluyo?</div>
+
+</body>
+</html>
