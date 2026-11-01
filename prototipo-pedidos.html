@@ -33,7 +33,7 @@
     line-height:1.5; padding-inline: clamp(16px, 4vw, 40px);
   }
   h1,h2,h3,.display{ font-family:'Fraunces', Georgia, serif; font-weight:700; text-wrap: balance; letter-spacing:-0.01em; }
-  .mono{ font-family:'Space Mono', monospace; font-variant-numeric: tabular-nums; }
+  .mono{ font-family:'Figtree', sans-serif; font-weight:700; font-variant-numeric: tabular-nums; }
   a{ color: var(--flare-dark); }
   img{ max-width:100%; }
   :focus-visible{ outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
@@ -111,7 +111,7 @@
   }
   .hero-content{ position:relative; z-index:2; padding: clamp(28px, 5vw, 52px) clamp(24px,5vw,48px) clamp(46px,6vw,62px); max-width:600px; }
   .hero .hero-eyebrow{
-    font-family:'Space Mono', monospace; text-transform:uppercase; letter-spacing:.16em; font-size:.72rem;
+    font-family:'Figtree', sans-serif; text-transform:uppercase; letter-spacing:.16em; font-size:.72rem;
     color: var(--gold); margin:0 0 12px;
   }
   .hero h1{ font-size: clamp(2.4rem, 7vw, 4.2rem); line-height:.95; margin:0 0 .5rem; letter-spacing:.01em; }
@@ -130,20 +130,15 @@
   .hf-corner.bl{ bottom:0; left:0; border-right:0; border-top:0; }
   .hf-corner.br{ bottom:0; right:0; border-left:0; border-top:0; }
   .hf-readout{
-    position:absolute; font-family:'Space Mono', monospace; font-size:.68rem; letter-spacing:.06em;
+    position:absolute; font-family:'Figtree', sans-serif; font-size:.68rem; letter-spacing:.06em;
     color: rgba(232,220,204,.85); text-transform:uppercase; white-space:nowrap;
   }
-  .hf-readout.tl{ top:-20px; left:28px; }
   .hf-readout.tr{ top:-20px; right:28px; }
-  .hf-readout .dot{ color:var(--flare); }
   @media (max-width:640px){ .hf-readout.tr{ display:none; } }
-  .hero-scrub{
-    position:absolute; left: clamp(14px,2.5vw,22px); right: clamp(14px,2.5vw,22px); bottom: clamp(14px,2.5vw,22px);
-    z-index:2; display:flex; align-items:center; gap:12px;
+  .hero-step-note{
+    font-family:'Figtree', sans-serif; font-size:.72rem; letter-spacing:.1em; text-transform:uppercase;
+    color: var(--gold); margin: 18px 0 0; opacity:.85;
   }
-  .hero-scrub-label{ font-family:'Space Mono', monospace; font-size:.68rem; letter-spacing:.08em; color:var(--gold); text-transform:uppercase; }
-  .hero-scrub-track{ flex:1; height:2px; background:rgba(232,220,204,.25); position:relative; }
-  .hero-scrub-fill{ position:absolute; left:0; top:0; bottom:0; width:38%; background:var(--gold); }
 
   /* ---------- category tabs ---------- */
   .category-tabs{
@@ -168,7 +163,7 @@
   .process-title{ font-family:'Fraunces', Georgia, serif; font-weight:700; color:var(--gold); display:block; margin-bottom:6px; }
   .process-tile p{ margin:0; color:var(--ink-soft); font-size:.9rem; }
   .section-eyebrow{
-    font-family:'Space Mono', monospace; text-transform:uppercase; letter-spacing:.16em; font-size:.72rem;
+    font-family:'Figtree', sans-serif; text-transform:uppercase; letter-spacing:.16em; font-size:.72rem;
     color: var(--gold); margin: 0; display:block;
   }
   .menu-section-title{ margin: 2px 0 0; font-size: clamp(1.6rem, 3.4vw, 2.1rem); }
@@ -194,7 +189,7 @@
     text-transform:uppercase; letter-spacing:.04em; padding:4px 10px; border-radius:999px;
   }
   .card-badge{
-    position:absolute; top:10px; right:10px; background:var(--gold); color:#1a1210; font-family:'Space Mono'; font-weight:700;
+    position:absolute; top:10px; right:10px; background:var(--gold); color:#1a1210; font-family:'Figtree'; font-weight:700;
     font-size:.78rem; min-width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center;
     padding:0 4px; box-shadow:0 2px 6px rgba(0,0,0,.3);
   }
@@ -206,7 +201,7 @@
     display:flex; justify-content:space-between; align-items:center; gap:10px;
     border-top:1px solid var(--line); margin-top:10px; padding-top:12px;
   }
-  .card-price{ font-family:'Space Mono'; font-weight:700; }
+  .card-price{ font-family:'Figtree'; font-weight:700; }
   .card-cta{ font-size:.85rem; padding:9px 16px; min-height:40px; }
 
   /* ---------- item modal (gusto -> tamaño -> cantidad) ---------- */
@@ -228,18 +223,18 @@
   }
   .modal-planet-wrap{ display:flex; justify-content:center; margin-bottom:8px; }
   .modal-planet-wrap .planet{ --d:92px; }
-  .modal-item-num{ text-align:center; color:var(--ink-soft); font-family:'Space Mono'; font-size:.85rem; margin:0; }
+  .modal-item-num{ text-align:center; color:var(--ink-soft); font-family:'Figtree'; font-size:.85rem; margin:0; }
   .modal-panel h3{ text-align:center; margin:2px 0 4px; }
   .modal-item-nick{ text-align:center; color:var(--flare-dark); font-style:italic; font-size:.85rem; margin:0 0 10px; }
   .modal-item-desc{ text-align:center; margin-bottom:16px; }
 
   .step-label{
-    font-family:'Space Mono', monospace; text-transform:uppercase; letter-spacing:.08em; font-size:.74rem;
+    font-family:'Figtree', sans-serif; text-transform:uppercase; letter-spacing:.08em; font-size:.74rem;
     color: var(--flare); font-weight:700; display:block; margin-bottom:8px;
   }
   .total-build{ margin-top:18px; }
   .total-build-row{ display:flex; justify-content:space-between; align-items:baseline; font-size:1.1rem; font-weight:800; margin-bottom:8px; }
-  .total-build-label{ font-family:'Space Mono', monospace; text-transform:uppercase; letter-spacing:.06em; font-size:.74rem; font-weight:700; color:var(--ink-soft); }
+  .total-build-label{ font-family:'Figtree', sans-serif; text-transform:uppercase; letter-spacing:.06em; font-size:.74rem; font-weight:700; color:var(--ink-soft); }
   .total-build-track{ height:6px; border-radius:999px; background:var(--surface-2); overflow:hidden; }
   .total-build-fill{ height:100%; width:0%; background: linear-gradient(90deg, var(--flare), var(--gold)); transition: width .25s ease; }
 
@@ -326,7 +321,7 @@
 
   .qty-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:4px; }
   .qty-controls{ display:flex; align-items:center; gap:10px; }
-  .qty-value{ font-family:'Space Mono'; font-weight:700; min-width:1.4em; text-align:center; font-size:1.15rem; }
+  .qty-value{ font-family:'Figtree'; font-weight:700; min-width:1.4em; text-align:center; font-size:1.15rem; }
 
   /* ---------- sticky cart bar ---------- */
   .cart-bar{
@@ -338,7 +333,7 @@
     width:100%; max-width:560px;
   }
   .cart-bar-text{ font-weight:700; }
-  .cart-bar-total{ font-family:'Space Mono'; }
+  .cart-bar-total{ font-family:'Figtree'; }
 
   /* ---------- generic screens ---------- */
   .screen{ padding-block: 10px 40px; }
@@ -377,14 +372,14 @@
   .radio-pill input:focus-visible + span{ outline:3px solid var(--focus); outline-offset:2px; }
 
   .confirm-wrap{ text-align:center; max-width:560px; margin:0 auto; }
-  .confirm-code{ font-family:'Space Mono'; font-size:2rem; font-weight:700; background:var(--cosmos); color:var(--cosmos-ink); padding:10px 22px; border-radius:16px; display:inline-block; margin:14px 0; }
+  .confirm-code{ font-family:'Figtree'; font-size:2rem; font-weight:700; background:var(--cosmos); color:var(--cosmos-ink); padding:10px 22px; border-radius:16px; display:inline-block; margin:14px 0; }
 
   footer{ border-top:1px solid var(--line); margin-top:30px; padding-block:26px 40px; color:var(--ink-soft); font-size:.85rem; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
 
   /* ---------- admin ---------- */
   .admin-header{ display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:18px; }
   .admin-title{ display:flex; align-items:center; gap:14px; }
-  .badge-count{ background:var(--critical); color:#fff; font-weight:800; border-radius:var(--radius-pill); padding:4px 12px; font-family:'Space Mono'; }
+  .badge-count{ background:var(--critical); color:#fff; font-weight:800; border-radius:var(--radius-pill); padding:4px 12px; font-family:'Figtree'; }
   .order-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap:16px; }
   .order-card{ background:var(--surface); border-radius:18px; padding:16px; border:1px solid var(--line); box-shadow:var(--shadow-card); border-left:8px solid var(--line); }
   .order-card[data-status="nuevo"]{ border-left-color: var(--critical); }
@@ -392,12 +387,12 @@
   .order-card[data-status="en_camino"]{ border-left-color: var(--transit); }
   .order-card[data-status="entregado"]{ border-left-color: var(--basil); opacity:.7; }
   .order-top{ display:flex; justify-content:space-between; gap:10px; align-items:baseline; }
-  .order-code{ font-family:'Space Mono'; font-weight:700; }
+  .order-code{ font-family:'Figtree'; font-weight:700; }
   .order-time{ color:var(--ink-soft); font-size:.8rem; }
   .order-customer{ font-weight:800; margin:4px 0 2px; }
   .order-sub{ color:var(--ink-soft); font-size:.85rem; margin-bottom:8px; }
   .order-items{ font-size:.88rem; margin:0 0 10px; padding-left:18px; }
-  .order-total{ font-family:'Space Mono'; font-weight:700; margin-bottom:12px; }
+  .order-total{ font-family:'Figtree'; font-weight:700; margin-bottom:12px; }
   .status-pill{ display:inline-block; font-size:.75rem; font-weight:800; padding:4px 10px; border-radius:var(--radius-pill); margin-bottom:10px; }
   .status-pill.nuevo{ background: color-mix(in srgb, var(--critical) 18%, var(--surface)); color:var(--critical); }
   .status-pill.preparando{ background: color-mix(in srgb, var(--gold) 22%, var(--surface)); color:#8a5a00; }
@@ -441,7 +436,6 @@
           <span class="hf-corner tr"></span>
           <span class="hf-corner bl"></span>
           <span class="hf-corner br"></span>
-          <span class="hf-readout tl"><span class="dot">●</span> PLANETA · EN VIVO</span>
           <span class="hf-readout tr">HORNO DE PIEDRA · AL PUNTO</span>
         </div>
         <div class="hero-content">
@@ -451,10 +445,7 @@
           <div class="hero-cta">
             <button class="btn btn-primary btn-lg" id="verCartaBtn" type="button">Ver la carta</button>
           </div>
-        </div>
-        <div class="hero-scrub" aria-hidden="true">
-          <span class="hero-scrub-label">01 · Carta</span>
-          <span class="hero-scrub-track"><span class="hero-scrub-fill"></span></span>
+          <p class="hero-step-note">01 — Carta</p>
         </div>
       </div>
 
