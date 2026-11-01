@@ -161,10 +161,12 @@
 
   /* ---------- category tabs ---------- */
   .category-tabs{
-    display:flex; gap:10px; overflow-x:auto; padding:22px 2px 8px; scrollbar-width:thin;
+    display:flex; gap:10px; overflow-x:auto; scrollbar-width:thin;
+    position:sticky; top: var(--header-h); z-index:30;
+    background:var(--cream); padding:14px 2px; margin-inline:-2px;
   }
   .tab{
-    flex:none; font-family:'Figtree'; font-weight:700; font-size:.92rem;
+    flex:none; font-family:'Inter'; font-weight:700; font-size:.92rem;
     padding:12px 20px; border-radius: var(--radius-pill); border:2px solid var(--line);
     background:var(--surface); color:var(--ink); cursor:pointer; min-height:48px;
   }
@@ -173,12 +175,13 @@
   /* ---------- menu grid (tarjetas estilo "signature", tema oscuro) ---------- */
   .section-header-wrap{ margin-top:8px; }
   .promo-section{
-    background: linear-gradient(180deg, color-mix(in srgb, var(--gold) 10%, transparent) 0%, transparent 100%);
-    border: 1px solid color-mix(in srgb, var(--gold) 30%, var(--line));
+    background: linear-gradient(180deg, color-mix(in srgb, var(--flare) 14%, transparent) 0%, transparent 100%);
+    border: 1px solid color-mix(in srgb, var(--flare) 40%, var(--line));
     border-radius: 20px; padding: 18px clamp(14px,3vw,24px) 6px; margin: 0 0 30px;
   }
-  .promo-section .card{ border-color: color-mix(in srgb, var(--gold) 45%, var(--line)); }
+  .promo-section .card{ border-color: color-mix(in srgb, var(--flare) 55%, var(--line)); }
   .section-header{ margin: 30px 0 18px; }
+  #menuSections > section{ scroll-margin-top: calc(var(--header-h) + 64px); }
   .process-grid{
     display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap:18px; margin-bottom:38px;
   }
@@ -203,31 +206,36 @@
     display:flex; flex-direction:column;
   }
   .card:hover, .card:focus-visible{ border-color:var(--flare); }
+  .card[disabled]{ cursor:not-allowed; }
+  .card.is-disabled .card-media{ opacity:.45; }
   .card-media{
-    aspect-ratio: 4 / 3; display:flex; align-items:center; justify-content:center;
+    aspect-ratio: 1 / 1; display:flex; align-items:center; justify-content:center;
     background: radial-gradient(ellipse at 50% 30%, var(--surface-2) 0%, var(--cream) 100%);
-    position:relative;
+    position:relative; padding:10px;
   }
-  .card-media .planet{ --d: clamp(86px, 22vw, 128px); }
+  .card-media .planet{ --d: clamp(70px, 18vw, 104px); }
   .card-tag{
-    position:absolute; top:12px; left:12px; background: var(--flare); color:#fff; font-size:.68rem; font-weight:700;
+    position:absolute; top:10px; left:10px; background: var(--flare); color:#fff; font-size:.66rem; font-weight:700;
     text-transform:uppercase; letter-spacing:.04em; padding:4px 10px; border-radius:999px;
   }
   .card-badge{
-    position:absolute; top:10px; right:10px; background:var(--gold); color:#1a1210; font-family:'Figtree'; font-weight:700;
+    position:absolute; top:8px; right:8px; background:var(--action); color:#fff; font-family:'Inter'; font-weight:700;
     font-size:.78rem; min-width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center;
     padding:0 4px; box-shadow:0 2px 6px rgba(0,0,0,.3);
   }
-  .card-body{ padding: 14px 16px 16px; display:flex; flex-direction:column; gap:6px; flex:1; }
-  .card-name{ font-size:1.08rem; margin:0; }
+  .card-badge.is-bump{ animation: badgeBump .35s ease; }
+  @keyframes badgeBump{ 0%{ transform:scale(1); } 40%{ transform:scale(1.35); } 100%{ transform:scale(1); } }
+  .card-disabled-note{ font-size:.78rem; font-weight:700; color: var(--ink-soft); }
+  .card-body{ padding: 12px 14px 14px; display:flex; flex-direction:column; gap:4px; flex:1; }
+  .card-name{ font-size:1.02rem; margin:0; }
   .card-desc{ color:var(--ink-soft); font-size:.85rem; margin:0; flex:1; }
   .item-desc{ color:var(--ink-soft); font-size:.9rem; margin:0; }
   .card-footer{
     display:flex; justify-content:space-between; align-items:center; gap:10px;
-    border-top:1px solid var(--line); margin-top:10px; padding-top:12px;
+    border-top:1px solid var(--line); margin-top:8px; padding-top:10px;
   }
-  .card-price{ font-family:'Figtree'; font-weight:700; }
-  .card-cta{ font-size:.85rem; padding:9px 16px; min-height:40px; }
+  .card-price{ font-family:'Inter'; font-weight:700; }
+  .card-cta{ font-size:.85rem; padding:10px 16px; min-height:44px; }
 
   /* ---------- item modal (gusto -> tamaño -> cantidad) ---------- */
   .modal-overlay{
@@ -273,7 +281,10 @@
   .sc-price{ font-weight:700; }
 
   /* planet-pizza portraits, CSS only */
-  .planet{ --d:68px; width:var(--d); height:var(--d); border-radius:50%; flex:none; position:relative; background-color:#eee; }
+  .planet{
+    --d:68px; width:var(--d); height:var(--d); border-radius:50%; flex:none; position:relative; background-color:#eee;
+    border: max(3px, calc(var(--d)*0.07)) double var(--flare); box-sizing:border-box;
+  }
   .planet::before{ content:""; position:absolute; inset:0; border-radius:50%; box-shadow: inset -8px -8px 14px rgba(0,0,0,.3), inset 5px 5px 10px rgba(255,255,255,.3); }
   .planet--muzzarella{ background:
       radial-gradient(circle at 70% 30%, rgba(150,110,40,.45) 0 6%, transparent 7%),
@@ -348,16 +359,31 @@
   .qty-controls{ display:flex; align-items:center; gap:10px; }
   .qty-value{ font-family:'Figtree'; font-weight:700; min-width:1.4em; text-align:center; font-size:1.15rem; }
 
-  /* ---------- floating cart button (derecha) ---------- */
-  .cart-bar{
-    position:fixed; right: clamp(14px,3vw,28px); bottom: clamp(14px,3vw,28px); z-index:40;
-  }
+  /* ---------- barra flotante del pedido: ancho completo en mobile, botón en desktop ---------- */
+  .cart-bar{ position:fixed; left:0; right:0; bottom:0; z-index:40; }
   .cart-bar-inner{
-    background:var(--cosmos); color:var(--cosmos-ink); border-radius:var(--radius-pill);
-    padding:14px 22px; display:flex; align-items:center; gap:14px; box-shadow:0 14px 30px -10px rgba(0,0,0,.5);
+    font:inherit; width:100%; background:var(--action); color:#fff; border:0; cursor:pointer;
+    padding:16px clamp(16px,4vw,40px); min-height:56px;
+    display:flex; align-items:center; justify-content:center; gap:10px; box-shadow:0 -6px 20px rgba(0,0,0,.35);
   }
   .cart-bar-text{ font-weight:700; }
-  .cart-bar-total{ font-family:'Figtree'; }
+  .cart-bar-total{ font-family:'Inter'; }
+  .cart-bar-sep{ opacity:.7; }
+  body.has-cart-bar{ padding-bottom:84px; }
+  @media (min-width:860px){
+    .cart-bar{ left:auto; right: clamp(14px,3vw,28px); bottom: clamp(14px,3vw,28px); }
+    .cart-bar-inner{ width:auto; border-radius:var(--radius-pill); padding:14px 24px; box-shadow:0 14px 30px -10px rgba(0,0,0,.5); }
+    body.has-cart-bar{ padding-bottom:0; }
+  }
+
+  /* ---------- toast ---------- */
+  .toast{
+    position:fixed; left:50%; bottom:96px; transform:translate(-50%,16px); z-index:200;
+    background:var(--flare); color:#fff; font-weight:700; padding:12px 22px; border-radius:var(--radius-pill);
+    opacity:0; pointer-events:none; transition: opacity .25s ease, transform .25s ease;
+    box-shadow:0 10px 24px -8px rgba(0,0,0,.5);
+  }
+  .toast.is-visible{ opacity:1; transform:translate(-50%,0); }
 
   /* ---------- generic screens ---------- */
   .screen{ padding-block: 10px 40px; }
@@ -506,9 +532,11 @@
       </section>
 
       <div class="cart-bar" id="cartBar" hidden>
-        <button class="cart-bar-inner btn" id="cartBarBtn" type="button" style="border:0;">
+        <button class="cart-bar-inner" id="cartBarBtn" type="button">
           <span class="cart-bar-text">Ver mi pedido</span>
+          <span class="cart-bar-sep">·</span>
           <span class="mono" id="cartBarCount">0</span>
+          <span class="cart-bar-sep">·</span>
           <span class="cart-bar-total mono" id="cartBarTotal">$0</span>
         </button>
       </div>
@@ -658,6 +686,8 @@
     <div aria-live="polite" id="liveRegion" style="position:absolute; left:-9999px;"></div>
   </footer>
 </div>
+
+<div class="toast" id="toast" aria-hidden="true"></div>
 
 <script>
 (function(){
@@ -907,13 +937,18 @@
 
   function buildItemCard(item){
     var sizes = sizeKeys(item);
-    var prices = sizes.map(function(s){ return item.prices[s]; });
-    var minPrice = Math.min.apply(null, prices);
+    var minKey = sizes.reduce(function(best, s){ return item.prices[s] < item.prices[best] ? s : best; }, sizes[0]);
+    var minPrice = item.prices[minKey];
+    var isMedia = /Mitad$/.test(minKey);
     var qty = qtyInCartFor(item.id);
+    var disabledHere = item.exclusive && item.exclusive !== state.branch;
 
     var card = document.createElement('button');
-    card.type = 'button'; card.className = 'card'; card.setAttribute('aria-haspopup','dialog');
-    card.setAttribute('aria-label', item.name + ', ' + (sizes.length > 1 ? 'desde ' : '') + fmt(minPrice));
+    card.type = 'button'; card.className = 'card' + (disabledHere ? ' is-disabled' : '');
+    card.setAttribute('aria-haspopup','dialog');
+    if (disabledHere) card.disabled = true;
+    var priceLabel = (sizes.length > 1 ? 'Desde ' : '') + fmt(minPrice) + (isMedia ? ' (media)' : '');
+    card.setAttribute('aria-label', item.name + ', ' + (disabledHere ? ('solo en Planeta ' + BRANCHES.centro.name) : priceLabel));
 
     var media = document.createElement('div'); media.className = 'card-media';
     var planet = document.createElement('div'); planet.className = 'planet planet--' + item.planet;
@@ -924,8 +959,9 @@
       numTag.textContent = item.tag ? item.tag : ('N° ' + item.num);
       media.appendChild(numTag);
     }
-    if (qty > 0){
+    if (qty > 0 && !disabledHere){
       var badge = document.createElement('span'); badge.className = 'card-badge'; badge.textContent = qty;
+      if (item._justAdded){ badge.classList.add('is-bump'); item._justAdded = false; }
       media.appendChild(badge);
     }
     card.appendChild(media);
@@ -943,16 +979,22 @@
     }
 
     var footer = document.createElement('div'); footer.className = 'card-footer';
-    var price = document.createElement('span'); price.className = 'card-price mono';
-    price.textContent = sizes.length > 1 ? ('Desde ' + fmt(minPrice)) : fmt(minPrice);
-    footer.appendChild(price);
-    var cta = document.createElement('span'); cta.className = 'btn btn-primary card-cta';
-    cta.textContent = qty > 0 ? ('En tu pedido (' + qty + ')') : 'Agregar';
-    footer.appendChild(cta);
+    if (disabledHere){
+      var note = document.createElement('span'); note.className = 'card-disabled-note';
+      note.textContent = 'Solo en Planeta ' + BRANCHES.centro.name;
+      footer.appendChild(note);
+    } else {
+      var price = document.createElement('span'); price.className = 'card-price mono';
+      price.textContent = (sizes.length > 1 ? 'Desde ' : '') + fmt(minPrice) + (isMedia ? ' (media)' : '');
+      footer.appendChild(price);
+      var cta = document.createElement('span'); cta.className = 'btn btn-action card-cta';
+      cta.textContent = qty > 0 ? ('En tu pedido (' + qty + ')') : 'Agregar';
+      footer.appendChild(cta);
+    }
     body.appendChild(footer);
 
     card.appendChild(body);
-    card.addEventListener('click', function(){ openItemModal(item); });
+    if (!disabledHere) card.addEventListener('click', function(){ openItemModal(item); });
     return card;
   }
 
@@ -980,6 +1022,22 @@
       section.appendChild(grid);
       sectionsEl.appendChild(section);
     });
+    setupCategoryObserver();
+  }
+
+  var categoryObserver = null;
+  function setupCategoryObserver(){
+    if (categoryObserver) categoryObserver.disconnect();
+    if (!('IntersectionObserver' in window)) return;
+    categoryObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          var cat = entry.target.id.replace('cat-', '');
+          if (cat !== state.activeCategory){ state.activeCategory = cat; renderTabs(); }
+        }
+      });
+    }, { rootMargin: '-140px 0px -65% 0px', threshold: 0 });
+    Array.prototype.forEach.call(sectionsEl.querySelectorAll('section'), function(s){ categoryObserver.observe(s); });
   }
 
   function addToCart(item, size, qtyToAdd){
@@ -1092,23 +1150,37 @@
   });
   document.getElementById('modalAddBtn').addEventListener('click', function(){
     var item = modalState.item;
+    item._justAdded = true;
     addToCart(item, modalState.size, modalState.qty);
     announce(item.name + ' agregada al pedido');
+    showToast('Agregado ✓');
     closeItemModal();
   });
+
+  function showToast(msg){
+    var toast = document.getElementById('toast');
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('is-visible');
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(function(){ toast.classList.remove('is-visible'); }, 1800);
+  }
 
   /* ---------------- cart bits (bars, screen) ---------------- */
   function renderCartBits(){
     var count = cartCount(), total = cartTotal();
     var hasItems = count > 0;
+    var showBar = hasItems && state.screen === 'menu';
 
-    document.getElementById('cartBar').hidden = !hasItems || state.screen !== 'menu';
+    document.getElementById('cartBar').hidden = !showBar;
+    document.body.classList.toggle('has-cart-bar', showBar);
     document.getElementById('cartBarCount').textContent = count + (count===1 ? ' producto' : ' productos');
     document.getElementById('cartBarTotal').textContent = fmt(total);
 
     var headerBtn = document.getElementById('cartBtnHeader');
-    headerBtn.hidden = !hasItems;
+    headerBtn.hidden = !hasItems || state.screen === 'cart';
     document.getElementById('cartCountHeader').textContent = count;
+    syncHeaderHeight();
 
     renderCartScreen();
   }
