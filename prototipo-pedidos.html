@@ -449,30 +449,13 @@
         </div>
       </div>
 
-      <section class="section-header-wrap">
-        <div class="section-header">
-          <span class="section-eyebrow">// 01 — Nuestra selección</span>
-          <h2 class="menu-section-title">Especiales Planeta</h2>
-          <hr class="section-rule">
-        </div>
-        <div class="menu-grid" id="signatureGrid"></div>
-      </section>
-
-      <section class="section-header-wrap">
-        <div class="section-header">
-          <span class="section-eyebrow">// 02 — Elegí tu pedido</span>
-          <h2 class="menu-section-title">Toda la carta</h2>
-          <hr class="section-rule">
-        </div>
-      </section>
-
       <nav class="category-tabs" role="tablist" aria-label="Categorías del menú" id="categoryTabs"></nav>
 
       <div id="menuSections"></div>
 
       <section class="section-header-wrap">
         <div class="section-header">
-          <span class="section-eyebrow">// 03 — Nuestro proceso</span>
+          <span class="section-eyebrow">// 02 — Nuestro proceso</span>
           <h2 class="menu-section-title">Desde 2008, a fuego real</h2>
           <hr class="section-rule">
         </div>
@@ -688,12 +671,10 @@
       { id:'p39', num:39, name:'Provolone', desc:'Páprika, muzzarella y salsa de tomates.', planet:'calabresa', prices:{chica:13500, planetaMitad:11000, planetaEntera:22000, grandeMitad:13500, grandeEntera:27000} },
       { id:'p40', num:40, name:'Lomito', desc:'Lomo de cerdo a las finas hierbas, salsa barbacoa, muzzarella y salsa de tomates.', planet:'carne', prices:{chica:14000, planetaMitad:11500, planetaEntera:23000, grandeMitad:14000, grandeEntera:28000} },
       { id:'p42', num:42, name:'Superespecial', desc:'Jamón cocido, rodajas de tomate, morrones, huevo, muzzarella y salsa de tomates.', planet:'especial', prices:{chica:14000, planetaMitad:11500, planetaEntera:23000, grandeMitad:14000, grandeEntera:28000} },
-      { id:'p43', num:43, name:'La cheta', desc:'Rúcula, tomates disecados, queso sardo, muzzarella y salsa de tomates.', planet:'rucula', prices:{chica:13500, planetaMitad:11500, planetaEntera:23000, grandeMitad:14000, grandeEntera:28000} }
-    ]},
-    italiano: { label:"Planeta Estilo Italiano", eyebrow:"Pizzas gourmet · masa madre", items:[
-      { id:'it-margherita', name:'Margherita', nickname:'8 porciones · Exclusivo Planeta Centro', desc:'Salsa de tomate, mozzarella, albahaca fresca y aceite de oliva.', planet:'napolitana', prices:{unica:22000} },
-      { id:'it-pepperoni', name:'Pepperoni', nickname:'8 porciones · Exclusivo Planeta Centro', desc:'Salsa de tomate, mozzarella y pepperoni.', planet:'calabresa', prices:{unica:24000} },
-      { id:'it-portobella', name:'Portobella', nickname:'8 porciones · Exclusivo Planeta Centro', desc:'Salsa de tomate, mozzarella, panceta ahumada, hongos portobello frescos, ciboulette y aceite de oliva.', planet:'roquefort', prices:{unica:27000} }
+      { id:'p43', num:43, name:'La cheta', desc:'Rúcula, tomates disecados, queso sardo, muzzarella y salsa de tomates.', planet:'rucula', prices:{chica:13500, planetaMitad:11500, planetaEntera:23000, grandeMitad:14000, grandeEntera:28000} },
+      { id:'it-margherita', name:'Margherita', tag:'Estilo italiano', nickname:'8 porciones · Exclusivo Planeta Centro', desc:'Salsa de tomate, mozzarella, albahaca fresca y aceite de oliva.', planet:'napolitana', prices:{unica:22000} },
+      { id:'it-pepperoni', name:'Pepperoni', tag:'Estilo italiano', nickname:'8 porciones · Exclusivo Planeta Centro', desc:'Salsa de tomate, mozzarella y pepperoni.', planet:'calabresa', prices:{unica:24000} },
+      { id:'it-portobella', name:'Portobella', tag:'Estilo italiano', nickname:'8 porciones · Exclusivo Planeta Centro', desc:'Salsa de tomate, mozzarella, panceta ahumada, hongos portobello frescos, ciboulette y aceite de oliva.', planet:'roquefort', prices:{unica:27000} }
     ]},
     empanadas: { label:"Empanadas", eyebrow:"Carta Planeta", items:[
       { id:'e-carnesalada', name:'Carne salada', desc:'Artesanales al horno.', planet:'carne', prices:{unidad:3000, mediaDocena:17000, docena:33000} },
@@ -832,8 +813,9 @@
     var planet = document.createElement('div'); planet.className = 'planet planet--' + item.planet;
     planet.setAttribute('aria-hidden','true');
     media.appendChild(planet);
-    if (item.num){
-      var numTag = document.createElement('span'); numTag.className = 'card-tag'; numTag.textContent = 'N° ' + item.num;
+    if (item.tag || item.num){
+      var numTag = document.createElement('span'); numTag.className = 'card-tag';
+      numTag.textContent = item.tag ? item.tag : ('N° ' + item.num);
       media.appendChild(numTag);
     }
     if (qty > 0){
@@ -868,19 +850,7 @@
     return card;
   }
 
-  var SIGNATURE_IDS = ['p20', 'p21', 'p12'];
-  function renderSignature(){
-    var grid = document.getElementById('signatureGrid');
-    if (!grid) return;
-    grid.innerHTML = '';
-    SIGNATURE_IDS.forEach(function(id){
-      var item = findItem(id);
-      if (item) grid.appendChild(buildItemCard(item));
-    });
-  }
-
   function renderMenu(){
-    renderSignature();
     sectionsEl.innerHTML = '';
     Object.keys(MENU).forEach(function(cat){
       var section = document.createElement('section');
