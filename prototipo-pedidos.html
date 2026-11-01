@@ -102,7 +102,7 @@
 
   /* ---------- buttons ---------- */
   .btn{
-    font-family:'Figtree'; font-weight:700; font-size:.95rem; cursor:pointer;
+    font-family:'Inter'; font-weight:700; font-size:.95rem; cursor:pointer;
     border-radius: var(--radius-pill); border:2px solid transparent; padding:12px 20px;
     display:inline-flex; align-items:center; gap:8px; min-height:48px;
     transition: transform .12s ease, background .15s ease, border-color .15s ease;
@@ -363,7 +363,7 @@
 
   .qty-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:4px; }
   .qty-controls{ display:flex; align-items:center; gap:10px; }
-  .qty-value{ font-family:'Figtree'; font-weight:700; min-width:1.4em; text-align:center; font-size:1.15rem; }
+  .qty-value{ font-family:'Inter'; font-weight:700; min-width:1.4em; text-align:center; font-size:1.15rem; }
 
   /* ---------- barra flotante del pedido: ancho completo en mobile, botón en desktop ---------- */
   .cart-bar{ position:fixed; left:0; right:0; bottom:0; z-index:40; }
@@ -398,11 +398,30 @@
     background:var(--surface); border-radius: var(--radius-card); padding: clamp(18px,4vw,34px);
     box-shadow:var(--shadow-card); max-width:720px; margin: 0 auto; border:1px solid var(--line);
   }
-  .cart-line{ display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 0; border-bottom:1px solid var(--line); }
+  .cart-layout{ display:grid; gap:20px; max-width:1040px; margin:0 auto; }
+  .cart-layout .panel{ max-width:none; margin:0; }
+  @media (min-width:860px){
+    .cart-layout{ grid-template-columns: 1.3fr .9fr; align-items:start; }
+  }
+  .cart-line{ display:flex; align-items:center; gap:12px; padding:14px 0; border-bottom:1px solid var(--line); }
   .cart-line:last-child{ border-bottom:0; }
+  .cart-line-thumb{ --d:48px; flex:none; }
+  .cart-line-info{ flex:1; min-width:0; }
   .cart-line-name{ font-weight:700; }
   .cart-line-meta{ color:var(--ink-soft); font-size:.85rem; }
-  .cart-total-row{ display:flex; justify-content:space-between; align-items:center; font-size:1.25rem; font-weight:800; padding-top:16px; margin-top:6px; border-top:2px solid var(--line); }
+  .cart-line-actions{ display:flex; align-items:center; gap:8px; flex:none; }
+  .cart-remove-btn{
+    width:40px; height:40px; border-radius:50%; border:2px solid var(--line); background:transparent;
+    color:var(--ink-soft); cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center;
+  }
+  .cart-remove-btn:hover{ border-color:var(--critical); color:var(--critical); }
+  .cart-total-row{ display:flex; justify-content:space-between; align-items:center; font-size:1rem; font-weight:700; padding-top:4px; }
+  .cart-total-row--final{ font-size:1.25rem; font-weight:800; padding-top:16px; margin-top:10px; border-top:2px solid var(--line); }
+  .cart-shipping-note{ color:var(--ink-soft); font-size:.85rem; margin:4px 0 0; }
+  .cart-exclusive-warning{
+    background: color-mix(in srgb, var(--critical) 16%, var(--surface)); border:1px solid var(--critical);
+    color:var(--ink); border-radius:12px; padding:12px 14px; font-size:.88rem; margin:0 0 18px;
+  }
   .empty-note{ text-align:center; color:var(--ink-soft); padding: 40px 10px; }
 
   .field{ display:flex; flex-direction:column; gap:6px; margin-bottom:18px; }
@@ -428,14 +447,26 @@
   .radio-pill input:focus-visible + span{ outline:3px solid var(--focus); outline-offset:2px; }
 
   .confirm-wrap{ text-align:center; max-width:560px; margin:0 auto; }
-  .confirm-code{ font-family:'Figtree'; font-size:2rem; font-weight:700; background:var(--cosmos); color:var(--cosmos-ink); padding:10px 22px; border-radius:16px; display:inline-block; margin:14px 0; }
+  .confirm-code{ font-family:'Inter'; font-size:2rem; font-weight:700; background:var(--cosmos); color:var(--cosmos-ink); padding:10px 22px; border-radius:16px; display:inline-block; margin:14px 0; }
 
-  footer{ border-top:1px solid var(--line); margin-top:30px; padding-block:26px 40px; color:var(--ink-soft); font-size:.85rem; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  footer{ border-top:1px solid var(--line); margin-top:40px; padding-block:28px 32px; color:var(--ink-soft); font-size:.85rem; }
+  .footer-top{ display:grid; gap:24px; align-items:start; }
+  @media (min-width:700px){ .footer-top{ grid-template-columns:auto 1fr auto; } }
+  .footer-branches{ display:flex; gap:28px; flex-wrap:wrap; }
+  .footer-branch h3{ font-size:1rem; margin:0 0 6px; color:var(--ink); }
+  .footer-branch p{ margin:0 0 4px; }
+  .footer-branch a{ color:var(--ink-soft); text-decoration:underline; }
+  .footer-branch a:hover{ color:var(--ink); }
+  .footer-map-link{ display:inline-block; margin-top:4px; font-size:.82rem; color:var(--flare-dark) !important; }
+  .footer-hours{ border-collapse:collapse; font-size:.85rem; }
+  .footer-hours th{ text-align:left; font-weight:700; color:var(--ink); padding:2px 14px 2px 0; }
+  .footer-hours td{ padding:2px 10px 2px 0; }
+  .footer-demo-note{ margin:20px 0 0; font-size:.72rem; color:var(--ink-soft); opacity:.7; }
 
   /* ---------- admin ---------- */
   .admin-header{ display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:18px; }
   .admin-title{ display:flex; align-items:center; gap:14px; }
-  .badge-count{ background:var(--critical); color:#fff; font-weight:800; border-radius:var(--radius-pill); padding:4px 12px; font-family:'Figtree'; }
+  .badge-count{ background:var(--critical); color:#fff; font-weight:800; border-radius:var(--radius-pill); padding:4px 12px; font-family:'Inter'; }
   .order-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap:16px; }
   .order-card{ background:var(--surface); border-radius:18px; padding:16px; border:1px solid var(--line); box-shadow:var(--shadow-card); border-left:8px solid var(--line); }
   .order-card[data-status="nuevo"]{ border-left-color: var(--critical); }
@@ -443,12 +474,12 @@
   .order-card[data-status="en_camino"]{ border-left-color: var(--transit); }
   .order-card[data-status="entregado"]{ border-left-color: var(--basil); opacity:.7; }
   .order-top{ display:flex; justify-content:space-between; gap:10px; align-items:baseline; }
-  .order-code{ font-family:'Figtree'; font-weight:700; }
+  .order-code{ font-family:'Inter'; font-weight:700; }
   .order-time{ color:var(--ink-soft); font-size:.8rem; }
   .order-customer{ font-weight:800; margin:4px 0 2px; }
   .order-sub{ color:var(--ink-soft); font-size:.85rem; margin-bottom:8px; }
   .order-items{ font-size:.88rem; margin:0 0 10px; padding-left:18px; }
-  .order-total{ font-family:'Figtree'; font-weight:700; margin-bottom:12px; }
+  .order-total{ font-family:'Inter'; font-weight:700; margin-bottom:12px; }
   .status-pill{ display:inline-block; font-size:.75rem; font-weight:800; padding:4px 10px; border-radius:var(--radius-pill); margin-bottom:10px; }
   .status-pill.nuevo{ background: color-mix(in srgb, var(--critical) 18%, var(--surface)); color:var(--critical); }
   .status-pill.preparando{ background: color-mix(in srgb, var(--gold) 22%, var(--surface)); color:#8a5a00; }
@@ -552,15 +583,38 @@
     <section class="screen" id="screen-cart" data-screen hidden>
       <button class="back-link" data-go="menu" type="button">&larr; Seguir eligiendo</button>
       <h2>Tu pedido</h2>
-      <div class="panel">
-        <div id="cartLines"></div>
-        <p class="empty-note" id="cartEmptyNote" hidden>Todavía no agregaste nada. Volvé a la carta para elegir tu pizza.</p>
-        <div class="cart-total-row" id="cartTotalRow" hidden>
-          <span>Total</span>
-          <span class="mono" id="cartTotalValue">$0</span>
+      <div class="cart-layout">
+        <div class="panel cart-products">
+          <div id="cartLines"></div>
+          <p class="empty-note" id="cartEmptyNote" hidden>Todavía no agregaste nada. Volvé a la carta para elegir tu pizza.</p>
         </div>
-        <div style="margin-top:22px;">
-          <button class="btn btn-primary btn-block" id="goCheckoutBtn" type="button">Continuar con mis datos</button>
+        <div class="panel cart-summary">
+          <p class="cart-exclusive-warning" id="cartExclusiveWarning" hidden></p>
+
+          <fieldset>
+            <legend>Sucursal</legend>
+            <div class="branch-toggle" id="cartBranchToggle" role="group" aria-label="Elegí tu sucursal"></div>
+          </fieldset>
+
+          <fieldset>
+            <legend>¿Cómo lo querés recibir?</legend>
+            <div class="radio-group">
+              <label class="radio-pill"><input type="radio" name="deliveryType" value="retiro" checked><span>Retiro en el local</span></label>
+              <label class="radio-pill"><input type="radio" name="deliveryType" value="envio"><span>Envío a domicilio</span></label>
+            </div>
+          </fieldset>
+
+          <div class="cart-total-row" id="cartSubtotalRow">
+            <span>Subtotal</span>
+            <span class="mono" id="cartSubtotalValue">$0</span>
+          </div>
+          <p class="cart-shipping-note" id="cartShippingNote" hidden>Envío: a confirmar con el local</p>
+          <div class="cart-total-row cart-total-row--final" id="cartTotalRow" hidden>
+            <span id="cartTotalLabel">Total</span>
+            <span class="mono" id="cartTotalValue">$0</span>
+          </div>
+
+          <button class="btn btn-action btn-block" id="goCheckoutBtn" type="button" style="margin-top:14px;">Continuar con mis datos</button>
         </div>
       </div>
     </section>
@@ -583,14 +637,6 @@
             <span class="error-text" id="err-custPhone" hidden>Dejanos un teléfono de contacto.</span>
           </div>
 
-          <fieldset>
-            <legend>¿Cómo lo querés recibir?</legend>
-            <div class="radio-group">
-              <label class="radio-pill"><input type="radio" name="deliveryType" value="retiro" checked><span>Retiro en el local</span></label>
-              <label class="radio-pill"><input type="radio" name="deliveryType" value="envio"><span>Envío a domicilio</span></label>
-            </div>
-          </fieldset>
-
           <div class="field" id="addressField">
             <label for="custAddress">Dirección de entrega</label>
             <input type="text" id="custAddress" name="custAddress" autocomplete="street-address">
@@ -611,7 +657,7 @@
             <textarea id="custNotes" name="custNotes" placeholder="Ej: sin aceitunas, timbre 2B, etc."></textarea>
           </div>
 
-          <button class="btn btn-primary btn-block" type="submit">Confirmar pedido</button>
+          <button class="btn btn-action btn-block" type="submit">Confirmar pedido</button>
         </form>
       </div>
     </section>
@@ -689,12 +735,34 @@
   </div>
 
   <footer>
-    <div>
-      <strong>Planeta Pizza</strong><br>
-      Centro · 25 de Mayo 2800 · 454-0885 / 342 502-3068<br>
-      Guadalupe · Gral. Paz 6400 · 469-1881 / 342 502-2380<br>
-      Mediodía: Lun a Vie 11:30 a 14:30 hs · Noche: Dom a Jue 19:00 a 23:00 hs, Vie y Sáb 19:30 a 23:30 hs
+    <div class="footer-top">
+      <div class="pp-seal" style="--seal-size:60px" aria-hidden="true">
+        <span class="pp-seal-band">PLANETA</span>
+        <span class="pp-seal-year">2008</span>
+      </div>
+
+      <div class="footer-branches">
+        <div class="footer-branch">
+          <h3>Centro</h3>
+          <p>25 de Mayo 2800</p>
+          <p><a href="tel:+543424540885">454-0885</a> · <a href="tel:+543425023068">342 502-3068</a></p>
+          <a class="footer-map-link" href="https://www.google.com/maps/search/?api=1&amp;query=25+de+Mayo+2800%2C+Santa+Fe" target="_blank" rel="noopener">Ver en Google Maps</a>
+        </div>
+        <div class="footer-branch">
+          <h3>Guadalupe</h3>
+          <p>Av. Gral. Paz 6401</p>
+          <p><a href="tel:+543424691881">469-1881</a> · <a href="tel:+543425022380">342 502-2380</a></p>
+          <a class="footer-map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Av.+Gral.+Paz+6401%2C+Santa+Fe" target="_blank" rel="noopener">Ver en Google Maps</a>
+        </div>
+      </div>
+
+      <table class="footer-hours">
+        <tr><th>Mediodía</th><td>Lun a Vie</td><td>11:30–14:30</td></tr>
+        <tr><th>Noche</th><td>Dom a Jue</td><td>19:00–23:00</td></tr>
+        <tr><th></th><td>Vie y Sáb</td><td>19:30–23:30</td></tr>
+      </table>
     </div>
+    <p class="footer-demo-note">Sitio de demostración.</p>
     <div aria-live="polite" id="liveRegion" style="position:absolute; left:-9999px;"></div>
   </footer>
 </div>
@@ -1303,34 +1371,94 @@
     renderCartScreen();
   }
 
+  function lineSizeLabel(line){
+    if (PIZZA_SIZE_KEYS.indexOf(line.size) > -1){
+      var isMitad = /Mitad$/.test(line.size);
+      return (isMitad ? 'Mitad' : 'Entera') + ', ' + PIZZA_PORCIONES_LABEL[line.size];
+    }
+    if (line.size === 'unica') return null;
+    return SIZE_LABELS[line.size] || line.size;
+  }
+
+  function cartHasCentroExclusiveConflict(){
+    if (state.branch === 'centro') return false;
+    return cartArray().some(function(l){
+      var it = findItem(l.id);
+      return it && it.exclusive === 'centro';
+    });
+  }
+
+  function removeCartLine(key){
+    delete state.cart[key];
+    saveCart();
+    renderMenu();
+    renderCartBits();
+  }
+
   function renderCartScreen(){
     var wrap = document.getElementById('cartLines');
     var lines = cartArray();
     wrap.innerHTML = '';
     document.getElementById('cartEmptyNote').hidden = lines.length > 0;
-    document.getElementById('cartTotalRow').hidden = lines.length === 0;
-    document.getElementById('goCheckoutBtn').disabled = lines.length === 0;
 
     lines.forEach(function(line){
+      var key = line.id + ':' + line.size;
+      var it = findItem(line.id);
       var row = document.createElement('div'); row.className = 'cart-line';
-      var left = document.createElement('div');
-      var nm = document.createElement('div'); nm.className='cart-line-name'; nm.textContent = line.name + (line.size !== 'unica' ? ' (' + SIZE_LABELS[line.size] + ')' : '');
+
+      var thumb = document.createElement('div');
+      thumb.className = 'planet cart-line-thumb planet--' + (it ? it.planet : 'especial');
+      thumb.setAttribute('aria-hidden', 'true');
+
+      var left = document.createElement('div'); left.className = 'cart-line-info';
+      var sizeLabel = lineSizeLabel(line);
+      var nm = document.createElement('div'); nm.className='cart-line-name';
+      nm.textContent = line.name + (sizeLabel ? ' — ' + sizeLabel : '');
       var meta = document.createElement('div'); meta.className='cart-line-meta'; meta.textContent = fmt(line.unitPrice) + ' c/u';
       left.appendChild(nm); left.appendChild(meta);
 
-      var right = document.createElement('div'); right.style.display='flex'; right.style.alignItems='center'; right.style.gap='10px';
+      var right = document.createElement('div'); right.className = 'cart-line-actions';
       var minus = document.createElement('button'); minus.className='btn-step'; minus.type='button'; minus.textContent='−'; minus.setAttribute('aria-label','Quitar uno de ' + line.name);
       var qv = document.createElement('span'); qv.className='qty-value mono'; qv.textContent = line.qty;
       var plus = document.createElement('button'); plus.className='btn-step'; plus.type='button'; plus.textContent='+'; plus.setAttribute('aria-label','Agregar uno de ' + line.name);
       minus.addEventListener('click', function(){ changeQty({id:line.id,name:line.name,prices:{}}, line.size, -1); });
       plus.addEventListener('click', function(){ changeQty({id:line.id,name:line.name,prices:{}}, line.size, 1); });
-      right.appendChild(minus); right.appendChild(qv); right.appendChild(plus);
+      var removeBtn = document.createElement('button'); removeBtn.type='button'; removeBtn.className='cart-remove-btn';
+      removeBtn.setAttribute('aria-label', 'Quitar ' + line.name + ' del pedido'); removeBtn.innerHTML = '&times;';
+      removeBtn.addEventListener('click', function(){ removeCartLine(key); });
+      right.appendChild(minus); right.appendChild(qv); right.appendChild(plus); right.appendChild(removeBtn);
 
-      row.appendChild(left); row.appendChild(right);
+      row.appendChild(thumb); row.appendChild(left); row.appendChild(right);
       wrap.appendChild(row);
     });
 
-    document.getElementById('cartTotalValue').textContent = fmt(cartTotal());
+    var subtotal = cartTotal();
+    document.getElementById('cartSubtotalValue').textContent = fmt(subtotal);
+
+    var deliveryInput = document.querySelector('input[name=deliveryType]:checked');
+    var isEnvio = deliveryInput && deliveryInput.value === 'envio';
+    var shippingNote = document.getElementById('cartShippingNote');
+    var totalRow = document.getElementById('cartTotalRow');
+    var totalLabel = document.getElementById('cartTotalLabel');
+
+    if (lines.length === 0){
+      totalRow.hidden = true;
+      shippingNote.hidden = true;
+    } else {
+      totalRow.hidden = false;
+      shippingNote.hidden = !isEnvio;
+      totalLabel.textContent = isEnvio ? 'Total (sin envío)' : 'Total';
+      document.getElementById('cartTotalValue').textContent = fmt(subtotal);
+    }
+
+    var conflict = cartHasCentroExclusiveConflict();
+    var warn = document.getElementById('cartExclusiveWarning');
+    warn.hidden = !conflict;
+    if (conflict){
+      warn.textContent = 'Tenés productos exclusivos de Planeta Centro en tu pedido. Quitalos del carrito o cambiá la sucursal a Centro para continuar.';
+    }
+
+    document.getElementById('goCheckoutBtn').disabled = lines.length === 0 || conflict;
   }
 
   /* ---------------- screen navigation ---------------- */
@@ -1366,7 +1494,9 @@
     document.getElementById('addressField').style.display = isEnvio ? '' : 'none';
     document.getElementById('custAddress').required = isEnvio;
   }
-  Array.prototype.forEach.call(deliveryRadios, function(r){ r.addEventListener('change', updateAddressVisibility); });
+  Array.prototype.forEach.call(deliveryRadios, function(r){
+    r.addEventListener('change', function(){ updateAddressVisibility(); renderCartScreen(); });
+  });
   updateAddressVisibility();
 
   function prefillCheckout(){
