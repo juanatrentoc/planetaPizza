@@ -154,6 +154,12 @@
 
   /* ---------- menu grid (tarjetas estilo "signature", tema oscuro) ---------- */
   .section-header-wrap{ margin-top:8px; }
+  .promo-section{
+    background: linear-gradient(180deg, color-mix(in srgb, var(--gold) 10%, transparent) 0%, transparent 100%);
+    border: 1px solid color-mix(in srgb, var(--gold) 30%, var(--line));
+    border-radius: 20px; padding: 18px clamp(14px,3vw,24px) 6px; margin: 0 0 30px;
+  }
+  .promo-section .card{ border-color: color-mix(in srgb, var(--gold) 45%, var(--line)); }
   .section-header{ margin: 30px 0 18px; }
   .process-grid{
     display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap:18px; margin-bottom:38px;
@@ -633,6 +639,10 @@
   "use strict";
 
   var MENU = {
+    promos: { label:"Promos", eyebrow:"Ofertas de la semana", items:[
+      { id:'promo-12porciones', name:'Pizza de 12 porciones, 3 sabores a elección', tag:'Promo', desc:'Elegí tus 3 sabores de la carta de pizzas y escribilos en las notas de tu pedido.', planet:'especial', prices:{unica:28000} },
+      { id:'kit-casa', name:'Kit Planeta en casa', tag:'Promo', desc:'2 masas Planeta pre cocidas + muzzarella molida + salsa de tomate, para armar 2 pizzas en casa. Elegí los 2 tipos de masa (ovalada tradicional o estilo italiano) en las notas de tu pedido.', planet:'dulce', prices:{unica:26000} }
+    ]},
     pizzas: { label:"Nuestras Pizzas", eyebrow:"Carta #PizzaFan", items:[
       { id:'p1', num:1, name:'Muzzarella', desc:'Salsa de tomate y muzzarella.', planet:'muzzarella', prices:{chica:10500, planetaMitad:9000, planetaEntera:18000, grandeMitad:11500, grandeEntera:23000} },
       { id:'p2', num:2, name:'Jamón y aceitunas', desc:'Muzzarella, jamón cocido, salsa de tomates y aceitunas.', planet:'especial', prices:{chica:13000, planetaMitad:11000, planetaEntera:22000, grandeMitad:13500, grandeEntera:27000} },
@@ -714,10 +724,6 @@
       { id:'h-extrahuevo', name:'Extra: huevo', nickname:'Adicional para tu hamburguesa', desc:'', planet:'pollo', prices:{unica:2000} },
       { id:'h-extracebolla', name:'Extra: cebolla morada', nickname:'Adicional para tu hamburguesa', desc:'', planet:'rucula', prices:{unica:1000} },
       { id:'h-extrapepinos', name:'Extra: pepinos agridulces', nickname:'Adicional para tu hamburguesa', desc:'', planet:'dulce', prices:{unica:1500} }
-    ]},
-    promos: { label:"Promos", eyebrow:"Ofertas de la semana", items:[
-      { id:'promo-12porciones', name:'Pizza de 12 porciones, 3 sabores a elección', desc:'Elegí tus 3 sabores de la carta de pizzas y escribilos en las notas de tu pedido.', planet:'especial', prices:{unica:28000} },
-      { id:'kit-casa', name:'Kit Planeta en casa', desc:'2 masas Planeta pre cocidas + muzzarella molida + salsa de tomate, para armar 2 pizzas en casa. Elegí los 2 tipos de masa (ovalada tradicional o estilo italiano) en las notas de tu pedido.', planet:'dulce', prices:{unica:26000} }
     ]}
   };
   var SIZE_LABELS = {
@@ -848,6 +854,7 @@
     Object.keys(MENU).forEach(function(cat){
       var section = document.createElement('section');
       section.id = 'cat-' + cat;
+      if (cat === 'promos') section.className = 'promo-section';
 
       var header = document.createElement('div'); header.className = 'section-header';
       var eyebrow = document.createElement('span'); eyebrow.className = 'section-eyebrow';
