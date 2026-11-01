@@ -237,18 +237,20 @@
   .card-price{ font-family:'Inter'; font-weight:700; }
   .card-cta{ font-size:.85rem; padding:10px 16px; min-height:44px; }
 
-  /* ---------- item modal (gusto -> tamaño -> cantidad) ---------- */
+  /* ---------- modal de producto: tamaño -> entera/mitad -> cantidad ---------- */
   .modal-overlay{
-    position:fixed; inset:0; background:rgba(36,21,51,.55); z-index:100;
+    position:fixed; inset:0; background:rgba(10,5,7,.6); z-index:100;
     display:flex; align-items:flex-end; justify-content:center;
   }
   @media (min-width:600px){ .modal-overlay{ align-items:center; padding:20px; } }
   .modal-panel{
-    background:var(--cream); width:100%; max-width:440px; border-radius:24px 24px 0 0;
-    padding: 24px clamp(18px,4vw,28px) 28px; box-shadow:0 -10px 40px rgba(0,0,0,.3);
-    max-height:90vh; overflow-y:auto; position:relative;
+    background:var(--cream); width:100%; max-width:440px; border-radius:20px 20px 0 0;
+    padding: 18px clamp(18px,4vw,28px) 28px; box-shadow:0 -10px 40px rgba(0,0,0,.4);
+    max-height:90vh; overflow-y:auto; position:relative; touch-action:none;
   }
-  @media (min-width:600px){ .modal-panel{ border-radius:24px; } }
+  @media (min-width:600px){ .modal-panel{ border-radius:20px; touch-action:auto; } }
+  .modal-drag-handle{ width:40px; height:4px; border-radius:999px; background:var(--line); margin:0 auto 14px; }
+  @media (min-width:600px){ .modal-drag-handle{ display:none; } }
   .modal-close{
     position:absolute; top:12px; right:12px; width:40px; height:40px; border-radius:50%;
     border:2px solid var(--line); background:var(--surface); font-size:1.3rem; line-height:1; cursor:pointer;
@@ -256,29 +258,33 @@
   }
   .modal-planet-wrap{ display:flex; justify-content:center; margin-bottom:8px; }
   .modal-planet-wrap .planet{ --d:92px; }
-  .modal-item-num{ text-align:center; color:var(--ink-soft); font-family:'Figtree'; font-size:.85rem; margin:0; }
+  .modal-item-num{ text-align:center; color:var(--ink-soft); font-family:'Inter'; font-size:.85rem; margin:0; }
   .modal-panel h3{ text-align:center; margin:2px 0 4px; }
   .modal-item-nick{ text-align:center; color:var(--flare-dark); font-style:italic; font-size:.85rem; margin:0 0 10px; }
   .modal-item-desc{ text-align:center; margin-bottom:16px; }
 
-  .step-label{
-    font-family:'Figtree', sans-serif; text-transform:uppercase; letter-spacing:.08em; font-size:.74rem;
-    color: var(--flare); font-weight:700; display:block; margin-bottom:8px;
+  .field-label{
+    font-family:'Inter', sans-serif; text-transform:uppercase; letter-spacing:.06em; font-size:.76rem;
+    color: var(--ink-soft); font-weight:700; display:block; margin-bottom:8px;
   }
-  .total-build{ margin-top:18px; }
-  .total-build-row{ display:flex; justify-content:space-between; align-items:baseline; font-size:1.1rem; font-weight:800; margin-bottom:8px; }
-  .total-build-label{ font-family:'Figtree', sans-serif; text-transform:uppercase; letter-spacing:.06em; font-size:.74rem; font-weight:700; color:var(--ink-soft); }
-  .total-build-track{ height:6px; border-radius:999px; background:var(--surface-2); overflow:hidden; }
-  .total-build-fill{ height:100%; width:0%; background: linear-gradient(90deg, var(--flare), var(--gold)); transition: width .25s ease; }
 
   .size-choice-row{ display:flex; gap:8px; flex-wrap:wrap; }
   .size-choice{
     font:inherit; color:var(--ink); flex:1 1 auto; min-width:100px; border-radius:14px; border:2px solid var(--line); background:var(--cream);
     padding:10px 8px; text-align:center; cursor:pointer; min-height:56px; display:flex; flex-direction:column; gap:2px; justify-content:center;
   }
-  .size-choice[aria-pressed="true"]{ border-color:var(--flare); background: color-mix(in srgb, var(--flare) 12%, var(--cream)); }
+  .size-choice[aria-pressed="true"]{ border-color:var(--flare); background: color-mix(in srgb, var(--flare) 16%, var(--cream)); }
   .sc-label{ font-size:.76rem; color:var(--ink-soft); }
   .sc-price{ font-weight:700; }
+
+  .half-toggle-row{ display:flex; gap:8px; }
+  .half-choice{
+    font:inherit; color:var(--ink); flex:1 1 auto; border-radius:14px; border:2px solid var(--line); background:var(--cream);
+    padding:10px 10px; text-align:center; cursor:pointer; min-height:56px; display:flex; flex-direction:column; gap:2px; justify-content:center;
+  }
+  .half-choice[aria-pressed="true"]{ border-color:var(--flare); background: color-mix(in srgb, var(--flare) 16%, var(--cream)); }
+  .hc-label{ font-weight:700; }
+  .hc-hint{ font-size:.72rem; color:var(--ink-soft); font-weight:400; }
 
   /* planet-pizza portraits, CSS only */
   .planet{
@@ -639,7 +645,8 @@
   </main>
 
   <div class="modal-overlay" id="itemModalOverlay" hidden>
-    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalItemName">
+    <div class="modal-panel" id="modalPanel" role="dialog" aria-modal="true" aria-labelledby="modalItemName">
+      <div class="modal-drag-handle" aria-hidden="true"></div>
       <button class="modal-close" id="modalCloseBtn" type="button" aria-label="Cerrar">&times;</button>
       <div class="modal-planet-wrap"><div class="planet" id="modalPlanet" aria-hidden="true"></div></div>
       <p class="modal-item-num" id="modalItemNum"></p>
@@ -647,15 +654,28 @@
       <p class="modal-item-nick" id="modalItemNick" hidden></p>
       <p class="item-desc modal-item-desc" id="modalItemDesc"></p>
 
-      <div class="field" id="modalSizeField">
-        <label id="modalSizeLabel" class="step-label">Paso 1 — Elegí el tamaño</label>
+      <!-- pizzas comunes: tamaño (4/8/12 porciones) -->
+      <div class="field" id="modalPizzaSizeField" hidden>
+        <label id="modalPizzaSizeLabel" class="field-label">Tamaño</label>
+        <div class="size-choice-row" id="modalPizzaSizeChoices" role="group" aria-labelledby="modalPizzaSizeLabel"></div>
+      </div>
+
+      <!-- pizzas comunes: entera o mitad (oculto para 4 porciones) -->
+      <div class="field" id="modalHalfField" hidden>
+        <label id="modalHalfLabel" class="field-label">¿Entera o mitad?</label>
+        <div class="half-toggle-row" id="modalHalfChoices" role="group" aria-labelledby="modalHalfLabel"></div>
+      </div>
+
+      <!-- resto de la carta (empanadas, tartas, etc.): un solo paso de tamaño -->
+      <div class="field" id="modalSizeField" hidden>
+        <label id="modalSizeLabel" class="field-label">Tamaño</label>
         <div class="size-choice-row" id="modalSizeChoices" role="group" aria-labelledby="modalSizeLabel"></div>
       </div>
 
       <div class="field">
-        <label class="step-label">Paso 2 — Cantidad</label>
+        <label class="field-label" for="modalQtyValue">Cantidad</label>
         <div class="qty-row">
-          <span>¿Cuántas querés?</span>
+          <span></span>
           <div class="qty-controls">
             <button class="btn-step" type="button" id="modalMinus" aria-label="Quitar uno">−</button>
             <span class="qty-value mono" id="modalQtyValue">1</span>
@@ -664,15 +684,7 @@
         </div>
       </div>
 
-      <div class="total-build">
-        <div class="total-build-row">
-          <span class="total-build-label">Total del pedido</span>
-          <span class="mono" id="modalAddPrice"></span>
-        </div>
-        <div class="total-build-track"><div class="total-build-fill" id="modalTotalFill"></div></div>
-      </div>
-
-      <button class="btn btn-primary btn-block" type="button" id="modalAddBtn" style="margin-top:14px;">Agregar al pedido</button>
+      <button class="btn btn-action btn-block" type="button" id="modalAddBtn" style="margin-top:8px;">Agregar al pedido · <span id="modalAddPrice"></span></button>
     </div>
   </div>
 
@@ -1060,10 +1072,70 @@
     renderCartBits();
   }
 
-  /* ---------------- item modal: gusto (ya elegido) -> tamaño -> cantidad ---------------- */
+  /* ---------------- item modal: tamaño -> entera/mitad -> cantidad ---------------- */
   var modalOverlay = document.getElementById('itemModalOverlay');
+  var modalPanelEl = document.getElementById('modalPanel');
   var modalSizeChoices = document.getElementById('modalSizeChoices');
-  var modalState = { item:null, size:null, qty:1 };
+  var modalPizzaSizeChoices = document.getElementById('modalPizzaSizeChoices');
+  var modalHalfChoices = document.getElementById('modalHalfChoices');
+  var modalState = { item:null, standard:false, size:null, sizeTier:null, half:false, qty:1 };
+
+  var PIZZA_TIERS = [
+    { key:'chica', label:'4 porciones', priceKey:'chica' },
+    { key:'planeta', label:'8 porciones', priceKey:'planetaEntera' },
+    { key:'grande', label:'12 porciones', priceKey:'grandeEntera' }
+  ];
+
+  function isStandardPizza(item){
+    var keys = sizeKeys(item);
+    if (keys.length !== PIZZA_SIZE_KEYS.length) return false;
+    return PIZZA_SIZE_KEYS.every(function(k){ return keys.indexOf(k) > -1; });
+  }
+
+  function pizzaPriceKey(tier, half){
+    if (tier === 'chica') return 'chica';
+    if (tier === 'planeta') return half ? 'planetaMitad' : 'planetaEntera';
+    return half ? 'grandeMitad' : 'grandeEntera';
+  }
+
+  function renderModalPizzaSizeChoices(){
+    var item = modalState.item;
+    modalPizzaSizeChoices.innerHTML = '';
+    PIZZA_TIERS.forEach(function(t){
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'size-choice';
+      b.setAttribute('aria-pressed', String(modalState.sizeTier === t.key));
+      b.innerHTML = '<span class="sc-label">' + t.label + '</span><span class="sc-price mono">' + fmt(item.prices[t.priceKey]) + '</span>';
+      b.addEventListener('click', function(){
+        modalState.sizeTier = t.key;
+        if (t.key === 'chica') modalState.half = false;
+        renderModalPizzaSizeChoices();
+        document.getElementById('modalHalfField').hidden = (t.key === 'chica');
+        if (t.key !== 'chica') renderModalHalfChoices();
+        updateModalPrice();
+      });
+      modalPizzaSizeChoices.appendChild(b);
+    });
+  }
+
+  function renderModalHalfChoices(){
+    modalHalfChoices.innerHTML = '';
+    [
+      { half:false, label:'Entera' },
+      { half:true, label:'Mitad', hint:'Mitad de la pizza, mismo sabor' }
+    ].forEach(function(opt){
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'half-choice';
+      b.setAttribute('aria-pressed', String(modalState.half === opt.half));
+      b.innerHTML = '<span class="hc-label">' + opt.label + '</span>' + (opt.hint ? '<span class="hc-hint">' + opt.hint + '</span>' : '');
+      b.addEventListener('click', function(){
+        modalState.half = opt.half;
+        renderModalHalfChoices();
+        updateModalPrice();
+      });
+      modalHalfChoices.appendChild(b);
+    });
+  }
 
   function renderModalSizeChoices(){
     var item = modalState.item;
@@ -1085,9 +1157,8 @@
 
   function openItemModal(item){
     modalState.item = item;
-    var sizes = sizeKeys(item);
-    modalState.size = sizes[0];
     modalState.qty = 1;
+    modalState.standard = isStandardPizza(item);
 
     document.getElementById('modalPlanet').className = 'planet planet--' + item.planet;
     var numEl = document.getElementById('modalItemNum');
@@ -1100,18 +1171,40 @@
     descEl.textContent = item.desc || '';
     descEl.hidden = !item.desc;
 
-    var sizeField = document.getElementById('modalSizeField');
-    if (sizes.length > 1){
-      sizeField.hidden = false;
-      renderModalSizeChoices();
+    var pizzaSizeField = document.getElementById('modalPizzaSizeField');
+    var halfField = document.getElementById('modalHalfField');
+    var genericSizeField = document.getElementById('modalSizeField');
+    var firstFocusTarget;
+
+    if (modalState.standard){
+      modalState.sizeTier = 'planeta';
+      modalState.half = false;
+      pizzaSizeField.hidden = false;
+      genericSizeField.hidden = true;
+      renderModalPizzaSizeChoices();
+      halfField.hidden = false;
+      renderModalHalfChoices();
+      firstFocusTarget = modalPizzaSizeChoices.querySelector('.size-choice');
     } else {
-      sizeField.hidden = true;
+      pizzaSizeField.hidden = true;
+      halfField.hidden = true;
+      var sizes = sizeKeys(item);
+      modalState.size = sizes[0];
+      if (sizes.length > 1){
+        genericSizeField.hidden = false;
+        renderModalSizeChoices();
+        firstFocusTarget = modalSizeChoices.querySelector('.size-choice');
+      } else {
+        genericSizeField.hidden = true;
+        firstFocusTarget = document.getElementById('modalCloseBtn');
+      }
     }
 
     updateModalPrice();
     modalOverlay.hidden = false;
     document.body.style.overflow = 'hidden';
-    (sizes.length > 1 ? modalSizeChoices.querySelector('.size-choice') : document.getElementById('modalCloseBtn')).focus();
+    modalPanelEl.style.transform = '';
+    if (firstFocusTarget) firstFocusTarget.focus();
   }
 
   function closeItemModal(){
@@ -1122,15 +1215,16 @@
   function updateModalPrice(){
     var item = modalState.item;
     if (!item) return;
-    var unit = item.prices[modalState.size];
+    var unit;
+    if (modalState.standard){
+      modalState.size = pizzaPriceKey(modalState.sizeTier, modalState.half);
+      unit = item.prices[modalState.size];
+    } else {
+      unit = item.prices[modalState.size];
+    }
     var total = unit * modalState.qty;
     document.getElementById('modalQtyValue').textContent = modalState.qty;
     document.getElementById('modalAddPrice').textContent = fmt(total);
-
-    var maxUnit = Math.max.apply(null, sizeKeys(item).map(function(s){ return item.prices[s]; }));
-    var pct = Math.min(100, (total / (maxUnit * 3)) * 100);
-    var fillEl = document.getElementById('modalTotalFill');
-    if (fillEl) fillEl.style.width = pct + '%';
   }
 
   document.getElementById('modalMinus').addEventListener('click', function(){
@@ -1148,6 +1242,30 @@
   document.addEventListener('keydown', function(ev){
     if (ev.key === 'Escape' && !modalOverlay.hidden) closeItemModal();
   });
+
+  /* arrastrar hacia abajo para cerrar (bottom sheet, mobile) */
+  (function(){
+    var startY = null, dragY = 0, dragging = false;
+    modalPanelEl.addEventListener('touchstart', function(ev){
+      if (window.innerWidth >= 600) return;
+      startY = ev.touches[0].clientY; dragging = true;
+      modalPanelEl.style.transition = 'none';
+    }, { passive:true });
+    modalPanelEl.addEventListener('touchmove', function(ev){
+      if (!dragging) return;
+      var dy = ev.touches[0].clientY - startY;
+      dragY = dy < 0 ? 0 : dy;
+      modalPanelEl.style.transform = 'translateY(' + dragY + 'px)';
+    }, { passive:true });
+    modalPanelEl.addEventListener('touchend', function(){
+      if (!dragging) return;
+      dragging = false;
+      modalPanelEl.style.transition = '';
+      if (dragY > 120){ closeItemModal(); }
+      modalPanelEl.style.transform = '';
+      dragY = 0;
+    });
+  })();
   document.getElementById('modalAddBtn').addEventListener('click', function(){
     var item = modalState.item;
     item._justAdded = true;
