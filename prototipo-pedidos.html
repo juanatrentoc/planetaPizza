@@ -51,13 +51,18 @@
   .wrap{ max-width:1180px; margin:0 auto; }
 
   .site-header{
-    display:flex; align-items:center; justify-content:space-between; gap:16px;
-    padding-block:18px; flex-wrap:wrap;
+    display:flex; align-items:center; justify-content:flex-end; gap:16px;
+    padding-block:14px; flex-wrap:wrap; min-height:1px;
   }
-  .brand{ display:flex; align-items:center; gap:14px; }
-  .brand-text{ display:flex; flex-direction:column; line-height:1.2; }
-  .brand-name{ font-family:'Figtree'; font-weight:800; font-size:1.3rem; }
-  .brand-tag{ color:var(--ink-soft); font-size:.82rem; }
+  .hero-brand{ display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+  .hero-brand-logo{
+    width:34px; height:34px; border-radius:50%; object-fit:cover; flex:none;
+    box-shadow: 0 2px 8px rgba(0,0,0,.35);
+  }
+  .hero-brand-name{
+    font-family:'Figtree'; font-weight:700; font-size:.78rem; letter-spacing:.14em; text-transform:uppercase;
+    color: var(--ink-soft);
+  }
 
   .header-actions{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
 
@@ -408,13 +413,6 @@
 
 <div class="wrap">
   <header class="site-header">
-    <div class="brand">
-      <img class="planet-mark" src="assets/logo-planeta.jpg" alt="Logo de Planeta Pizza">
-      <div class="brand-text">
-        <span class="brand-name">Planeta Pizza</span>
-        <span class="brand-tag">Pizzería de barrio, sabor fuera de este mundo</span>
-      </div>
-    </div>
     <div class="header-actions">
       <button class="btn btn-primary" id="cartBtnHeader" type="button" hidden>
         Carrito · <span class="mono" id="cartCountHeader">0</span>
@@ -439,6 +437,10 @@
           <span class="hf-readout tr">HORNO DE PIEDRA · AL PUNTO</span>
         </div>
         <div class="hero-content">
+          <div class="hero-brand">
+            <img class="hero-brand-logo" src="assets/logo-planeta.jpg" alt="Logo de Planeta Pizza">
+            <span class="hero-brand-name">Planeta Pizza</span>
+          </div>
           <p class="hero-eyebrow">// Desde 2008 · Santa Fe</p>
           <h1>Planeta<span class="hero-tagline">// pizza artesanal, sabor fuera de este mundo</span></h1>
           <p class="hero-desc">Elegí, armá tu pedido y confirmalo en un par de pasos. Sin vueltas, con la letra bien grande para que se lea de taquito.</p>
