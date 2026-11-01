@@ -1,40 +1,47 @@
 <title>Planeta Pizza</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;0,900;1,500;1,600&family=Figtree:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap');
 
   :root{
-    --cream:#1C0A10;
-    --surface:#2A0F18;
-    --surface-2:#38141F;
-    --ink:#F3ECE4;
-    --ink-soft:#C7A8AE;
-    --cosmos:#180810;
-    --cosmos-2:#0D0509;
-    --cosmos-ink:#F3ECE4;
-    --flare:#E8472A;
-    --flare-dark:#C7371E;
+    --cream:#1A0F12;
+    --surface:#241318;
+    --surface-2:#2E181F;
+    --ink:#F5EFE6;
+    --ink-soft:#C9B8B0;
+    --cosmos:#2A0F18;
+    --cosmos-2:#190A0F;
+    --cosmos-ink:#F5EFE6;
+    --flare:#7A1A2B;
+    --flare-dark:#5E1420;
+    --action:#C8102E;
+    --action-dark:#A50D26;
     --gold:#D9A85C;
     --basil:#8CB069;
     --transit:#E08A3C;
     --critical:#FF6B5E;
-    --line: rgba(243,236,228,.14);
-    --focus: #D9A85C;
-    --radius-card: 22px;
+    --line: rgba(245,239,230,.14);
+    --focus: var(--action);
+    --radius-card: 18px;
     --radius-pill: 999px;
     --shadow-card: 0 10px 30px -12px rgba(0,0,0,.6);
     --scale: 1;
+    --header-h: 76px;
   }
 
   *{ box-sizing:border-box; }
   html{ font-size: calc(17px * var(--scale)); }
   body{
     margin:0; background:var(--cream); color:var(--ink);
-    font-family:'Figtree', system-ui, -apple-system, sans-serif;
+    font-family:'Inter', system-ui, -apple-system, sans-serif;
     line-height:1.5; padding-inline: clamp(16px, 4vw, 40px);
+    padding-top: var(--header-h);
   }
-  h1,h2,h3,.display{ font-family:'Fraunces', Georgia, serif; font-weight:700; text-wrap: balance; letter-spacing:-0.01em; }
-  .mono{ font-family:'Figtree', sans-serif; font-weight:700; font-variant-numeric: tabular-nums; }
-  a{ color: var(--flare-dark); }
+  h1,h2,h3,.display{
+    font-family:'Oswald', 'Inter', sans-serif; font-weight:700; text-transform:uppercase;
+    letter-spacing:.015em; text-wrap: balance;
+  }
+  .mono{ font-family:'Inter', sans-serif; font-weight:700; font-variant-numeric: tabular-nums; }
+  a{ color: var(--ink); }
   img{ max-width:100%; }
   :focus-visible{ outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
   .skip-link{
@@ -50,26 +57,48 @@
   /* ---------- layout shell ---------- */
   .wrap{ max-width:1180px; margin:0 auto; }
 
+  /* ---------- sello Planeta (CSS, sin imagen) ---------- */
+  .pp-seal{
+    --seal-size: 72px;
+    width:var(--seal-size); height:var(--seal-size); border-radius:50%;
+    background:#F5EFE6; border: max(3px, calc(var(--seal-size)*0.07)) double var(--flare);
+    position:relative; display:flex; align-items:center; justify-content:center;
+    flex:none; box-shadow:0 2px 10px rgba(0,0,0,.35); box-sizing:border-box;
+  }
+  .pp-seal-band{
+    position:absolute; left:0; right:0; top:50%; transform:translateY(-50%);
+    background:var(--flare); color:#fff; font-family:'Oswald',sans-serif; font-weight:700;
+    text-transform:uppercase; letter-spacing:.04em; text-align:center;
+    font-size: calc(var(--seal-size)*0.19); padding: calc(var(--seal-size)*0.07) 0; line-height:1;
+  }
+  .pp-seal-year{
+    position:absolute; bottom: calc(var(--seal-size)*0.1); left:0; right:0; text-align:center;
+    color:var(--flare); font-family:'Inter',sans-serif; font-weight:800; font-size:calc(var(--seal-size)*0.13);
+  }
+
+  /* ---------- header fijo ---------- */
   .site-header{
-    display:flex; align-items:center; justify-content:flex-end; gap:16px;
-    padding-block:14px; flex-wrap:wrap; min-height:1px;
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    background:var(--cream); border-bottom:1px solid var(--line);
   }
-  .hero-title-row{ display:flex; align-items:center; gap:12px; margin-bottom:4px; }
-  .hero-brand-logo{
-    width:44px; height:44px; border-radius:50%; object-fit:cover; flex:none;
-    box-shadow: 0 2px 8px rgba(0,0,0,.35);
+  .header-row{
+    max-width:1180px; margin:0 auto; padding: 10px clamp(16px, 4vw, 40px);
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
   }
+  .open-status{ display:flex; align-items:center; gap:6px; font-size:.82rem; color:var(--ink-soft); font-weight:600; }
+  .status-dot{ width:8px; height:8px; border-radius:50%; flex:none; }
+  .status-dot.is-open{ background:#4CAF50; }
+  .status-dot.is-closed{ background:#9B3A3A; }
 
-  .header-actions{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-
-  /* real logo badge */
-  .planet-mark{
-    --d: 44px; width:var(--d); height:var(--d); border-radius:50%; position:relative; flex:none;
-    object-fit:cover; display:block;
-    box-shadow: 0 2px 8px rgba(0,0,0,.25);
-    background: var(--cream);
+  .branch-toggle{ display:flex; gap:6px; }
+  .branch-pill{
+    font:inherit; font-family:'Inter'; font-weight:700; font-size:.8rem; cursor:pointer;
+    padding:8px 14px; border-radius:var(--radius-pill); border:2px solid var(--line);
+    background:transparent; color:var(--ink-soft); min-height:36px;
   }
-  .planet-mark.lg{ --d: 116px; box-shadow: 0 8px 24px rgba(0,0,0,.3); }
+  .branch-pill[aria-pressed="true"]{ background:var(--flare); border-color:var(--flare); color:#fff; }
+
+  .header-actions{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-left:auto; }
 
   /* ---------- buttons ---------- */
   .btn{
@@ -81,6 +110,8 @@
   .btn:active{ transform: scale(.97); }
   .btn-primary{ background:var(--flare); color:#fff; }
   .btn-primary:hover{ background:var(--flare-dark); }
+  .btn-action{ background:var(--action); color:#fff; }
+  .btn-action:hover{ background:var(--action-dark); }
   .btn-ghost{ background:transparent; color:var(--ink); border-color:var(--line); }
   .btn-ghost:hover{ border-color:var(--ink-soft); }
   .btn-admin{ background:var(--cosmos); color:var(--cosmos-ink); border-color:var(--cosmos); }
@@ -96,50 +127,37 @@
 
   /* ---------- hero (foto real + video-efecto con CSS) ---------- */
   .hero{
-    position:relative; overflow:hidden; border-radius:24px; margin-top:6px;
-    min-height: clamp(300px, 46vw, 440px);
-    display:flex; align-items:flex-end; color: var(--cosmos-ink);
+    position:relative; overflow:hidden; border-radius:20px; margin-top:16px;
+    min-height: clamp(320px, 50vw, 460px);
+    display:flex; align-items:flex-end; color: var(--ink);
   }
   .hero-bg{
     position:absolute; inset:0; z-index:0; width:100%; height:100%;
-    object-fit:cover; object-position:center 55%;
+    object-fit:cover; object-position:center 42%;
   }
   .hero-scrim{
     position:absolute; inset:0; z-index:1;
-    background:
-      linear-gradient(0deg, rgba(46,10,15,.93) 0%, rgba(46,10,15,.8) 26%, rgba(46,10,15,.32) 58%, rgba(74,17,25,.18) 100%),
-      linear-gradient(100deg, rgba(74,17,25,.6) 0%, rgba(74,17,25,.05) 55%);
+    background: linear-gradient(90deg, rgba(26,15,18,.95) 0%, rgba(26,15,18,.8) 32%, rgba(26,15,18,.25) 62%, transparent 80%);
   }
-  .hero-content{ position:relative; z-index:2; padding: clamp(28px, 5vw, 52px) clamp(24px,5vw,48px) clamp(46px,6vw,62px); max-width:600px; }
+  .hero-content{ position:relative; z-index:2; padding: clamp(24px, 5vw, 44px); max-width:600px; }
+  .hero-anniversary-badge{
+    display:inline-flex; align-items:center; gap:10px; background:rgba(26,15,18,.55); border:1px solid var(--line);
+    border-radius:var(--radius-pill); padding:6px 14px 6px 6px; margin-bottom:16px;
+  }
+  .hero-anniversary-badge img{ width:28px; height:28px; border-radius:50%; object-fit:cover; flex:none; }
+  .hero-anniversary-badge span{ font-size:.78rem; color: var(--ink-soft); font-weight:600; }
   .hero .hero-eyebrow{
-    font-family:'Figtree', sans-serif; text-transform:uppercase; letter-spacing:.16em; font-size:.72rem;
-    color: var(--gold); margin:0 0 12px;
+    font-family:'Inter', sans-serif; text-transform:uppercase; letter-spacing:.14em; font-size:.74rem;
+    font-weight:700; color: var(--ink-soft); margin:0 0 10px;
   }
-  .hero h1{ font-size: clamp(1.7rem, 4vw, 2.6rem); line-height:1.05; margin:0; letter-spacing:.01em; }
+  .hero-title-row{ display:flex; align-items:center; gap:14px; }
+  .hero h1{ font-size: clamp(1.9rem, 4.6vw, 2.8rem); line-height:1; margin:0; letter-spacing:.01em; }
   .hero-tagline{
-    display:block; font-family:'Fraunces', Georgia, serif; font-style:italic; font-weight:500;
-    font-size: clamp(1rem, 2vw, 1.3rem); color: var(--gold); margin-top:4px;
+    display:block; font-family:'Inter', sans-serif; font-style:italic; font-weight:500;
+    font-size: clamp(.95rem, 1.8vw, 1.1rem); color: #E9C9CE; margin-top:8px; text-transform:none;
   }
-  .hero p.hero-desc{ color:#E8DCCC; font-size:1.02rem; max-width:48ch; margin-top:16px; }
+  .hero p.hero-desc{ color:#E8DCCC; font-size:1.02rem; max-width:48ch; margin-top:14px; }
   .hero-cta{ display:flex; gap:12px; margin-top:22px; flex-wrap:wrap; }
-
-  /* ---------- hero: detalles tipo "visor de cámara" (inspirado en el video de referencia) ---------- */
-  .hero-frame{ position:absolute; inset: clamp(14px,2.5vw,22px); z-index:2; pointer-events:none; }
-  .hf-corner{ position:absolute; width:22px; height:22px; border: 2px solid rgba(217,168,92,.75); }
-  .hf-corner.tl{ top:0; left:0; border-right:0; border-bottom:0; }
-  .hf-corner.tr{ top:0; right:0; border-left:0; border-bottom:0; }
-  .hf-corner.bl{ bottom:0; left:0; border-right:0; border-top:0; }
-  .hf-corner.br{ bottom:0; right:0; border-left:0; border-top:0; }
-  .hf-readout{
-    position:absolute; font-family:'Figtree', sans-serif; font-size:.68rem; letter-spacing:.06em;
-    color: rgba(232,220,204,.85); text-transform:uppercase; white-space:nowrap;
-  }
-  .hf-readout.tr{ top:-20px; right:28px; }
-  @media (max-width:640px){ .hf-readout.tr{ display:none; } }
-  .hero-step-note{
-    font-family:'Figtree', sans-serif; font-size:.72rem; letter-spacing:.1em; text-transform:uppercase;
-    color: var(--gold); margin: 18px 0 0; opacity:.85;
-  }
 
   /* ---------- category tabs ---------- */
   .category-tabs{
@@ -167,11 +185,11 @@
   .process-tile{
     border:1px solid var(--line); border-radius:16px; padding:18px 20px; background:var(--surface);
   }
-  .process-title{ font-family:'Fraunces', Georgia, serif; font-weight:700; color:var(--gold); display:block; margin-bottom:6px; }
+  .process-title{ font-family:'Oswald', sans-serif; text-transform:uppercase; font-weight:700; color:var(--flare); display:block; margin-bottom:6px; }
   .process-tile p{ margin:0; color:var(--ink-soft); font-size:.9rem; }
   .section-eyebrow{
-    font-family:'Figtree', sans-serif; text-transform:uppercase; letter-spacing:.16em; font-size:.72rem;
-    color: var(--gold); margin: 0; display:block;
+    font-family:'Inter', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:.14em; font-size:.72rem;
+    color: var(--flare); margin: 0; display:block;
   }
   .menu-section-title{ margin: 2px 0 0; font-size: clamp(1.6rem, 3.4vw, 2.1rem); }
   .section-rule{ height:1px; background: linear-gradient(90deg, var(--flare) 0%, var(--gold) 45%, transparent 100%); margin: 14px 0 0; border:0; }
@@ -412,15 +430,22 @@
 
 <a class="skip-link" href="#main">Saltar al contenido</a>
 
-<div class="wrap">
-  <header class="site-header">
+<header class="site-header" id="siteHeader">
+  <div class="header-row">
+    <div class="pp-seal" style="--seal-size:38px" aria-hidden="true">
+      <span class="pp-seal-band">PLANETA</span>
+    </div>
+    <span class="open-status" id="openStatus"></span>
+    <div class="branch-toggle" id="branchToggle" role="group" aria-label="Elegí tu sucursal"></div>
     <div class="header-actions">
-      <button class="btn btn-primary" id="cartBtnHeader" type="button" hidden>
+      <button class="btn btn-action" id="cartBtnHeader" type="button" hidden>
         Carrito · <span class="mono" id="cartCountHeader">0</span>
       </button>
     </div>
-  </header>
+  </div>
+</header>
 
+<div class="wrap">
   <main id="main">
 
     <!-- ===================== CUSTOMER: MENU ===================== -->
@@ -428,25 +453,25 @@
       <div class="hero">
         <img class="hero-bg" src="assets/hero-pizza.jpg" alt="" aria-hidden="true">
         <div class="hero-scrim" aria-hidden="true"></div>
-        <div class="hero-frame" aria-hidden="true">
-          <span class="hf-corner tl"></span>
-          <span class="hf-corner tr"></span>
-          <span class="hf-corner bl"></span>
-          <span class="hf-corner br"></span>
-          <span class="hf-readout tr">HORNO DE PIEDRA · AL PUNTO</span>
-        </div>
         <div class="hero-content">
-          <p class="hero-eyebrow">// Desde 2008 · Santa Fe</p>
+          <div class="hero-anniversary-badge">
+            <img src="assets/logo-planeta.jpg" alt="" aria-hidden="true">
+            <span>18 años en Santa Fe · Gracias por acompañarnos</span>
+          </div>
+          <p class="hero-eyebrow">Desde 2008 · Santa Fe</p>
           <div class="hero-title-row">
-            <img class="hero-brand-logo" src="assets/logo-planeta.jpg" alt="Logo de Planeta Pizza">
+            <div class="pp-seal" style="--seal-size:64px" aria-hidden="true">
+              <span class="pp-seal-band">PLANETA</span>
+              <span class="pp-seal-year">2008</span>
+            </div>
             <h1>Planeta Pizza</h1>
           </div>
-          <span class="hero-tagline">// pizza artesanal, sabor fuera de este mundo</span>
+          <span class="hero-tagline">Pizza artesanal, sabor fuera de este mundo</span>
           <p class="hero-desc">Pizzas, empanadas, tartas y hamburguesas para pedir online, con retiro en el local o envío a domicilio.</p>
           <div class="hero-cta">
             <button class="btn btn-primary btn-lg" id="verCartaBtn" type="button">Ver la carta</button>
+            <button class="btn btn-outline btn-lg" id="verPromosBtn" type="button">Ver promos</button>
           </div>
-          <p class="hero-step-note">01 — Carta</p>
         </div>
       </div>
 
@@ -456,7 +481,7 @@
 
       <section class="section-header-wrap">
         <div class="section-header">
-          <span class="section-eyebrow">// 02 — Nuestro proceso</span>
+          <span class="section-eyebrow">Nuestro proceso</span>
           <h2 class="menu-section-title">Desde 2008, a fuego real</h2>
           <hr class="section-rule">
         </div>
@@ -675,9 +700,9 @@
       { id:'p40', num:40, name:'Lomito', desc:'Lomo de cerdo a las finas hierbas, salsa barbacoa, muzzarella y salsa de tomates.', planet:'carne', prices:{chica:14000, planetaMitad:11500, planetaEntera:23000, grandeMitad:14000, grandeEntera:28000} },
       { id:'p42', num:42, name:'Superespecial', desc:'Jamón cocido, rodajas de tomate, morrones, huevo, muzzarella y salsa de tomates.', planet:'especial', prices:{chica:14000, planetaMitad:11500, planetaEntera:23000, grandeMitad:14000, grandeEntera:28000} },
       { id:'p43', num:43, name:'La cheta', desc:'Rúcula, tomates disecados, queso sardo, muzzarella y salsa de tomates.', planet:'rucula', prices:{chica:13500, planetaMitad:11500, planetaEntera:23000, grandeMitad:14000, grandeEntera:28000} },
-      { id:'it-margherita', name:'Margherita', tag:'Estilo italiano', nickname:'8 porciones · Exclusivo Planeta Centro', desc:'Salsa de tomate, mozzarella, albahaca fresca y aceite de oliva.', planet:'napolitana', prices:{unica:22000} },
-      { id:'it-pepperoni', name:'Pepperoni', tag:'Estilo italiano', nickname:'8 porciones · Exclusivo Planeta Centro', desc:'Salsa de tomate, mozzarella y pepperoni.', planet:'calabresa', prices:{unica:24000} },
-      { id:'it-portobella', name:'Portobella', tag:'Estilo italiano', nickname:'8 porciones · Exclusivo Planeta Centro', desc:'Salsa de tomate, mozzarella, panceta ahumada, hongos portobello frescos, ciboulette y aceite de oliva.', planet:'roquefort', prices:{unica:27000} }
+      { id:'it-margherita', name:'Margherita', tag:'Estilo italiano', exclusive:'centro', nickname:'8 porciones · Exclusivo Planeta Centro', desc:'Salsa de tomate, mozzarella, albahaca fresca y aceite de oliva.', planet:'napolitana', prices:{unica:22000} },
+      { id:'it-pepperoni', name:'Pepperoni', tag:'Estilo italiano', exclusive:'centro', nickname:'8 porciones · Exclusivo Planeta Centro', desc:'Salsa de tomate, mozzarella y pepperoni.', planet:'calabresa', prices:{unica:24000} },
+      { id:'it-portobella', name:'Portobella', tag:'Estilo italiano', exclusive:'centro', nickname:'8 porciones · Exclusivo Planeta Centro', desc:'Salsa de tomate, mozzarella, panceta ahumada, hongos portobello frescos, ciboulette y aceite de oliva.', planet:'roquefort', prices:{unica:27000} }
     ]},
     empanadas: { label:"Empanadas", eyebrow:"Carta Planeta", items:[
       { id:'e-carnesalada', name:'Carne salada', desc:'Artesanales al horno.', planet:'carne', prices:{unidad:3000, mediaDocena:17000, docena:33000} },
@@ -736,9 +761,57 @@
 
   var fmt = function(n){ return '$' + n.toLocaleString('es-AR'); };
 
+  var PIZZA_SIZE_KEYS = ['chica','planetaMitad','planetaEntera','grandeMitad','grandeEntera'];
+  var PIZZA_PORCIONES_LABEL = {
+    chica:'4 porciones', planetaMitad:'8 porciones', planetaEntera:'8 porciones',
+    grandeMitad:'12 porciones', grandeEntera:'12 porciones'
+  };
+
+  // Horarios guardados en un solo lugar (días: 0=domingo ... 6=sábado)
+  var HOURS = [
+    { days:[1,2,3,4,5], from:'11:30', to:'14:30' }, // mediodía: Lun a Vie
+    { days:[0,1,2,3,4], from:'19:00', to:'23:00' }, // noche: Dom a Jue
+    { days:[5,6], from:'19:30', to:'23:30' }         // noche: Vie y Sáb
+  ];
+
+  var BRANCHES = {
+    centro: { id:'centro', name:'Centro', address:'25 de Mayo 2800', phones:['454-0885','342 502-3068'], tel:['+543424540885','+543425023068'] },
+    guadalupe: { id:'guadalupe', name:'Guadalupe', address:'Av. Gral. Paz 6401', phones:['469-1881','342 502-2380'], tel:['+543424691881','+543425022380'] }
+  };
+
+  function timeToMin(s){ var p = s.split(':'); return (+p[0])*60 + (+p[1]); }
+
+  function getOpenStatus(){
+    var now = new Date();
+    var day = now.getDay(), mins = now.getHours()*60 + now.getMinutes();
+    var todays = HOURS.filter(function(b){ return b.days.indexOf(day) > -1; })
+      .slice().sort(function(a,b){ return timeToMin(a.from) - timeToMin(b.from); });
+    for (var i=0;i<todays.length;i++){
+      if (mins >= timeToMin(todays[i].from) && mins < timeToMin(todays[i].to)) return { open:true, label:'Abierto ahora' };
+    }
+    for (var i=0;i<todays.length;i++){
+      if (mins < timeToMin(todays[i].from)) return { open:false, label:'Cerrado · abre a las ' + todays[i].from + ' hs' };
+    }
+    for (var d=1; d<=7; d++){
+      var nd = (day+d) % 7;
+      var blocks = HOURS.filter(function(b){ return b.days.indexOf(nd) > -1; })
+        .slice().sort(function(a,b){ return timeToMin(a.from) - timeToMin(b.from); });
+      if (blocks.length) return { open:false, label:'Cerrado · abre a las ' + blocks[0].from + ' hs' };
+    }
+    return { open:false, label:'Cerrado' };
+  }
+
+  function renderOpenStatus(){
+    var s = getOpenStatus();
+    var el = document.getElementById('openStatus');
+    if (!el) return;
+    el.innerHTML = '<span class="status-dot ' + (s.open ? 'is-open' : 'is-closed') + '" aria-hidden="true"></span>' + s.label;
+  }
+
   var state = {
     screen: 'menu',
     activeCategory: 'pizzas',
+    branch: 'centro',
     cart: {}, // key -> {id,name,size,unitPrice,qty}
   };
 
@@ -746,6 +819,40 @@
     var saved = JSON.parse(localStorage.getItem('pp_cart') || 'null');
     if (saved) state.cart = saved;
   } catch(e){}
+
+  try {
+    var savedBranch = localStorage.getItem('pp_branch');
+    if (savedBranch && BRANCHES[savedBranch]) state.branch = savedBranch;
+  } catch(e){}
+
+  function setBranch(branchId){
+    state.branch = branchId;
+    try{ localStorage.setItem('pp_branch', branchId); }catch(e){}
+    renderBranchToggles();
+    renderMenu();
+    renderCartBits();
+  }
+
+  function renderBranchToggles(){
+    var targets = document.querySelectorAll('.branch-toggle');
+    targets.forEach(function(el){
+      el.innerHTML = '';
+      Object.keys(BRANCHES).forEach(function(bid){
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'branch-pill';
+        b.setAttribute('aria-pressed', String(state.branch === bid));
+        b.textContent = BRANCHES[bid].name;
+        b.addEventListener('click', function(){ setBranch(bid); });
+        el.appendChild(b);
+      });
+    });
+  }
+
+  function syncHeaderHeight(){
+    var header = document.getElementById('siteHeader');
+    if (!header) return;
+    document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
+  }
 
   function saveCart(){
     try{ localStorage.setItem('pp_cart', JSON.stringify(state.cart)); }catch(e){}
@@ -1049,6 +1156,10 @@
   document.getElementById('verCartaBtn').addEventListener('click', function(){
     document.getElementById('categoryTabs').scrollIntoView({behavior:'smooth'});
   });
+  document.getElementById('verPromosBtn').addEventListener('click', function(){
+    var el = document.getElementById('cat-promos');
+    if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  });
   document.getElementById('cartBarBtn').addEventListener('click', function(){ goScreen('cart'); });
   document.getElementById('cartBtnHeader').addEventListener('click', function(){ goScreen('cart'); });
   document.querySelectorAll('[data-go]').forEach(function(b){
@@ -1273,5 +1384,11 @@
   renderTabs();
   renderMenu();
   renderCartBits();
+  renderBranchToggles();
+  renderOpenStatus();
+  syncHeaderHeight();
+  window.addEventListener('resize', syncHeaderHeight);
+  window.addEventListener('load', syncHeaderHeight);
+  setInterval(renderOpenStatus, 60000);
 })();
 </script>
