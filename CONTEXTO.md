@@ -1,8 +1,14 @@
 # Contexto — Planeta Pizza (web de pedidos)
 
 ## Estado actual
-Prototipo funcional en `prototipo-pedidos.html`. Flujo: carta → carrito → datos →
-confirmación, más un panel para que el local vea los pedidos en vivo.
+Prototipo funcional en `prototipo-pedidos.html`. Flujo cliente: carta → carrito →
+datos → confirmación → "Mis pedidos" (seguimiento). Además, ahora es un sistema
+**multi-pizzería** real con paneles de administración — ver sección nueva abajo
+("Sistema de administración y multi-pizzería") para el detalle completo, es la
+parte más grande agregada desde la última actualización de este archivo.
+
+Para probarlo localmente: correr `C:\Users\usuario\PlanetaPizza\serve.ps1` (PowerShell,
+sin necesitar Node/Python) y abrir `http://localhost:8123/`.
 
 **Carta:** cargada desde el PDF real "Carta OCT2026 (digital).pdf" (descargado y
 verificado página por página — está guardado en `imagenes/CartaOCT2026-original.pdf`
@@ -69,6 +75,54 @@ pedidos (delivery/retiro), no una landing de marca con reservas.
 - Objetivo: mostrar el prototipo funcionando en la primera reunión con el dueño, con
   una lista de preguntas preparada.
 
+## Sistema de administración y multi-pizzería
+Agregado en varias sesiones después de la carga inicial de la carta. Todo simulado
+con `localStorage` del navegador (sin backend real todavía) para poder mostrar la
+demo sin depender de internet ni de una cuenta de Firebase creada.
+
+**Multi-pizzería (tenants):** el mismo archivo puede alojar varias pizzerías
+"separadas" — cada una con sus propios pedidos, stock, productos, promos y marca,
+sin que ninguna vea los datos de otra. Cada pizzería tiene **su propio link**
+(`?p=<id>` en la URL, ej. `http://localhost:8123/?p=planeta`), y pueden estar
+varias recibiendo pedidos al mismo tiempo (probado abriendo dos pestañas con dos
+links distintos). Importante: esto funciona hoy porque todo vive en el
+`localStorage` del mismo navegador/computadora — para que cada pizzería reciba
+pedidos de clientes en cualquier dispositivo de internet hace falta el backend
+real (Firebase), que sigue pendiente (ver `guia-firebase.html`).
+
+**Paneles de personal** (acceso por usuario/contraseña, cada uno en su propia
+ruta con `#`):
+- `/admin` — pedidos en vivo de su sucursal (separado por cuenta: Centro y
+  Guadalupe no se ven entre sí), historial, marcar "sin stock" por producto
+  (bloquea el pedido al cliente, no es solo para cancelar después), aviso sonoro
+  al llegar un pedido nuevo, cancelar con motivo, imprimir. El cliente no puede
+  cancelar una vez que el pedido pasa a "en preparación" (antes sí).
+- `/adminSup` — productos y precios (agregar con varios tamaños/precios, no solo
+  uno; deshabilitar sin borrar; imagen opcional por producto, que reemplaza el
+  dibujo tipo "planeta" por una foto real si se carga una), extras para
+  hamburguesas (se puede elegir a qué hamburguesas específicas aplica cada
+  extra), promociones, y un botón "Vaciar la carta actual" para que una
+  pizzería nueva empiece de cero y cargue la suya.
+- `/adminPizzeriaPrivado` — el único panel que puede crear, elegir o borrar
+  pizzerías (sección "Pizzerías registradas", con el link de cada una). También
+  edita, pizzería por pizzería: nombre/marca del negocio, paleta de colores (5
+  colores clave), sucursales (agregar/editar/eliminar, no solo Centro/Guadalupe),
+  horarios, logo e imagen de fondo de portada.
+- Cliente: ícono de perfil (registro de contacto opcional, sin contraseña) y
+  ícono de "Mis pedidos" (lista todos los pedidos hechos desde ese navegador,
+  con estado en vivo — antes solo se veía el último pedido y los anteriores se
+  "perdían", ya corregido).
+
+**Usuarios de prueba de Planeta Pizza** (la pizzería que viene precargada por
+defecto, id `planeta`): `admincentro` / `centro2026`, `adminguadalupe` /
+`guadalupe2026`, `adminsup` / `sup2026`, `adminpizzeriaprivado` / `privado2026`.
+Las pizzerías nuevas que se creen desde `/adminPizzeriaPrivado` generan sus
+propias cuentas (contraseña al azar, se muestra una sola vez al crearla).
+
+**Documentos de respaldo:** `plan-paneles-admin.html` (plan original revisado
+con el dueño/Juana antes de programar) y `guia-firebase.html` (pasos para cuando
+se decida conectar el backend real).
+
 ## Pendiente / preguntas para el dueño
 - ¿Los precios y la disponibilidad de "Estilo italiano" son realmente solo en Centro,
   o también se puede pedir en Guadalupe?
@@ -80,11 +134,20 @@ pedidos (delivery/retiro), no una landing de marca con reservas.
   de días/horarios para pedirlos online?
 - Confirmar si la paleta bordó/dorado debe ser la identidad oficial del sitio, o
   prefieren ajustarla.
+- Backend real (Firebase) para que los pedidos sincronicen entre dispositivos
+  distintos, no solo dentro del mismo navegador — ver `guia-firebase.html`.
+- Posibles mejoras ya conversadas pero no pedidas todavía: nombres de categorías
+  editables (por si otra pizzería no vende las mismas categorías) y el texto fijo
+  de la sección "Nuestro proceso" (hoy habla específicamente de Planeta Pizza).
 
 ## Cómo seguir trabajando
 Todo el proyecto vive en este repo (`C:\Users\usuario\PlanetaPizza` en la máquina
 de Juana) — abrir Claude Code ahí, no en otra carpeta. Incluye:
 - `prototipo-pedidos.html` + `assets/` (logo, foto de portada) — el sitio.
+- `serve.ps1` — servidor local simple (PowerShell, sin Node/Python) para probar
+  el sitio en `http://localhost:8123/`.
+- `plan-paneles-admin.html` y `guia-firebase.html` — documentos de respaldo del
+  sistema de administración y del paso pendiente de Firebase.
 - `imagenes/` — material de referencia real del local: logo original, horarios,
   zona de delivery, notas de direcciones, el PDF real de la carta y sus páginas
   renderizadas, y el video de referencia de estructura (`imagenes/video/`).
@@ -95,4 +158,4 @@ de Juana) — abrir Claude Code ahí, no en otra carpeta. Incluye:
     cambios al repo.
 
 ## Última actualización
-2026-10-30
+2026-11-03

@@ -58,49 +58,65 @@
   <div class="toc">
     <strong>Contenido:</strong>
     1. Decisión técnica de base ·
-    2. Panel <code>/admin</code> (local) ·
+    2. Panel <code>/admin</code> (local, por sucursal) ·
     3. Panel <code>/adminSup</code> (base de datos) ·
-    4. Clientes ·
-    5. Qué cambia en el proyecto ·
-    6. Lo que necesito que confirmes
+    4. Panel <code>/adminPizzeriaPrivado</code> (solo vos) ·
+    5. Clientes ·
+    6. Qué cambia en el proyecto ·
+    7. Lo que ya quedó confirmado
   </div>
 
   <h2>1. Decisión técnica de base</h2>
   <p>
     Lo que pediste (pedidos que le saltan en vivo al local, estados que se actualizan en tiempo real,
-    precios/productos editables de forma permanente) <strong>no se puede hacer de forma segura</strong>
-    en el archivo HTML suelto que tenemos hoy — no tiene "atrás" ningún servidor ni base de datos real;
-    todo vive en el navegador de cada persona (localStorage).
+    precios/productos editables de forma permanente, usuario y contraseña propios para cada panel)
+    <strong>no se puede hacer</strong> en el archivo HTML suelto que tenemos hoy — no tiene "atrás" ningún
+    servidor ni base de datos real; todo vive en el navegador de cada persona (localStorage).
   </p>
   <p>
-    La solución es convertir este proyecto en un <strong>Artifact publicado de Claude</strong>: eso le da
-    una base de datos compartida de verdad y una noción real de "quién sos" al abrir el link.
+    <strong>Backend elegido: Firebase</strong> (de Google, plan gratuito). Guarda los pedidos en vivo,
+    los productos/precios, el stock y las promociones, y maneja el usuario/contraseña real de cada panel.
+    Es el mismo tipo de servicio que usan la gran mayoría de apps chicas y medianas para esto.
   </p>
   <div class="callout">
-    <strong>Importante:</strong> esa identidad real está atada a cuentas de Claude de tu organización o
-    personas invitadas — no es un sistema de usuario/contraseña como Instagram o Mercado Libre. Por eso,
-    "roles" como admin de local / admin general van a usar los permisos reales para compartir de Claude
-    (Propietario / Editor), no un usuario <code>adminpzzr</code> inventado por mí con contraseña. Es más
-    seguro que inventar una contraseña a mano, pero funciona distinto a lo que imaginabas — lo marco para
-    que lo tengas claro antes de avanzar.
+    <strong>Por qué Firebase y no "cuentas de Claude":</strong> la primera idea era usar el sistema de
+    cuentas/permisos propio de Claude, pero ese sistema exige que la persona esté identificada con una
+    cuenta de Claude para siquiera leer o escribir un dato — un cliente que entra a pedir una pizza sin
+    iniciar sesión en ningún lado no tiene esa identidad, así que no podía usarse para los pedidos. Firebase
+    sí permite que cualquier visitante anónimo cargue su pedido, y al mismo tiempo le da usuario y
+    contraseña reales solo al personal. Un único sistema para todo, en vez de mezclar dos.
   </div>
   <p>
-    Esto también significa: en vez de una dirección propia como <code>planetapizza.com/admin</code>, vas a
-    tener un único link de Claude, y dentro de esa misma página vas a ver una pantalla u otra según quién
-    sos (cliente / persona del local / vos). Le decimos "ruta" más por costumbre que porque sea literalmente
-    otra dirección web.
+    El sitio sigue siendo las mismas páginas que ya conocés (la carta para pedir, y ahora además
+    <code>/admin</code>, <code>/adminSup</code>, <code>/adminPizzeriaPrivado</code>) — lo único que cambia
+    por dentro es que, en vez de guardar todo solo en el navegador de cada persona, ahora se guarda en la
+    base de datos de Firebase, visible para quien corresponda según su usuario.
+  </p>
+  <p>
+    Paso siguiente, ya en marcha: te dejé una guía aparte (<code>guia-firebase.html</code>) con los pasos
+    para crear la cuenta gratuita de Firebase y las 4 cuentas de usuario del personal. Una vez que me pases
+    los datos de configuración, conecto todo.
   </p>
 
-  <h2>2. Panel <code>/admin</code> — para quien recibe los pedidos en el local</h2>
+  <h2>2. Panel <code>/admin</code> — para quien recibe los pedidos, uno por sucursal</h2>
   <h3>Quién entra</h3>
-  <p>Cualquier persona a la que invites como Editora del Artifact (le pasás el link, entra con su cuenta de Claude).</p>
+  <p>
+    Dos cuentas separadas, cada una con su propio usuario y contraseña: una para Centro, otra para
+    Guadalupe. Quien entra con la cuenta de Centro <strong>solo ve los pedidos de Centro</strong>, y lo
+    mismo para Guadalupe — no es un filtro opcional, están separados de raíz.
+  </p>
 
   <h3>Qué ve y qué hace</h3>
   <ul>
-    <li>Pedidos en vivo, a medida que van entrando.</li>
-    <li>Puede ir marcando el estado del pedido a medida que avanza.</li>
-    <li>Historial de pedidos (cuánto tiempo se guarda queda para definir después, como dijiste).</li>
-    <li>Puede marcar un producto como "sin stock" por el día.</li>
+    <li>Pedidos en vivo de su sucursal, a medida que van entrando, con <strong>aviso sonoro</strong> cuando
+    llega uno nuevo.</li>
+    <li>Va marcando el estado del pedido a medida que avanza.</li>
+    <li>Historial de pedidos (cuánto tiempo se guarda queda para definir después).</li>
+    <li>Puede marcar un producto como "sin stock" — por <strong>producto completo</strong> (ej. "no hay
+    Fugazzeta" en ningún tamaño), no por variante puntual.</li>
+    <li><strong>Imprimir el pedido</strong>, para cuando usen una impresora de tickets.</li>
+    <li><strong>Cancelar un pedido</strong> con un motivo corto, como respaldo — aunque la idea principal
+    (ver más abajo) es que esto casi no haga falta.</li>
   </ul>
 
   <h3>Estados del pedido — vista interna vs. lo que ve el cliente</h3>
@@ -116,73 +132,68 @@
     <tr><td>Finalizado</td><td>Finalizado</td><td>Ambos</td></tr>
   </table>
 
-  <div class="question">
-    <strong>Pregunta 1 — "Sin stock":</strong> ¿se marca por producto completo (ej. "no hay Fugazzeta" en
-    ningún tamaño) o por una variante puntual (ej. "no hay Fugazzeta chica pero sí mediana/grande")?
-    Lo segundo es más preciso pero un poco más de trabajo marcarlo cada vez.
+  <div class="callout">
+    <strong>Local cerrado o sin stock → no se deja pedir.</strong> En vez de depender de que el local
+    cancele el pedido después, la carta misma va a impedir el pedido desde el principio: un producto
+    marcado "sin stock" aparece deshabilitado para pedir, y si la sucursal está fuera de su horario
+    (según los horarios ya cargados en el sitio), no se puede finalizar la compra para esa sucursal. La
+    opción de cancelar sigue existiendo como respaldo, para casos que no se puedan prever de antemano.
   </div>
 
-  <h3>Cosas que yo sumaría (decime si las querés o no)</h3>
-  <ol>
-    <li><strong>Filtro por sucursal.</strong> Tenés Centro y Guadalupe — sin esto, el de Guadalupe vería
-    también los pedidos de Centro y viceversa. Para mí esto no es opcional, es necesario.</li>
-    <li><strong>Aviso sonoro o notificación</strong> cuando entra un pedido nuevo, para que no tengan que
-    estar mirando la pantalla fijo.</li>
-    <li><strong>Cancelar pedido</strong> con un motivo corto (sin stock, local cerrado, etc.) que el
-    cliente pueda ver.</li>
-    <li><strong>Imprimir el pedido</strong>, si en algún momento usan una impresora de tickets.</li>
-  </ol>
-
-  <h2>3. Panel <code>/adminSup</code> — base de datos (precios, productos, local)</h2>
+  <h2>3. Panel <code>/adminSup</code> — base de datos de productos, precios y promociones</h2>
   <h3>Quién entra</h3>
-  <p>El Propietario del Artifact (vos, o a quien se lo transfieras/compartas como dueño) — es el
-  equivalente real a tu idea de "adminpzzr".</p>
+  <p>Una única cuenta, con su propio usuario y contraseña: <code>adminSup</code>.</p>
 
   <h3>Qué puede hacer</h3>
   <ul>
     <li>Agregar, editar o eliminar pizzas/empanadas/tartas/hamburguesas (nombre, descripción, precios,
-    categoría).</li>
+    categoría), con <strong>confirmación antes de borrar</strong> para que nada se borre por error.</li>
     <li>Deshabilitar un producto de forma permanente (distinto del "sin stock" del día a día del panel
-    <code>/admin</code> — esto es más del estilo "ya no lo vendemos más").</li>
-    <li>Editar los datos del local: nombre, direcciones, teléfonos, horarios, logo — esto conecta con lo
-    que me habías pedido antes como "Panel de Alta de Pizzería".</li>
+    <code>/admin</code> — esto es del estilo "ya no lo vendemos más").</li>
     <li>Definir promociones para clientes registrados (descuento, envío gratis, etc.).</li>
   </ul>
+  <p>
+    Sin historial de cambios (quién cambió qué precio y cuándo) — quedó descartado: va a ser una sola
+    persona manejando esto, así que no hace falta.
+  </p>
 
-  <h3>Cosas que yo sumaría</h3>
-  <ol>
-    <li><strong>Confirmación antes de borrar</strong> un producto, para que no se borre por error.</li>
-    <li><strong>Historial de cambios</strong> (quién cambió qué precio y cuándo) — es una buena práctica,
-    pero lo marco como opcional, no imprescindible para arrancar.</li>
-  </ol>
+  <h2>4. Panel <code>/adminPizzeriaPrivado</code> — datos del negocio, solo vos</h2>
+  <p>
+    Panel aparte de <code>/adminSup</code>, con su propio usuario y contraseña, pensado para que lo manejes
+    únicamente vos. Acá se edita la información de fondo del negocio: nombre, direcciones, teléfonos, logo
+    y horarios de cada sucursal — lo que antes hablamos como "Panel de Alta de Pizzería".
+  </p>
 
-  <h2>4. Clientes</h2>
+  <h2>5. Clientes</h2>
   <p>
     Arriba a la derecha va un ícono de perfil. Al tocarlo, un formulario simple: nombre, teléfono, email.
     Sin contraseña, sin "iniciar sesión" de verdad — es solo para sumarlos a una lista y que el dueño les
     pueda mandar promociones más adelante (el envío en sí, por WhatsApp/email/etc., sería otro proyecto
-    aparte, esto solo arma la lista).
+    aparte, esto solo arma la lista). Se puede comprar sin registrarse.
   </p>
 
-  <h2>5. Qué cambia en el proyecto</h2>
+  <h2>6. Qué cambia en el proyecto</h2>
   <ul>
-    <li>El sitio deja de vivir solo como archivo HTML en tu computadora; pasa a ser un Artifact publicado
-    con su propio link.</li>
-    <li>Los pedidos, precios y productos dejan de guardarse solo en el navegador de cada uno (localStorage)
-    y pasan a una base compartida de verdad.</li>
-    <li>El acceso de "administrador" se maneja con los permisos reales para compartir de Claude
-    (Propietario/Editor), no con usuarios y contraseñas inventados.</li>
+    <li>El sitio sigue siendo las mismas páginas HTML, pero ahora conectadas a Firebase en vez de guardar
+    todo solo en el navegador de cada uno (localStorage).</li>
+    <li>Los pedidos, el stock, los precios/productos y las promociones pasan a vivir en una base de datos
+    compartida real, en vivo.</li>
+    <li>Aparecen 4 pantallas de inicio de sesión con usuario y contraseña reales: <code>/admin</code>
+    (Centro), <code>/admin</code> (Guadalupe), <code>/adminSup</code> y <code>/adminPizzeriaPrivado</code>.</li>
   </ul>
 
-  <h2>6. Lo que necesito que confirmes</h2>
-  <div class="question"><strong>a.</strong> ¿Avanzamos con la conversión a Artifact (recomendado) para que
-  todo esto funcione de verdad, con las implicancias de la sección 1?</div>
-  <div class="question"><strong>b.</strong> "Sin stock": ¿por producto completo o por variante/tamaño
-  puntual? (sección 2)</div>
-  <div class="question"><strong>c.</strong> Las 4 cosas que sumaría en <code>/admin</code> — ¿las incluyo
-  todas, alguna no, o se te ocurre otra?</div>
-  <div class="question"><strong>d.</strong> Las 2 cosas que sumaría en <code>/adminSup</code> — ¿las
-  incluyo?</div>
+  <h2>7. Lo que ya quedó confirmado</h2>
+  <ul>
+    <li>Backend: Firebase, plan gratuito.</li>
+    <li>"Sin stock" es por producto completo, y además bloquea el pedido de entrada (no solo para cancelar
+    después).</li>
+    <li><code>/admin</code>: cuenta separada por sucursal, aviso sonoro, historial, imprimir, cancelar con
+    motivo — todo incluido.</li>
+    <li><code>/adminSup</code>: confirmación antes de borrar sí, historial de cambios no (una sola persona
+    lo maneja).</li>
+    <li><code>/adminPizzeriaPrivado</code>: panel aparte, usuario y contraseña propios, solo para vos.</li>
+    <li>Clientes: solo registro de contacto opcional, sin contraseña ni login.</li>
+  </ul>
 
 </body>
 </html>

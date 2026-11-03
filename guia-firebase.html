@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Planeta Pizza — Guía: configurar Firebase</title>
+<style>
+  @media print { @page { margin: 2cm; } body{ font-size: 11pt; } .no-print{ display:none; } }
+  body{
+    font-family: Georgia, 'Times New Roman', serif; max-width: 780px; margin: 0 auto;
+    padding: 40px 24px 80px; color:#241017; line-height:1.55; background:#fff;
+  }
+  h1{ font-size:1.6rem; color:#7A1A2B; margin-bottom:4px; }
+  .subtitle{ color:#6b5a60; font-size:.95rem; margin-top:0; margin-bottom:28px; }
+  h2{ font-size:1.1rem; color:#7A1A2B; border-bottom:2px solid #7A1A2B; padding-bottom:6px; margin-top:34px; }
+  p{ margin:8px 0; }
+  ol, ul{ margin:8px 0; padding-left:22px; }
+  li{ margin-bottom:8px; }
+  code{ background:#f2eae7; padding:1px 6px; border-radius:4px; font-size:.92em; }
+  .step-num{
+    display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px;
+    background:#7A1A2B; color:#fff; border-radius:50%; font-family:Arial,sans-serif; font-weight:700;
+    font-size:.85rem; margin-right:8px;
+  }
+  .callout{ background:#f9f3ea; border-left:4px solid #C8102E; padding:12px 16px; margin:16px 0; font-size:.95rem; }
+  .callout strong{ color:#C8102E; }
+  table{ border-collapse:collapse; width:100%; margin:14px 0; font-size:.9rem; }
+  th, td{ border:1px solid #d8c8cb; padding:7px 10px; text-align:left; }
+  th{ background:#f5efe6; color:#4a1a22; }
+  .print-note{
+    background:#fff6d8; border:1px solid #e0cf8f; padding:12px 16px; border-radius:8px;
+    margin-bottom:30px; font-family:Arial,sans-serif; font-size:.9rem;
+  }
+</style>
+</head>
+<body>
+
+  <div class="print-note no-print">📄 Para guardar: Ctrl+P → "Guardar como PDF".</div>
+
+  <h1>Guía — Configurar Firebase para Planeta Pizza</h1>
+  <p class="subtitle">10-15 minutos, son todo clics en una web de Google. No hace falta saber programar.</p>
+
+  <p>
+    Firebase es el servicio (gratuito, de Google) que va a guardar los pedidos en vivo y las cuentas
+    del personal. Una vez que termines estos pasos, me pasás 2 cosas y yo conecto todo el resto.
+  </p>
+
+  <h2><span class="step-num">1</span>Crear el proyecto</h2>
+  <ol>
+    <li>Entrá a <code>console.firebase.google.com</code> con tu cuenta de Google.</li>
+    <li>Hacé clic en <strong>"Agregar proyecto" / "Add project"</strong>.</li>
+    <li>Nombre del proyecto: algo como <code>planeta-pizza</code> (no importa mucho, es interno).</li>
+    <li>Podés desactivar Google Analytics si te lo ofrece (no hace falta para esto).</li>
+    <li>Esperá a que se cree (unos 30 segundos).</li>
+  </ol>
+
+  <h2><span class="step-num">2</span>Activar la base de datos (Firestore)</h2>
+  <ol>
+    <li>En el menú de la izquierda, buscá <strong>"Firestore Database"</strong> (dentro de "Build" /
+    "Compilación").</li>
+    <li>Hacé clic en <strong>"Create database" / "Crear base de datos"</strong>.</li>
+    <li>Ubicación: cualquiera cercana está bien (ej. <code>southamerica-east1</code> o la que te sugiera
+    por defecto).</li>
+    <li>Modo: elegí <strong>"Start in production mode"</strong> (modo producción). Las reglas de acceso
+    se las voy a dar yo después para pegar ahí — no te preocupes por eso ahora.</li>
+  </ol>
+
+  <h2><span class="step-num">3</span>Activar el inicio de sesión (Authentication)</h2>
+  <ol>
+    <li>En el menú de la izquierda, buscá <strong>"Authentication"</strong>.</li>
+    <li>Hacé clic en <strong>"Get started"</strong>.</li>
+    <li>En la pestaña "Sign-in method", elegí <strong>"Email/Password"</strong> y activalo (el primer
+    interruptor, no hace falta "Email link").</li>
+    <li>Guardar.</li>
+  </ol>
+
+  <h2><span class="step-num">4</span>Crear las 4 cuentas del personal</h2>
+  <p>Todavía dentro de Authentication, pestaña <strong>"Users"</strong> → <strong>"Add user"</strong>.
+  Creá estas 4, con una contraseña provisoria para cada una (se la vas a dar vos a cada persona, y
+  después la pueden cambiar):</p>
+  <table>
+    <tr><th>Para qué</th><th>Email a usar</th><th>Contraseña</th></tr>
+    <tr><td>Panel Centro</td><td><code>admincentro@planetapizza.local</code></td><td>la que elijas</td></tr>
+    <tr><td>Panel Guadalupe</td><td><code>adminguadalupe@planetapizza.local</code></td><td>la que elijas</td></tr>
+    <tr><td>Panel productos/precios</td><td><code>adminsup@planetapizza.local</code></td><td>la que elijas</td></tr>
+    <tr><td>Panel privado (solo vos)</td><td><code>adminpizzeriaprivado@planetapizza.local</code></td><td>la que elijas</td></tr>
+  </table>
+  <div class="callout">
+    <strong>Sobre los "emails":</strong> no tienen que ser casillas de correo reales que revisen — Firebase
+    los usa como nombre de usuario. Podés usar estos tal cual, o cambiarlos por algo que prefieras, mientras
+    tengan formato de email (<code>algo@algo.algo</code>).
+  </div>
+
+  <h2><span class="step-num">5</span>Conseguir la configuración para pegarme</h2>
+  <ol>
+    <li>En el ícono de engranaje (arriba a la izquierda) → <strong>"Project settings"</strong>.</li>
+    <li>Abajo de todo, en "Your apps", hacé clic en el ícono <strong>"&lt;/&gt;" (Web)</strong> para
+    agregar una app web.</li>
+    <li>Nombre: lo que quieras (ej. "sitio"). No hace falta activar Firebase Hosting.</li>
+    <li>Te va a mostrar un bloque de código con algo como:
+      <pre style="background:#f2eae7; padding:12px; border-radius:8px; font-size:.82rem; overflow-x:auto;">const firebaseConfig = {
+  apiKey: "AIza...",
+  authDomain: "planeta-pizza-xxxx.firebaseapp.com",
+  projectId: "planeta-pizza-xxxx",
+  ...
+};</pre>
+    </li>
+    <li><strong>Copiá ese bloque completo</strong> y pegámelo en el chat.</li>
+  </ol>
+
+  <h2>Lo que hago yo con esto</h2>
+  <ul>
+    <li>Conecto el sitio a tu base de datos (pedidos en vivo).</li>
+    <li>Te doy las reglas de seguridad exactas para pegar en Firestore (quién puede leer/escribir qué).</li>
+    <li>Armo las pantallas de login de <code>/admin</code>, <code>/adminSup</code> y
+    <code>/adminPizzeriaPrivado</code> usando esas 4 cuentas.</li>
+  </ul>
+
+  <div class="callout">
+    <strong>Nota:</strong> la clave (<code>apiKey</code>) de Firebase que ves ahí es pública por diseño —
+    queda visible en el código del sitio igual (es así para cualquier sitio que usa Firebase). La seguridad
+    real la dan las "reglas" de Firestore, que son las que yo voy a escribir con cuidado para que solo cada
+    admin vea lo suyo.
+  </div>
+
+</body>
+</html>

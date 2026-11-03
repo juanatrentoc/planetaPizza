@@ -226,6 +226,12 @@
     position:relative; padding:10px;
   }
   .card-media .planet{ --d: clamp(70px, 18vw, 104px); }
+  .item-photo{
+    --d:68px; width:var(--d); height:var(--d); border-radius:50%; flex:none; object-fit:cover; display:block;
+    border: max(3px, calc(var(--d)*0.07)) double var(--flare); box-sizing:border-box;
+  }
+  .card-media .item-photo{ --d: clamp(70px, 18vw, 104px); }
+  .modal-planet-wrap .item-photo{ --d:92px; }
   .card-tag{
     position:absolute; top:10px; left:10px; background: var(--flare); color:#fff; font-size:.66rem; font-weight:700;
     text-transform:uppercase; letter-spacing:.04em; padding:4px 10px; border-radius:999px;
@@ -448,7 +454,7 @@
   .field{ display:flex; flex-direction:column; gap:6px; margin-bottom:18px; }
   .field label{ font-weight:700; }
   form .hint{ color:var(--ink-soft); font-size:.82rem; font-weight:400; }
-  input[type=text], input[type=tel], textarea{
+  input[type=text], input[type=tel], input[type=password], input[type=number], textarea, select{
     font:inherit; padding:14px 16px; border-radius:14px; border:2px solid var(--line); background:var(--cream); color:var(--ink);
     min-height:52px;
   }
@@ -509,6 +515,85 @@
   .status-actions{ display:flex; gap:8px; flex-wrap:wrap; }
   .status-actions .btn{ font-size:.82rem; padding:9px 14px; min-height:40px; }
 
+  /* ---------- staff app (admin / adminSup / adminPizzeriaPrivado) ---------- */
+  .profile-btn{
+    width:40px; height:40px; border-radius:50%; border:2px solid var(--line); background:transparent;
+    color:var(--ink); font-size:1.05rem; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+  .profile-btn:hover{ border-color:var(--ink-soft); }
+  .profile-btn.is-accent{
+    border-color: color-mix(in srgb, var(--flare) 55%, var(--line));
+    background: color-mix(in srgb, var(--flare) 10%, transparent);
+  }
+  .profile-btn.is-accent:hover{ border-color:var(--flare); }
+
+  #staffApp{ max-width:1180px; margin:0 auto; padding: 22px clamp(16px,4vw,40px) 60px; }
+  .staff-header{ display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid var(--line); }
+  .staff-header h2{ margin:0; }
+  .staff-who{ color:var(--ink-soft); font-size:.85rem; font-weight:700; }
+  .login-wrap{ max-width:380px; margin: 60px auto; }
+  .login-wrap h2{ text-align:center; }
+  .login-wrap .panel{ max-width:none; }
+  .login-error{ color:var(--critical); font-weight:700; font-size:.88rem; margin:-8px 0 14px; }
+  .staff-tabs{ display:flex; gap:8px; flex-wrap:wrap; margin: 16px 0 22px; }
+  .staff-tab{
+    font:inherit; font-family:'Inter'; font-weight:700; font-size:.85rem; cursor:pointer;
+    padding:9px 16px; border-radius:var(--radius-pill); border:2px solid var(--line); background:transparent; color:var(--ink-soft);
+  }
+  .staff-tab[aria-pressed="true"]{ background:var(--flare); border-color:var(--flare); color:#fff; }
+  .sound-toggle-row{ display:flex; align-items:center; gap:8px; font-size:.85rem; color:var(--ink-soft); font-weight:600; }
+
+  .data-table{ width:100%; border-collapse:collapse; font-size:.86rem; margin-bottom:34px; }
+  .data-table caption{ text-align:left; font-family:'Oswald'; font-weight:700; text-transform:uppercase; letter-spacing:.03em; padding:4px 0 10px; color:var(--flare); }
+  .data-table th, .data-table td{ text-align:left; padding:10px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+  .data-table th{ color:var(--ink-soft); font-weight:700; font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; }
+  .data-table tr.is-disabled-row{ opacity:.5; }
+  .data-table input[type=text], .data-table input[type=number]{ min-height:40px; padding:8px 10px; font-size:.84rem; width:100%; min-width:110px; }
+  .price-field{ display:flex; flex-direction:column; gap:2px; margin-bottom:6px; }
+  .price-field span{ font-size:.68rem; color:var(--ink-soft); }
+  .inline-actions{ display:flex; gap:8px; flex-wrap:wrap; }
+  .inline-actions .btn{ min-height:36px; padding:7px 13px; font-size:.78rem; }
+
+  .stock-row{ display:flex; justify-content:space-between; align-items:center; gap:14px; padding:12px 0; border-bottom:1px solid var(--line); }
+  .stock-row:last-child{ border-bottom:0; }
+  .stock-row-name{ font-weight:700; }
+  .switch{ position:relative; display:inline-block; width:46px; height:26px; flex:none; }
+  .switch input{ position:absolute; opacity:0; width:100%; height:100%; margin:0; cursor:pointer; }
+  .switch-track{ position:absolute; inset:0; background:var(--surface-2); border-radius:999px; border:2px solid var(--line); pointer-events:none; }
+  .switch-track::before{ content:''; position:absolute; width:16px; height:16px; left:2px; top:2px; background:var(--ink-soft); border-radius:50%; transition:transform .15s, background .15s; }
+  .switch input:checked ~ .switch-track{ background: color-mix(in srgb, var(--critical) 45%, var(--surface-2)); border-color:var(--critical); }
+  .switch input:checked ~ .switch-track::before{ transform:translateX(20px); background:var(--critical); }
+
+  .promo-card{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin-bottom:12px; display:flex; justify-content:space-between; gap:14px; align-items:flex-start; }
+  .promo-card h4{ margin:0 0 4px; font-family:'Inter'; font-weight:800; }
+  .promo-card p{ margin:0; color:var(--ink-soft); font-size:.88rem; }
+
+  .order-card[data-status="esperando_cadete"], .order-card[data-status="enviando"]{ border-left-color: var(--transit); }
+  .order-card[data-status="listo_retiro"]{ border-left-color: var(--gold); }
+  .order-card[data-status="cancelado"]{ border-left-color: var(--ink-soft); }
+  .status-pill.esperando_cadete, .status-pill.enviando{ background: color-mix(in srgb, var(--transit) 20%, var(--surface)); color:var(--transit); }
+  .status-pill.listo_retiro{ background: color-mix(in srgb, var(--gold) 22%, var(--surface)); color:#8a5a00; }
+  .status-pill.cancelado{ background: color-mix(in srgb, var(--ink-soft) 20%, var(--surface)); color:var(--ink-soft); }
+  .order-card.status-cancelado{ opacity:.6; border-left-color: var(--ink-soft); }
+  .order-card.is-new-flash{ animation: flashOrder 1.1s ease 3; }
+  @keyframes flashOrder{ 0%,100%{ box-shadow:var(--shadow-card);} 50%{ box-shadow:0 0 0 4px var(--critical);} }
+  .closed-banner{
+    background: color-mix(in srgb, var(--critical) 18%, var(--surface)); border:1px solid var(--critical);
+    color:var(--ink); border-radius:12px; padding:12px 14px; font-size:.88rem; margin:0 0 18px;
+  }
+  .stock-badge{ display:inline-block; font-size:.72rem; font-weight:800; color:var(--critical); border:1px solid var(--critical); border-radius:var(--radius-pill); padding:2px 10px; margin-left:8px; }
+  .privado-branch-form{ margin-bottom:28px; }
+  .privado-branch-form h3{ margin-bottom:10px; }
+  .hours-row{ display:flex; gap:12px; align-items:center; margin-bottom:10px; flex-wrap:wrap; }
+  .hours-row span{ min-width:140px; color:var(--ink-soft); font-size:.85rem; }
+  .hours-row input[type=text]{ max-width:100px; }
+
+  @media print{
+    body > *:not(#printArea){ display:none !important; }
+    #printArea{ display:block !important; padding:20px; color:#000; }
+    #printArea h2{ margin-top:0; }
+  }
+
   [hidden]{ display:none !important; }
 </style>
 
@@ -517,10 +602,16 @@
 <header class="site-header" id="siteHeader">
   <div class="header-row">
     <div class="pp-seal" style="--seal-size:38px" aria-hidden="true">
-      <span class="pp-seal-band">PLANETA</span>
+      <span class="pp-seal-band" id="headerSealBand">PLANETA</span>
     </div>
     <span class="open-status" id="openStatus"></span>
     <div class="branch-toggle" id="branchToggle" role="group" aria-label="Elegí tu sucursal"></div>
+    <div class="header-actions">
+      <button class="profile-btn is-accent" id="myOrdersBtn" type="button" aria-label="Mis pedidos" style="position:relative;">
+        &#129534;<span class="badge-count" id="myOrdersBadge" hidden style="position:absolute; top:-6px; right:-6px; font-size:.62rem; min-width:18px; height:18px; padding:0 4px;">0</span>
+      </button>
+      <button class="profile-btn" id="profileBtn" type="button" aria-label="Mi perfil y promociones">&#128100;</button>
+    </div>
   </div>
 </header>
 
@@ -530,15 +621,15 @@
     <!-- ===================== CUSTOMER: MENU ===================== -->
     <section class="screen" id="screen-menu" data-screen>
       <div class="hero">
-        <img class="hero-bg" src="assets/hero-pizza.jpg" alt="" aria-hidden="true">
+        <img class="hero-bg" src="assets/hero-pizza.jpg" alt="" aria-hidden="true" id="heroBgImg">
         <div class="hero-scrim" aria-hidden="true"></div>
         <div class="hero-content">
-          <p class="hero-eyebrow">Desde 2008 · Santa Fe</p>
+          <p class="hero-eyebrow" id="heroEyebrowText">Desde 2008 · Santa Fe</p>
           <div class="hero-title-row">
-            <img src="assets/logo-planeta.jpg" alt="Logo de Planeta Pizza">
-            <h1>Planeta Pizza</h1>
+            <img src="assets/logo-planeta.jpg" alt="Logo de Planeta Pizza" id="heroLogoImg">
+            <h1 id="heroTitleText">Planeta Pizza</h1>
           </div>
-          <p class="hero-desc">Pizza artesanal, sabor fuera de este mundo: pedí online pizzas, empanadas, tartas y hamburguesas, con retiro en el local o envío a domicilio.</p>
+          <p class="hero-desc" id="heroDescText">Pizza artesanal, sabor fuera de este mundo: pedí online pizzas, empanadas, tartas y hamburguesas, con retiro en el local o envío a domicilio.</p>
           <div class="hero-cta">
             <button class="btn-hero-primary" id="verCartaBtn" type="button">Ver la carta</button>
             <button class="btn-hero-secondary" id="verProcesoBtn" type="button">Ver nuestro proceso</button>
@@ -598,6 +689,7 @@
           <p class="empty-note" id="cartEmptyNote" hidden>Todavía no agregaste nada. Volvé a la carta para elegir tu pizza.</p>
         </div>
         <div class="panel cart-summary">
+          <p class="closed-banner" id="cartClosedWarning" hidden></p>
           <p class="cart-exclusive-warning" id="cartExclusiveWarning" hidden></p>
 
           <fieldset>
@@ -678,23 +770,23 @@
         <p>Tu pedido ya está en órbita hacia la cocina.</p>
         <div class="confirm-code mono" id="confirmCode">PP-0000</div>
         <p id="confirmEta">Tiempo estimado: 30 a 40 minutos.</p>
+        <p class="status-pill nuevo" id="confirmStatusPill" style="display:inline-block;"></p>
         <p class="hint" id="confirmSyncNote"></p>
-        <button class="btn btn-outline btn-lg" id="newOrderBtn" type="button" style="margin-top:14px;">Hacer otro pedido</button>
+        <button class="btn btn-ghost" id="cancelOrderBtn" type="button" style="margin-top:6px;">Cancelar este pedido</button>
+        <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:14px;">
+          <button class="btn btn-outline btn-lg" id="newOrderBtn" type="button">Hacer otro pedido</button>
+          <button class="btn btn-ghost btn-lg" id="goMyOrdersFromConfirmBtn" type="button">Ver todos mis pedidos</button>
+        </div>
       </div>
     </section>
 
-    <!-- ===================== ADMIN ===================== -->
-    <section class="screen" id="screen-admin" data-screen hidden>
-      <div class="admin-header">
-        <div class="admin-title">
-          <h2 style="margin:0;">Panel de pedidos</h2>
-          <span class="badge-count" id="newOrdersBadge" hidden>0 nuevos</span>
-        </div>
-        <button class="btn btn-ghost" id="backToMenuFromAdmin" type="button">Volver a la carta</button>
-      </div>
-      <p class="hint" id="adminStatusNote">Conectando con los pedidos en vivo…</p>
-      <div class="order-grid" id="orderGrid"></div>
-      <p class="empty-note" id="adminEmptyNote" hidden>Todavía no llegaron pedidos.</p>
+    <!-- ===================== CUSTOMER: MIS PEDIDOS ===================== -->
+    <section class="screen" id="screen-myorders" data-screen hidden>
+      <button class="back-link" data-go="menu" type="button">&larr; Seguir eligiendo</button>
+      <h2>Mis pedidos</h2>
+      <p class="hint">Pedidos hechos desde este navegador. Se actualizan solos a medida que la pizzería avanza con cada uno.</p>
+      <div id="myOrdersList"></div>
+      <p class="empty-note" id="myOrdersEmptyNote" hidden>Todavía no hiciste ningún pedido desde este navegador.</p>
     </section>
 
   </main>
@@ -703,7 +795,7 @@
     <div class="modal-panel" id="modalPanel" role="dialog" aria-modal="true" aria-labelledby="modalItemName">
       <div class="modal-drag-handle" aria-hidden="true"></div>
       <button class="modal-close" id="modalCloseBtn" type="button" aria-label="Cerrar">&times;</button>
-      <div class="modal-planet-wrap"><div class="planet" id="modalPlanet" aria-hidden="true"></div></div>
+      <div class="modal-planet-wrap" id="modalPlanetWrap"><div class="planet" id="modalPlanet" aria-hidden="true"></div></div>
       <p class="modal-item-num" id="modalItemNum"></p>
       <h3 id="modalItemName"></h3>
       <p class="modal-item-nick" id="modalItemNick" hidden></p>
@@ -752,35 +844,117 @@
   <footer>
     <div class="footer-top">
       <div class="pp-seal" style="--seal-size:60px" aria-hidden="true">
-        <span class="pp-seal-band">PLANETA</span>
-        <span class="pp-seal-year">2008</span>
+        <span class="pp-seal-band" id="footerSealBand">PLANETA</span>
+        <span class="pp-seal-year" id="footerSealYear">2008</span>
       </div>
 
-      <div class="footer-branches">
-        <div class="footer-branch">
-          <h3>Centro</h3>
-          <p>25 de Mayo 2800</p>
-          <p><a href="tel:+543424540885">454-0885</a> · <a href="tel:+543425023068">342 502-3068</a></p>
-          <a class="footer-map-link" href="https://www.google.com/maps/search/?api=1&amp;query=25+de+Mayo+2800%2C+Santa+Fe" target="_blank" rel="noopener">Ver en Google Maps</a>
-        </div>
-        <div class="footer-branch">
-          <h3>Guadalupe</h3>
-          <p>Av. Gral. Paz 6401</p>
-          <p><a href="tel:+543424691881">469-1881</a> · <a href="tel:+543425022380">342 502-2380</a></p>
-          <a class="footer-map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Av.+Gral.+Paz+6401%2C+Santa+Fe" target="_blank" rel="noopener">Ver en Google Maps</a>
-        </div>
-      </div>
+      <div class="footer-branches" id="footerBranches"></div>
 
-      <table class="footer-hours">
-        <tr><th>Mediodía</th><td>Lun a Vie</td><td>11:30–14:30</td></tr>
-        <tr><th>Noche</th><td>Dom a Jue</td><td>19:00–23:00</td></tr>
-        <tr><th></th><td>Vie y Sáb</td><td>19:30–23:30</td></tr>
-      </table>
+      <table class="footer-hours" id="footerHoursTable"></table>
     </div>
     <p class="footer-demo-note">Sitio de demostración.</p>
     <div aria-live="polite" id="liveRegion" style="position:absolute; left:-9999px;"></div>
   </footer>
 </div>
+
+<!-- ===================== STAFF: /admin · /adminSup · /adminPizzeriaPrivado (simulado en este navegador) ===================== -->
+<div id="staffApp" hidden>
+  <div class="staff-header">
+    <h2 id="staffTitle">Panel</h2>
+    <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+      <span class="staff-who" id="staffWho"></span>
+      <button class="btn btn-ghost" id="staffLogoutBtn" type="button" hidden>Cerrar sesión</button>
+      <a class="btn btn-ghost" href="#/">Ir al sitio de pedidos</a>
+    </div>
+  </div>
+
+  <div class="login-wrap" id="staffLogin">
+    <h2 id="staffLoginTitle">Iniciar sesión</h2>
+    <div class="panel">
+      <form id="staffLoginForm">
+        <div class="field">
+          <label for="staffUser">Usuario</label>
+          <input type="text" id="staffUser" autocomplete="username" required>
+        </div>
+        <div class="field">
+          <label for="staffPass">Contraseña</label>
+          <input type="password" id="staffPass" autocomplete="current-password" required>
+        </div>
+        <p class="login-error" id="staffLoginError" hidden>Usuario o contraseña incorrectos para este panel.</p>
+        <button class="btn btn-action btn-block" type="submit">Entrar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ---------- /admin (por sucursal) ---------- -->
+  <div class="staff-view" id="staffAdminView" hidden>
+    <label class="sound-toggle-row"><input type="checkbox" id="adminSoundToggle" checked> Aviso sonoro al llegar un pedido nuevo</label>
+    <div class="staff-tabs" role="tablist">
+      <button class="staff-tab" data-admintab="pedidos" type="button" aria-pressed="true">Pedidos en vivo</button>
+      <button class="staff-tab" data-admintab="historial" type="button" aria-pressed="false">Historial</button>
+      <button class="staff-tab" data-admintab="stock" type="button" aria-pressed="false">Sin stock</button>
+    </div>
+    <div id="adminPedidosPanel">
+      <div class="order-grid" id="orderGridLive"></div>
+      <p class="empty-note" id="adminEmptyNote" hidden>Todavía no llegaron pedidos.</p>
+    </div>
+    <div id="adminHistorialPanel" hidden>
+      <div class="order-grid" id="orderGridHistory"></div>
+      <p class="empty-note" id="historyEmptyNote" hidden>Sin pedidos finalizados o cancelados todavía.</p>
+    </div>
+    <div id="adminStockPanel" hidden>
+      <p class="hint">Marcá "sin stock" los productos que hoy no podés vender en esta sucursal — el cliente no va a poder pedirlos.</p>
+      <div id="stockList"></div>
+    </div>
+  </div>
+
+  <!-- ---------- /adminSup ---------- -->
+  <div class="staff-view" id="staffSupView" hidden>
+    <div class="staff-tabs" role="tablist">
+      <button class="staff-tab" data-suptab="productos" type="button" aria-pressed="true">Productos y precios</button>
+      <button class="staff-tab" data-suptab="promos" type="button" aria-pressed="false">Promociones</button>
+    </div>
+    <div id="supProductosPanel">
+      <button class="btn btn-primary" id="supAddProductBtn" type="button" style="margin-bottom:18px;">+ Agregar producto</button>
+      <button class="btn btn-ghost" id="supClearMenuBtn" type="button" style="margin-bottom:18px;">Vaciar la carta actual (para empezar de cero)</button>
+      <div class="panel" id="supAddProductForm" hidden style="margin-bottom:20px;"></div>
+      <div id="supProductTables"></div>
+    </div>
+    <div id="supPromosPanel" hidden>
+      <form id="supPromoForm" class="panel" style="margin-bottom:20px; max-width:none;">
+        <h3 style="margin-top:0;">Nueva promoción para clientes registrados</h3>
+        <div class="field"><label for="promoTitle">Título</label><input type="text" id="promoTitle" required></div>
+        <div class="field"><label for="promoDesc">Descripción</label><textarea id="promoDesc" placeholder="Ej: 20% off en pizzas grandes los martes"></textarea></div>
+        <button class="btn btn-action" type="submit">Crear promoción</button>
+      </form>
+      <div id="promoList"></div>
+    </div>
+  </div>
+
+  <!-- ---------- /adminPizzeriaPrivado ---------- -->
+  <div class="staff-view" id="staffPrivadoView" hidden>
+    <p class="hint">Estos datos son los que ven tus clientes en la carta y en el pie de página del sitio.</p>
+    <div id="privadoForms"></div>
+  </div>
+</div>
+
+<!-- ===================== CLIENTE: perfil / registro de contacto ===================== -->
+<div class="modal-overlay" id="profileModalOverlay" hidden>
+  <div class="modal-panel" id="profileModalPanel" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
+    <button class="modal-close" id="profileModalCloseBtn" type="button" aria-label="Cerrar">&times;</button>
+    <h3 id="profileModalTitle">Sumate a nuestras promos</h3>
+    <p class="item-desc">Dejanos tus datos para avisarte de descuentos y novedades. Es opcional, no hace falta contraseña, y podés comprar igual sin registrarte.</p>
+    <form id="profileForm">
+      <div class="field"><label for="profileName">Nombre</label><input type="text" id="profileName"></div>
+      <div class="field"><label for="profilePhone">Teléfono</label><input type="tel" id="profilePhone"></div>
+      <div class="field"><label for="profileEmail">Email</label><input type="text" id="profileEmail"></div>
+      <button class="btn btn-action btn-block" type="submit">Guardar mis datos</button>
+      <p class="hint" id="profileSavedNote" hidden style="text-align:center; margin-top:10px;">¡Listo, gracias! Ya quedaste registrado/a.</p>
+    </form>
+  </div>
+</div>
+
+<div id="printArea" hidden></div>
 
 <div class="toast" id="toast" aria-hidden="true"></div>
 
@@ -903,6 +1077,65 @@
     centro: { id:'centro', name:'Centro', address:'25 de Mayo 2800', phones:['454-0885','342 502-3068'], tel:['+543424540885','+543425023068'] },
     guadalupe: { id:'guadalupe', name:'Guadalupe', address:'Av. Gral. Paz 6401', phones:['469-1881','342 502-2380'], tel:['+543424691881','+543425022380'] }
   };
+
+  /* Fotos de los datos "de fábrica" (Planeta Pizza), tomadas antes de que
+     cualquier pizzería pueda llegar a pisarlas — así, al cambiar de
+     pizzería activa, se puede volver a este punto de partida limpio antes
+     de aplicar los datos de la pizzería que corresponda. */
+  var PRISTINE_MENU_JSON = JSON.stringify(MENU);
+  var PRISTINE_BRANCHES_JSON = JSON.stringify(BRANCHES);
+  var PRISTINE_HOURS_JSON = JSON.stringify(HOURS);
+  var PRISTINE_BRAND = {
+    siteName:'Planeta Pizza', sealText:'PLANETA', foundedYear:'2008',
+    eyebrow:'Desde 2008 · Santa Fe',
+    heroDesc:'Pizza artesanal, sabor fuera de este mundo: pedí online pizzas, empanadas, tartas y hamburguesas, con retiro en el local o envío a domicilio.',
+    logoUrl:'assets/logo-planeta.jpg', heroBgUrl:'assets/hero-pizza.jpg',
+    colors:{ cream:'#1A0F12', surface:'#241318', ink:'#F5EFE6', flare:'#7A1A2B', action:'#C8102E' }
+  };
+
+  function resetCatalogToPristine(){
+    var fresh = JSON.parse(PRISTINE_MENU_JSON);
+    Object.keys(MENU).forEach(function(cat){ MENU[cat].items = fresh[cat].items; });
+    BASE_PROMO_ITEMS = fresh.promos.items.slice();
+  }
+
+  function resetBusinessToPristine(){
+    var freshBranches = JSON.parse(PRISTINE_BRANCHES_JSON);
+    Object.keys(BRANCHES).forEach(function(k){ delete BRANCHES[k]; });
+    Object.keys(freshBranches).forEach(function(k){ BRANCHES[k] = freshBranches[k]; });
+    HOURS.length = 0;
+    JSON.parse(PRISTINE_HOURS_JSON).forEach(function(h){ HOURS.push(h); });
+    document.title = PRISTINE_BRAND.siteName;
+    document.getElementById('heroTitleText').textContent = PRISTINE_BRAND.siteName;
+    document.getElementById('headerSealBand').textContent = PRISTINE_BRAND.sealText;
+    document.getElementById('footerSealBand').textContent = PRISTINE_BRAND.sealText;
+    document.getElementById('footerSealYear').textContent = PRISTINE_BRAND.foundedYear;
+    document.getElementById('heroEyebrowText').textContent = PRISTINE_BRAND.eyebrow;
+    document.getElementById('heroDescText').textContent = PRISTINE_BRAND.heroDesc;
+    document.getElementById('heroLogoImg').src = PRISTINE_BRAND.logoUrl;
+    document.getElementById('heroBgImg').src = PRISTINE_BRAND.heroBgUrl;
+    Object.keys(PRISTINE_BRAND.colors).forEach(function(k){ document.documentElement.style.setProperty('--' + k, PRISTINE_BRAND.colors[k]); });
+  }
+
+  /* Reconstruye MENU/BRANCHES/HOURS desde cero para la pizzería que
+     corresponda según lo que esté en pantalla ahora mismo (ver
+     scopeTenantId). Hay que llamarla cada vez que cambiamos de pizzería
+     "en foco" — al entrar a /admin, /adminSup o /adminPizzeriaPrivado,
+     al volver al sitio público, o al crear/activar/borrar una pizzería —
+     para que nunca queden pegados datos de la pizzería anterior. */
+  function refreshDataForContext(){
+    resetCatalogToPristine();
+    resetBusinessToPristine();
+    applyBusinessOverrides();
+    applyMenuOverrides();
+    applyPromoOverrides();
+    if (!BRANCHES[state.branch]) state.branch = Object.keys(BRANCHES)[0];
+    renderFooterInfo();
+    renderBranchToggles();
+    renderTabs();
+    renderMenu();
+    renderCartBits();
+  }
 
   function timeToMin(s){ var p = s.split(':'); return (+p[0])*60 + (+p[1]); }
 
@@ -1035,17 +1268,25 @@
     var prices = sizes.map(function(s){ return item.prices[s]; });
     var minPrice = Math.min.apply(null, prices);
     var qty = qtyInCartFor(item.id);
-    var disabledHere = item.exclusive && item.exclusive !== state.branch;
+    var exclusiveBlock = item.exclusive && item.exclusive !== state.branch;
+    var outOfStock = isOutOfStock(item);
+    var disabledHere = exclusiveBlock || outOfStock;
 
     var card = document.createElement('button');
     card.type = 'button'; card.className = 'card' + (disabledHere ? ' is-disabled' : '');
     card.setAttribute('aria-haspopup','dialog');
     if (disabledHere) card.disabled = true;
     var priceLabel = (sizes.length > 1 ? 'Desde ' : '') + fmt(minPrice);
-    card.setAttribute('aria-label', item.name + ', ' + (disabledHere ? ('solo en Planeta ' + BRANCHES.centro.name) : priceLabel));
+    var disabledNote = exclusiveBlock ? ('Solo en ' + (BRANCHES.centro ? BRANCHES.centro.name : 'otra sucursal')) : (outOfStock ? 'Sin stock por hoy' : '');
+    card.setAttribute('aria-label', item.name + ', ' + (disabledHere ? disabledNote : priceLabel));
 
     var media = document.createElement('div'); media.className = 'card-media';
-    var planet = document.createElement('div'); planet.className = 'planet planet--' + item.planet;
+    var planet;
+    if (item.image){
+      planet = document.createElement('img'); planet.className = 'item-photo'; planet.src = item.image; planet.alt = '';
+    } else {
+      planet = document.createElement('div'); planet.className = 'planet planet--' + item.planet;
+    }
     planet.setAttribute('aria-hidden','true');
     media.appendChild(planet);
     if (item.tag || item.num){
@@ -1075,7 +1316,7 @@
     var footer = document.createElement('div'); footer.className = 'card-footer';
     if (disabledHere){
       var note = document.createElement('span'); note.className = 'card-disabled-note';
-      note.textContent = 'Solo en Planeta ' + BRANCHES.centro.name;
+      note.textContent = disabledNote;
       footer.appendChild(note);
     } else {
       var price = document.createElement('span'); price.className = 'card-price mono';
@@ -1113,6 +1354,7 @@
       var grid = document.createElement('div'); grid.className = 'menu-grid';
       MENU[cat].items.forEach(function(item){
         if (item.nickname === 'Adicional para tu hamburguesa') return; // se eligen dentro del modal de la hamburguesa
+        if (item._disabled) return; // deshabilitado permanentemente desde /adminSup
         grid.appendChild(buildItemCard(item));
       });
 
@@ -1180,7 +1422,12 @@
   var modalState = { item:null, standard:false, size:null, sizeTier:null, half:false, qty:1, extras:[] };
 
   function getExtraItems(){
-    return MENU.hamburguesas.items.filter(function(it){ return it.nickname === 'Adicional para tu hamburguesa'; });
+    var item = modalState.item;
+    return MENU.hamburguesas.items.filter(function(it){
+      if (it.nickname !== 'Adicional para tu hamburguesa') return false;
+      if (it.appliesTo && it.appliesTo.length && item) return it.appliesTo.indexOf(item.id) > -1;
+      return true;
+    });
   }
 
   function renderModalExtras(){
@@ -1283,7 +1530,10 @@
     modalState.extras = [];
     modalState.standard = isStandardPizza(item);
 
-    document.getElementById('modalPlanet').className = 'planet planet--' + item.planet;
+    var modalPlanetWrap = document.getElementById('modalPlanetWrap');
+    modalPlanetWrap.innerHTML = item.image
+      ? '<img class="item-photo" src="' + item.image + '" alt="" aria-hidden="true">'
+      : '<div class="planet planet--' + item.planet + '" aria-hidden="true"></div>';
     var numEl = document.getElementById('modalItemNum');
     numEl.textContent = item.num ? ('N° ' + item.num) : '';
     numEl.hidden = !item.num;
@@ -1436,6 +1686,7 @@
     syncHeaderHeight();
 
     renderCartScreen();
+    renderMyOrdersBadge();
   }
 
   function lineSizeLabel(line){
@@ -1473,8 +1724,12 @@
       var it = findItem(line.id);
       var row = document.createElement('div'); row.className = 'cart-line';
 
-      var thumb = document.createElement('div');
-      thumb.className = 'planet cart-line-thumb planet--' + (it ? it.planet : 'especial');
+      var thumb;
+      if (it && it.image){
+        thumb = document.createElement('img'); thumb.className = 'item-photo cart-line-thumb'; thumb.src = it.image; thumb.alt = '';
+      } else {
+        thumb = document.createElement('div'); thumb.className = 'planet cart-line-thumb planet--' + (it ? it.planet : 'especial');
+      }
       thumb.setAttribute('aria-hidden', 'true');
 
       var left = document.createElement('div'); left.className = 'cart-line-info';
@@ -1525,7 +1780,12 @@
       warn.textContent = 'Tenés productos exclusivos de Planeta Centro en tu pedido. Quitalos del carrito o cambiá la sucursal a Centro para continuar.';
     }
 
-    document.getElementById('goCheckoutBtn').disabled = lines.length === 0 || conflict;
+    var closedStatus = getOpenStatus();
+    var closedWarn = document.getElementById('cartClosedWarning');
+    closedWarn.hidden = closedStatus.open;
+    if (!closedStatus.open) closedWarn.textContent = 'El local está cerrado en este momento (' + closedStatus.label.replace('Cerrado · ', 'vuelve a abrir ') + '). No se puede confirmar el pedido hasta que abra.';
+
+    document.getElementById('goCheckoutBtn').disabled = lines.length === 0 || conflict || !closedStatus.open;
   }
 
   /* ---------------- screen navigation ---------------- */
@@ -1536,6 +1796,8 @@
     window.scrollTo({top:0, behavior:'smooth'});
     renderCartBits();
     if (name === 'checkout') prefillCheckout();
+    if (name === 'confirm') pollConfirmStatus();
+    if (name === 'myorders'){ renderMyOrdersScreen(); pollMyOrders(); }
   }
 
   document.getElementById('verCartaBtn').addEventListener('click', function(){
@@ -1600,21 +1862,268 @@
     submitOrder({ name:name, phone:phone, deliveryType:deliveryType, address:address, paymentMethod:paymentMethod, notes:notes });
   });
 
-  /* ---------------- orders: db integration ---------------- */
-  var dbPromise = (window.claude && window.claude.use) ? window.claude.use('db') : Promise.resolve(null);
-  var dbRef = null;
-  dbPromise.then(function(db){ dbRef = db; if (state.screen === 'admin') subscribeAdmin(); });
+  /* ==================================================================
+     SIMULACIÓN DE BACKEND (localStorage de este navegador).
+     Pensado para la demo: pedidos, stock, catálogo, promos y datos del
+     negocio quedan guardados en este navegador y se sincronizan en vivo
+     entre pestañas abiertas en la misma computadora. El día que se
+     conecte Firebase de verdad, estas funciones son las que se
+     reemplazan (misma forma de datos, otro lugar de guardado).
+     ================================================================== */
 
-  function orderCode(){
-    return 'PP-' + Math.floor(1000 + Math.random()*9000);
+  function loadJSON(key, fallback){
+    try{ var v = JSON.parse(localStorage.getItem(key)); return (v === null || v === undefined) ? fallback : v; }
+    catch(e){ return fallback; }
+  }
+  function saveJSON(key, val){ try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){} }
+
+  var KEYS = {
+    orders: 'pp_store_orders',
+    stock: 'pp_store_stock',
+    overrides: 'pp_store_menu_overrides',
+    customItems: 'pp_store_custom_items',
+    promos: 'pp_store_promos',
+    contacts: 'pp_store_contacts',
+    business: 'pp_store_business',
+    myOrders: 'pp_my_orders'
+  };
+
+  /* ---------------- multi-pizzería: cada pizzería es un "tenant" con sus
+     propios datos, totalmente separados de los de las demás. Solo
+     /adminPizzeriaPrivado puede crear, elegir o borrar pizzerías — /admin
+     y /adminSup quedan atados a UNA sola pizzería (la de su cuenta) y
+     nunca ven ni tocan los datos de otra. ---------------- */
+  var TENANTS_KEY = 'pp_tenants';
+  var ACTIVE_TENANT_KEY = 'pp_active_tenant';
+  var ACCOUNTS_KEY = 'pp_staff_accounts';
+
+  function tenantKey(base, tenantId){ return base + '__' + (tenantId || 'planeta'); }
+
+  function ensureTenantsBootstrapped(){
+    var tenants = loadJSON(TENANTS_KEY, null);
+    if (tenants) return;
+    saveJSON(TENANTS_KEY, [{ id:'planeta', name:'Planeta Pizza', createdAt:Date.now() }]);
+    saveJSON(ACTIVE_TENANT_KEY, 'planeta');
+    saveJSON(ACCOUNTS_KEY, {
+      admincentro: { password:'centro2026', role:'admin', branch:'centro', label:'Planeta Centro', tenant:'planeta' },
+      adminguadalupe: { password:'guadalupe2026', role:'admin', branch:'guadalupe', label:'Planeta Guadalupe', tenant:'planeta' },
+      adminsup: { password:'sup2026', role:'sup', label:'Productos y precios', tenant:'planeta' },
+      adminpizzeriaprivado: { password:'privado2026', role:'privado', label:'Panel privado' }
+    });
+  }
+
+  function loadTenants(){ ensureTenantsBootstrapped(); return loadJSON(TENANTS_KEY, []); }
+  function saveTenants(list){ saveJSON(TENANTS_KEY, list); }
+  function getActiveTenantId(){ ensureTenantsBootstrapped(); return loadJSON(ACTIVE_TENANT_KEY, 'planeta'); }
+  function setActiveTenantId(id){ saveJSON(ACTIVE_TENANT_KEY, id); }
+
+  function loadStaffAccounts(){ ensureTenantsBootstrapped(); return loadJSON(ACCOUNTS_KEY, {}); }
+  function saveStaffAccounts(accs){ saveJSON(ACCOUNTS_KEY, accs); }
+
+  /* Cada pizzería tiene su propio link: ?p=<id> en la URL. Así, dos
+     pizzerías pueden estar recibiendo pedidos al mismo tiempo, cada una
+     en su propia dirección, sin pisarse. Si no viene ?p= en el link
+     (por ejemplo, alguien entra directo a la URL base), se usa la
+     pizzería marcada como "predeterminada". */
+  function getTenantFromUrl(){
+    var m = location.search.match(/[?&]p=([^&]+)/);
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+  function tenantLink(tenantId){
+    return location.origin + location.pathname + '?p=' + encodeURIComponent(tenantId);
+  }
+  function resolveCustomerTenantId(){
+    var fromUrl = getTenantFromUrl();
+    if (fromUrl && loadTenants().some(function(t){ return t.id === fromUrl; })) return fromUrl;
+    return getActiveTenantId();
+  }
+
+  /* Resuelve a qué pizzería pertenecen las operaciones de datos, según lo
+     que esté en pantalla en este momento: el sitio público usa la
+     pizzería del link (?p=) o, si no hay, la predeterminada; /admin y
+     /adminSup usan la pizzería de la cuenta logueada (nunca otra);
+     /adminPizzeriaPrivado usa la pizzería que Juana eligió editar en ese
+     panel. Así cada pizzería queda separada de las demás sin que ningún
+     panel de personal pueda cruzarse. */
+  var privadoEditingTenant = null;
+  function scopeTenantId(){
+    var routeKey = currentRouteKey();
+    if (routeKey === 'adminpizzeriaprivado') return privadoEditingTenant || getActiveTenantId();
+    if (routeKey === 'admin' || routeKey === 'adminsup'){
+      var s = getSession();
+      if (s && s.tenant) return s.tenant;
+    }
+    return resolveCustomerTenantId();
+  }
+  function tLoad(base, fallback){ return loadJSON(tenantKey(base, scopeTenantId()), fallback); }
+  function tSave(base, val){ saveJSON(tenantKey(base, scopeTenantId()), val); }
+
+  function loadOrders(){ return tLoad(KEYS.orders, []); }
+  function saveOrders(list){ tSave(KEYS.orders, list); window.dispatchEvent(new CustomEvent('pp-data-changed', { detail:'orders' })); }
+
+  function orderCode(){ return 'PP-' + Math.floor(1000 + Math.random()*9000); }
+
+  /* ---------------- catálogo: overrides de /adminSup ---------------- */
+  var BASE_PROMO_ITEMS = MENU.promos.items.slice();
+
+  function applyMenuOverrides(){
+    var ov = tLoad(KEYS.overrides, {});
+    Object.keys(MENU).forEach(function(cat){
+      MENU[cat].items.forEach(function(item){ item._disabled = false; });
+    });
+    Object.keys(ov).forEach(function(id){
+      var item = findItem(id);
+      if (!item) return;
+      var patch = ov[id];
+      if (patch.name) item.name = patch.name;
+      if (patch.desc !== undefined) item.desc = patch.desc;
+      if (patch.image !== undefined) item.image = patch.image || undefined;
+      if (patch.prices) Object.keys(patch.prices).forEach(function(k){ item.prices[k] = patch.prices[k]; });
+      item._disabled = !!patch.disabled;
+    });
+    var customs = tLoad(KEYS.customItems, []);
+    customs.forEach(function(c){
+      if (c.sizeLabels) Object.keys(c.sizeLabels).forEach(function(k){ SIZE_LABELS[k] = c.sizeLabels[k]; });
+      if (findItem(c.id) || !MENU[c.category]) return;
+      var newItem = { id:c.id, name:c.name, desc:c.desc||'', planet:'especial', prices: c.prices || { unica:c.price||0 }, _custom:true };
+      if (c.image) newItem.image = c.image;
+      if (c.nickname) newItem.nickname = c.nickname;
+      if (c.allowsExtras) newItem.allowsExtras = true;
+      if (c.appliesTo) newItem.appliesTo = c.appliesTo;
+      MENU[c.category].items.push(newItem);
+    });
+  }
+
+  function applyPromoOverrides(){
+    var promos = tLoad(KEYS.promos, []);
+    MENU.promos.items = BASE_PROMO_ITEMS.concat(promos.map(function(p){
+      return { id:'promo-custom-' + p.id, name:p.title, tag:'Promo', nickname:'Promoción para clientes registrados', desc:p.desc||'', planet:'especial', prices:{ consultar:0 } };
+    }));
+  }
+
+  function isOutOfStock(item){
+    var stock = tLoad(KEYS.stock, {});
+    return !!(stock[state.branch] && stock[state.branch][item.id]);
+  }
+
+  /* ---------------- datos del negocio: overrides de /adminPizzeriaPrivado ---------------- */
+  function applyBusinessOverrides(){
+    var biz = tLoad(KEYS.business, null);
+    if (!biz) return;
+    if (biz.removedBranches){
+      biz.removedBranches.forEach(function(id){ delete BRANCHES[id]; });
+    }
+    if (biz.branches){
+      Object.keys(biz.branches).forEach(function(id){
+        if (BRANCHES[id]) Object.assign(BRANCHES[id], biz.branches[id]);
+        else BRANCHES[id] = Object.assign({ id:id, tel:[] }, biz.branches[id]);
+      });
+    }
+    if (!BRANCHES[state.branch]){
+      var firstId = Object.keys(BRANCHES)[0];
+      if (firstId) state.branch = firstId;
+    }
+    if (biz.hours && biz.hours.length === HOURS.length){
+      biz.hours.forEach(function(h, i){ HOURS[i].from = h.from; HOURS[i].to = h.to; });
+    }
+    if (biz.logoUrl){
+      var img = document.getElementById('heroLogoImg');
+      if (img) img.src = biz.logoUrl;
+    }
+    if (biz.heroBgUrl){
+      var bgImg = document.getElementById('heroBgImg');
+      if (bgImg) bgImg.src = biz.heroBgUrl;
+    }
+    if (biz.colors){
+      Object.keys(biz.colors).forEach(function(k){ document.documentElement.style.setProperty('--' + k, biz.colors[k]); });
+    }
+    if (biz.siteName){
+      document.title = biz.siteName;
+      var h1 = document.getElementById('heroTitleText'); if (h1) h1.textContent = biz.siteName;
+    }
+    if (biz.sealText){
+      var hb = document.getElementById('headerSealBand'); if (hb) hb.textContent = biz.sealText;
+      var fb = document.getElementById('footerSealBand'); if (fb) fb.textContent = biz.sealText;
+    }
+    if (biz.foundedYear){
+      var fy = document.getElementById('footerSealYear'); if (fy) fy.textContent = biz.foundedYear;
+    }
+    if (biz.eyebrow){
+      var eb = document.getElementById('heroEyebrowText'); if (eb) eb.textContent = biz.eyebrow;
+    }
+    if (biz.heroDesc){
+      var hd = document.getElementById('heroDescText'); if (hd) hd.textContent = biz.heroDesc;
+    }
+  }
+
+  var FOOTER_HOURS_LABELS = [
+    { th:'Mediodía', days:'Lun a Vie' },
+    { th:'Noche', days:'Dom a Jue' },
+    { th:'', days:'Vie y Sáb' }
+  ];
+
+  function renderFooterInfo(){
+    var branchesEl = document.getElementById('footerBranches');
+    if (branchesEl){
+      branchesEl.innerHTML = '';
+      Object.keys(BRANCHES).forEach(function(id){
+        var b = BRANCHES[id];
+        var div = document.createElement('div'); div.className = 'footer-branch';
+        var h3 = document.createElement('h3'); h3.textContent = b.name; div.appendChild(h3);
+        var addr = document.createElement('p'); addr.textContent = b.address; div.appendChild(addr);
+        var tel = document.createElement('p');
+        (b.phones||[]).forEach(function(ph, i){
+          var a = document.createElement('a');
+          a.href = 'tel:' + (b.tel && b.tel[i] ? b.tel[i] : ph.replace(/[^\d+]/g,''));
+          a.textContent = ph;
+          tel.appendChild(a);
+          if (i < b.phones.length - 1) tel.appendChild(document.createTextNode(' · '));
+        });
+        div.appendChild(tel);
+        var map = document.createElement('a'); map.className = 'footer-map-link'; map.target = '_blank'; map.rel = 'noopener';
+        map.href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(b.address + ', Santa Fe');
+        map.textContent = 'Ver en Google Maps';
+        div.appendChild(map);
+        branchesEl.appendChild(div);
+      });
+    }
+    var hoursEl = document.getElementById('footerHoursTable');
+    if (hoursEl){
+      hoursEl.innerHTML = '';
+      HOURS.forEach(function(block, i){
+        var row = document.createElement('tr');
+        var th = document.createElement('th'); th.textContent = FOOTER_HOURS_LABELS[i] ? FOOTER_HOURS_LABELS[i].th : '';
+        var tdDays = document.createElement('td'); tdDays.textContent = FOOTER_HOURS_LABELS[i] ? FOOTER_HOURS_LABELS[i].days : '';
+        var tdTime = document.createElement('td'); tdTime.textContent = block.from + '–' + block.to;
+        row.appendChild(th); row.appendChild(tdDays); row.appendChild(tdTime);
+        hoursEl.appendChild(row);
+      });
+    }
+  }
+
+  /* ---------------- pedidos del cliente ---------------- */
+  var currentConfirmOrderId = null;
+
+  function getMyOrderIds(){ return tLoad(KEYS.myOrders, []); }
+  function addMyOrderId(id){
+    var ids = getMyOrderIds();
+    if (ids.indexOf(id) === -1){ ids.push(id); tSave(KEYS.myOrders, ids); }
+  }
+  function getMyOrders(){
+    var ids = getMyOrderIds();
+    return loadOrders()
+      .filter(function(o){ return ids.indexOf(o.id) > -1; })
+      .sort(function(a,b){ return b.createdAt - a.createdAt; });
   }
 
   function submitOrder(customer){
     var lines = cartArray();
     var total = cartTotal();
     var code = orderCode();
-    var payload = {
+    var order = {
+      id: code + '-' + Date.now(),
       code: code,
+      branch: state.branch,
       createdAt: Date.now(),
       status: 'nuevo',
       deliveryType: customer.deliveryType,
@@ -1627,59 +2136,176 @@
       total: total
     };
 
+    var orders = loadOrders();
+    orders.push(order);
+    saveOrders(orders);
+    addMyOrderId(order.id);
+    currentConfirmOrderId = order.id;
+
     document.getElementById('confirmCode').textContent = code;
     document.getElementById('confirmEta').textContent = customer.deliveryType === 'envio'
       ? 'Tiempo estimado de entrega: 40 a 55 minutos.'
       : 'Tiempo estimado para retirar: 25 a 35 minutos.';
-
-    var syncNote = document.getElementById('confirmSyncNote');
-    syncNote.textContent = 'Avisando a la pizzería…';
+    document.getElementById('confirmSyncNote').textContent = 'La pizzería ya ve tu pedido.';
+    renderConfirmStatus(order);
 
     state.cart = {};
     saveCart();
     renderMenu();
     renderCartBits();
     goScreen('confirm');
-
-    if (dbRef){
-      dbRef.collection('orders').add(payload).then(function(){
-        syncNote.textContent = 'La pizzería ya recibió tu pedido.';
-      }).catch(function(){
-        syncNote.textContent = 'Guardamos tu pedido; si no te contactan en unos minutos, llamá al local.';
-      });
-    } else {
-      syncNote.textContent = 'Guardamos tu pedido en este dispositivo.';
-    }
   }
+
+  function customerCanCancel(status){ return status === 'nuevo'; }
+
+  function renderConfirmStatus(order){
+    var pill = document.getElementById('confirmStatusPill');
+    var cancelBtn = document.getElementById('cancelOrderBtn');
+    if (!pill || !order) return;
+    pill.className = 'status-pill ' + order.status;
+    pill.textContent = STATUS_LABEL_CUSTOMER[order.status] || 'Pedido recibido';
+    if (order.status === 'cancelado'){
+      document.getElementById('confirmSyncNote').textContent = order.cancelReason
+        ? ('Tu pedido fue cancelado por la pizzería: ' + order.cancelReason)
+        : 'Tu pedido fue cancelado por la pizzería.';
+    }
+    cancelBtn.hidden = !customerCanCancel(order.status);
+  }
+
+  var confirmPollTimer = null;
+  function pollConfirmStatus(){
+    clearInterval(confirmPollTimer);
+    confirmPollTimer = setInterval(function(){
+      if (state.screen !== 'confirm') { clearInterval(confirmPollTimer); return; }
+      if (!currentConfirmOrderId) return;
+      var order = loadOrders().filter(function(o){ return o.id === currentConfirmOrderId; })[0];
+      if (order) renderConfirmStatus(order);
+    }, 2500);
+  }
+
+  function cancelCustomerOrder(orderId, onDone){
+    var orders = loadOrders();
+    var order = orders.filter(function(o){ return o.id === orderId; })[0];
+    if (!order || !customerCanCancel(order.status)){
+      alert('Este pedido ya empezó a prepararse, así que no se puede cancelar desde acá. Si es urgente, llamá al local.');
+      if (onDone) onDone(order);
+      return;
+    }
+    if (!confirm('¿Seguro que querés cancelar este pedido?')) return;
+    order.status = 'cancelado';
+    order.cancelReason = 'Cancelado por el cliente';
+    saveOrders(orders);
+    if (onDone) onDone(order);
+  }
+
+  document.getElementById('cancelOrderBtn').addEventListener('click', function(){
+    if (!currentConfirmOrderId) return;
+    cancelCustomerOrder(currentConfirmOrderId, renderConfirmStatus);
+  });
 
   document.getElementById('newOrderBtn').addEventListener('click', function(){ goScreen('menu'); });
 
-  /* ---------------- admin ---------------- */
-  var adminUnsub = null;
-  var STATUS_LABEL = { nuevo:'Nuevo', preparando:'Preparando', en_camino:'En camino / listo', entregado:'Entregado' };
-  var STATUS_FLOW = ['nuevo','preparando','en_camino','entregado'];
+  document.getElementById('goMyOrdersFromConfirmBtn').addEventListener('click', function(){ goScreen('myorders'); });
 
-  function subscribeAdmin(){
-    if (!dbRef){
-      document.getElementById('adminStatusNote').textContent = 'No se pudo conectar con los pedidos en este momento.';
-      return;
-    }
-    if (adminUnsub) return;
-    document.getElementById('adminStatusNote').textContent = 'Conectando con los pedidos en vivo…';
-    var timeout = setTimeout(function(){
-      document.getElementById('adminStatusNote').textContent = 'Todavía no hay respuesta del servidor; puede tardar unos segundos.';
-    }, 10000);
+  /* ---------------- pantalla "Mis pedidos" ---------------- */
+  var STATUS_FINAL = { entregado:true, cancelado:true };
 
-    adminUnsub = dbRef.collection('orders').orderBy('createdAt','desc').limit(50).onSnapshot(function(snap){
-      clearTimeout(timeout);
-      document.getElementById('adminStatusNote').textContent = 'Pedidos en vivo.';
-      var orders = snap.docs.map(function(d){ var o = d.data(); o._id = d.id; return o; });
-      renderOrders(orders);
-    }, function(err){
-      clearTimeout(timeout);
-      document.getElementById('adminStatusNote').textContent = 'No se pudieron cargar los pedidos (' + err.code + ').';
-    });
+  function renderMyOrdersBadge(){
+    var badge = document.getElementById('myOrdersBadge');
+    if (!badge) return;
+    var activeCount = getMyOrders().filter(function(o){ return !STATUS_FINAL[o.status]; }).length;
+    badge.hidden = activeCount === 0;
+    badge.textContent = activeCount;
   }
+
+  function buildMyOrderCard(o){
+    var card = document.createElement('article');
+    card.className = 'order-card';
+    card.setAttribute('data-status', o.status);
+
+    var pill = document.createElement('span'); pill.className = 'status-pill ' + o.status;
+    pill.textContent = STATUS_LABEL_CUSTOMER[o.status] || o.status;
+
+    var top = document.createElement('div'); top.className = 'order-top';
+    var code = document.createElement('span'); code.className = 'order-code'; code.textContent = o.code;
+    var time = document.createElement('span'); time.className = 'order-time'; time.textContent = timeAgo(o.createdAt);
+    top.appendChild(code); top.appendChild(time);
+
+    var sub = document.createElement('div'); sub.className = 'order-sub';
+    sub.textContent = (BRANCHES[o.branch] ? BRANCHES[o.branch].name : o.branch) + ' · ' + (o.deliveryType === 'envio' ? 'Envío' : 'Retiro en el local');
+
+    var ul = document.createElement('ul'); ul.className = 'order-items';
+    (o.items||[]).forEach(function(it){
+      var li = document.createElement('li');
+      li.textContent = it.qty + 'x ' + it.name + (it.size && it.size!=='unica' ? ' (' + (SIZE_LABELS[it.size]||it.size) + ')' : '');
+      ul.appendChild(li);
+    });
+
+    var total = document.createElement('div'); total.className = 'order-total'; total.textContent = 'Total: ' + fmt(o.total||0);
+
+    card.appendChild(pill);
+    card.appendChild(top);
+    card.appendChild(sub);
+    if (o.items && o.items.length) card.appendChild(ul);
+    card.appendChild(total);
+
+    if (o.status === 'cancelado' && o.cancelReason){
+      var reason = document.createElement('div'); reason.className = 'order-sub'; reason.textContent = 'Motivo: ' + o.cancelReason;
+      card.appendChild(reason);
+    }
+
+    if (customerCanCancel(o.status)){
+      var actions = document.createElement('div'); actions.className = 'status-actions';
+      var cancelBtn = document.createElement('button'); cancelBtn.type = 'button'; cancelBtn.className = 'btn btn-ghost';
+      cancelBtn.textContent = 'Cancelar este pedido';
+      cancelBtn.addEventListener('click', function(){ cancelCustomerOrder(o.id, renderMyOrdersScreen); });
+      actions.appendChild(cancelBtn);
+      card.appendChild(actions);
+    }
+
+    return card;
+  }
+
+  function renderMyOrdersScreen(){
+    var wrap = document.getElementById('myOrdersList');
+    var orders = getMyOrders();
+    wrap.innerHTML = '';
+    wrap.className = 'order-grid';
+    orders.forEach(function(o){ wrap.appendChild(buildMyOrderCard(o)); });
+    document.getElementById('myOrdersEmptyNote').hidden = orders.length > 0;
+    renderMyOrdersBadge();
+  }
+
+  var myOrdersPollTimer = null;
+  function pollMyOrders(){
+    clearInterval(myOrdersPollTimer);
+    myOrdersPollTimer = setInterval(function(){
+      if (state.screen !== 'myorders') { clearInterval(myOrdersPollTimer); return; }
+      renderMyOrdersScreen();
+    }, 3000);
+  }
+
+  document.getElementById('myOrdersBtn').addEventListener('click', function(){ goScreen('myorders'); });
+
+  /* ==================================================================
+     PANELES DE PERSONAL: /admin · /adminSup · /adminPizzeriaPrivado
+     ================================================================== */
+
+  var ROUTE_ROLE = { admin:'admin', adminsup:'sup', adminpizzeriaprivado:'privado' };
+  var STAFF_TITLE = { admin:'Panel de pedidos', adminsup:'Productos y promociones', adminpizzeriaprivado:'Datos de la pizzería' };
+
+  function getSession(){ return loadJSON_session(); }
+  function loadJSON_session(){
+    try{ return JSON.parse(sessionStorage.getItem('pp_staff_session') || 'null'); }catch(e){ return null; }
+  }
+  function setSession(s){ try{ sessionStorage.setItem('pp_staff_session', JSON.stringify(s)); }catch(e){} }
+  function clearSession(){ try{ sessionStorage.removeItem('pp_staff_session'); }catch(e){} }
+
+  var STATUS_FLOW_RETIRO = ['nuevo','preparando','listo_retiro','entregado'];
+  var STATUS_FLOW_ENVIO = ['nuevo','preparando','esperando_cadete','enviando','entregado'];
+  var STATUS_LABEL_INTERNAL = { nuevo:'Nuevo', preparando:'En preparación', esperando_cadete:'Esperando cadete', enviando:'Enviando', listo_retiro:'Listo para retirar', entregado:'Finalizado', cancelado:'Cancelado' };
+  var STATUS_LABEL_CUSTOMER = { nuevo:'Pedido recibido', preparando:'En preparación', esperando_cadete:'En camino', enviando:'En camino', listo_retiro:'Listo para retirar', entregado:'Finalizado', cancelado:'Cancelado' };
+  function statusFlowFor(order){ return order.deliveryType === 'envio' ? STATUS_FLOW_ENVIO : STATUS_FLOW_RETIRO; }
 
   function timeAgo(ts){
     var mins = Math.max(0, Math.round((Date.now() - ts) / 60000));
@@ -1690,92 +2316,910 @@
     return 'hace ' + hrs + (hrs===1 ? ' hora' : ' horas');
   }
 
-  function renderOrders(orders){
-    var grid = document.getElementById('orderGrid');
-    grid.innerHTML = '';
-    document.getElementById('adminEmptyNote').hidden = orders.length > 0;
+  /* ---------------- routing ---------------- */
+  function currentRouteKey(){
+    var h = location.hash.replace(/^#\/?/, '').toLowerCase();
+    return ROUTE_ROLE[h] ? h : null;
+  }
 
-    var newCount = orders.filter(function(o){ return o.status === 'nuevo'; }).length;
-    var badge = document.getElementById('newOrdersBadge');
-    badge.hidden = newCount === 0;
-    badge.textContent = newCount + (newCount===1 ? ' nuevo' : ' nuevos');
+  function route(){
+    var routeKey = currentRouteKey();
+    var staffMode = !!routeKey;
+    document.getElementById('siteHeader').hidden = staffMode;
+    document.querySelector('.wrap').hidden = staffMode;
+    document.getElementById('staffApp').hidden = !staffMode;
+    if (!staffMode){ refreshDataForContext(); return; }
 
-    orders.forEach(function(o){
-      var card = document.createElement('article');
-      card.className = 'order-card'; card.setAttribute('data-status', o.status || 'nuevo');
+    var requiredRole = ROUTE_ROLE[routeKey];
+    var session = getSession();
+    document.getElementById('staffTitle').textContent = STAFF_TITLE[routeKey];
+    document.getElementById('staffLoginForm').reset();
+    document.getElementById('staffLoginError').hidden = true;
 
-      var pill = document.createElement('span'); pill.className = 'status-pill ' + (o.status||'nuevo'); pill.textContent = STATUS_LABEL[o.status] || 'Nuevo';
+    if (session && session.role === requiredRole){
+      document.getElementById('staffLogin').hidden = true;
+      document.getElementById('staffLogoutBtn').hidden = false;
+      document.getElementById('staffWho').textContent = session.label;
+      document.getElementById('staffAdminView').hidden = requiredRole !== 'admin';
+      document.getElementById('staffSupView').hidden = requiredRole !== 'sup';
+      document.getElementById('staffPrivadoView').hidden = requiredRole !== 'privado';
+      if (requiredRole === 'privado') privadoEditingTenant = privadoEditingTenant || getActiveTenantId();
+      refreshDataForContext();
+      if (requiredRole === 'admin') initStaffAdmin(session.branch);
+      if (requiredRole === 'sup') initStaffSup();
+      if (requiredRole === 'privado') initStaffPrivado();
+    } else {
+      document.getElementById('staffLogin').hidden = false;
+      document.getElementById('staffLogoutBtn').hidden = true;
+      document.getElementById('staffWho').textContent = '';
+      document.getElementById('staffAdminView').hidden = true;
+      document.getElementById('staffSupView').hidden = true;
+      document.getElementById('staffPrivadoView').hidden = true;
+    }
+  }
+  window.addEventListener('hashchange', route);
 
-      var top = document.createElement('div'); top.className = 'order-top';
-      var code = document.createElement('span'); code.className='order-code'; code.textContent = o.code || o._id;
-      var time = document.createElement('span'); time.className='order-time'; time.textContent = timeAgo(o.createdAt || Date.now());
-      top.appendChild(code); top.appendChild(time);
+  document.getElementById('staffLoginForm').addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var routeKey = currentRouteKey();
+    var requiredRole = ROUTE_ROLE[routeKey];
+    var user = document.getElementById('staffUser').value.trim().toLowerCase();
+    var pass = document.getElementById('staffPass').value;
+    var account = loadStaffAccounts()[user];
+    if (!account || account.role !== requiredRole || account.password !== pass){
+      document.getElementById('staffLoginError').hidden = false;
+      return;
+    }
+    setSession({ user:user, role:account.role, branch:account.branch, label:account.label, tenant:account.tenant || null });
+    route();
+  });
 
-      var cust = document.createElement('div'); cust.className='order-customer'; cust.textContent = o.customerName || 'Cliente';
-      var sub = document.createElement('div'); sub.className='order-sub';
-      sub.textContent = (o.deliveryType === 'envio' ? ('Envío · ' + (o.address||'')) : 'Retira en el local') + ' · ' + (o.phone||'');
+  document.getElementById('staffLogoutBtn').addEventListener('click', function(){
+    clearSession();
+    route();
+  });
 
-      var ul = document.createElement('ul'); ul.className='order-items';
-      (o.items||[]).forEach(function(it){
-        var li = document.createElement('li');
-        li.textContent = it.qty + 'x ' + it.name + (it.size && it.size!=='unica' ? ' (' + (SIZE_LABELS[it.size]||it.size) + ')' : '');
-        ul.appendChild(li);
+  /* ---------------- /admin: pedidos en vivo, historial, stock ---------------- */
+  var seenOrderIds = null;
+  var soundOn = true;
+
+  function beep(){
+    if (!soundOn) return;
+    try{
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      var ctx = new Ctx();
+      [0, 220].forEach(function(delay){
+        setTimeout(function(){
+          var o = ctx.createOscillator(), g = ctx.createGain();
+          o.connect(g); g.connect(ctx.destination);
+          o.frequency.value = 880; g.gain.value = 0.18;
+          o.start();
+          setTimeout(function(){ o.stop(); }, 180);
+        }, delay);
       });
+      setTimeout(function(){ ctx.close(); }, 500);
+    }catch(e){}
+  }
 
-      var total = document.createElement('div'); total.className='order-total'; total.textContent = 'Total: ' + fmt(o.total||0);
-      if (o.paymentMethod) total.textContent += ' · ' + o.paymentMethod;
-      if (o.notes) {
-        var notes = document.createElement('div'); notes.className='order-sub'; notes.textContent = 'Nota: ' + o.notes;
-      }
+  function initStaffAdmin(branch){
+    document.querySelectorAll('[data-admintab]').forEach(function(btn){
+      btn.onclick = function(){
+        document.querySelectorAll('[data-admintab]').forEach(function(b){ b.setAttribute('aria-pressed', String(b===btn)); });
+        document.getElementById('adminPedidosPanel').hidden = btn.getAttribute('data-admintab') !== 'pedidos';
+        document.getElementById('adminHistorialPanel').hidden = btn.getAttribute('data-admintab') !== 'historial';
+        document.getElementById('adminStockPanel').hidden = btn.getAttribute('data-admintab') !== 'stock';
+        if (btn.getAttribute('data-admintab') === 'stock') renderStockList(branch);
+      };
+    });
+    var soundToggle = document.getElementById('adminSoundToggle');
+    soundOn = soundToggle.checked;
+    soundToggle.onchange = function(){ soundOn = soundToggle.checked; };
 
-      var actions = document.createElement('div'); actions.className = 'status-actions';
-      var idx = STATUS_FLOW.indexOf(o.status || 'nuevo');
-      if (idx < STATUS_FLOW.length - 1){
-        var nextStatus = STATUS_FLOW[idx+1];
+    seenOrderIds = null; // reinicia la detección de "pedido nuevo" al entrar/relogear
+    renderStaffAdmin(branch);
+  }
+
+  function renderStaffAdmin(branch){
+    var all = loadOrders().filter(function(o){ return o.branch === branch; });
+    all.sort(function(a,b){ return b.createdAt - a.createdAt; });
+    var live = all.filter(function(o){ return o.status !== 'entregado' && o.status !== 'cancelado'; });
+    var history = all.filter(function(o){ return o.status === 'entregado' || o.status === 'cancelado'; });
+
+    if (seenOrderIds === null){
+      seenOrderIds = {};
+      all.forEach(function(o){ seenOrderIds[o.id] = true; });
+    } else {
+      var brandNew = live.filter(function(o){ return o.status === 'nuevo' && !seenOrderIds[o.id]; });
+      if (brandNew.length){ beep(); }
+      all.forEach(function(o){ seenOrderIds[o.id] = true; });
+    }
+
+    renderOrderGrid('orderGridLive', live, branch, brandNewIds(live));
+    document.getElementById('adminEmptyNote').hidden = live.length > 0;
+    renderOrderGrid('orderGridHistory', history, branch, {});
+    document.getElementById('historyEmptyNote').hidden = history.length > 0;
+  }
+
+  function brandNewIds(live){
+    var ids = {};
+    live.forEach(function(o){ if (o.status === 'nuevo') ids[o.id] = true; });
+    return ids;
+  }
+
+  function renderOrderGrid(gridId, orders, branch, flashIds){
+    var grid = document.getElementById(gridId);
+    grid.innerHTML = '';
+    orders.forEach(function(o){ grid.appendChild(buildOrderCard(o, branch, !!flashIds[o.id])); });
+  }
+
+  function buildOrderCard(o, branch, flash){
+    var card = document.createElement('article');
+    card.className = 'order-card' + (flash ? ' is-new-flash' : '');
+    card.setAttribute('data-status', o.status);
+
+    var pill = document.createElement('span'); pill.className = 'status-pill ' + o.status;
+    pill.textContent = STATUS_LABEL_INTERNAL[o.status] || o.status;
+
+    var top = document.createElement('div'); top.className = 'order-top';
+    var code = document.createElement('span'); code.className = 'order-code'; code.textContent = o.code;
+    var time = document.createElement('span'); time.className = 'order-time'; time.textContent = timeAgo(o.createdAt);
+    top.appendChild(code); top.appendChild(time);
+
+    var cust = document.createElement('div'); cust.className = 'order-customer'; cust.textContent = o.customerName || 'Cliente';
+    var sub = document.createElement('div'); sub.className = 'order-sub';
+    sub.textContent = (o.deliveryType === 'envio' ? ('Envío · ' + (o.address||'')) : 'Retira en el local') + ' · ' + (o.phone||'');
+
+    var ul = document.createElement('ul'); ul.className = 'order-items';
+    (o.items||[]).forEach(function(it){
+      var li = document.createElement('li');
+      li.textContent = it.qty + 'x ' + it.name + (it.size && it.size!=='unica' ? ' (' + (SIZE_LABELS[it.size]||it.size) + ')' : '');
+      ul.appendChild(li);
+    });
+
+    var total = document.createElement('div'); total.className = 'order-total';
+    total.textContent = 'Total: ' + fmt(o.total||0) + (o.paymentMethod ? (' · ' + o.paymentMethod) : '');
+
+    card.appendChild(pill);
+    card.appendChild(top);
+    card.appendChild(cust);
+    card.appendChild(sub);
+    if (o.items && o.items.length) card.appendChild(ul);
+    card.appendChild(total);
+
+    if (o.notes){
+      var notes = document.createElement('div'); notes.className = 'order-sub'; notes.textContent = 'Nota: ' + o.notes;
+      card.appendChild(notes);
+    }
+    if (o.status === 'cancelado' && o.cancelReason){
+      var reason = document.createElement('div'); reason.className = 'order-sub'; reason.textContent = 'Motivo: ' + o.cancelReason;
+      card.appendChild(reason);
+    }
+
+    var actions = document.createElement('div'); actions.className = 'status-actions';
+    if (o.status !== 'entregado' && o.status !== 'cancelado'){
+      var flow = statusFlowFor(o);
+      var idx = flow.indexOf(o.status);
+      if (idx > -1 && idx < flow.length - 1){
+        var next = flow[idx+1];
         var nb = document.createElement('button'); nb.type='button'; nb.className='btn btn-primary';
-        nb.textContent = 'Marcar: ' + STATUS_LABEL[nextStatus];
-        nb.addEventListener('click', function(){ updateStatus(o._id, nextStatus); });
+        nb.textContent = 'Marcar: ' + STATUS_LABEL_INTERNAL[next];
+        nb.addEventListener('click', function(){ updateOrderStatus(o.id, next); });
         actions.appendChild(nb);
       }
-      if ((o.status||'nuevo') !== 'entregado'){
-        var done = document.createElement('button'); done.type='button'; done.className='btn btn-ghost';
-        done.textContent = 'Entregado';
-        done.addEventListener('click', function(){ updateStatus(o._id, 'entregado'); });
-        actions.appendChild(done);
-      }
+      var cancelB = document.createElement('button'); cancelB.type='button'; cancelB.className='btn btn-ghost';
+      cancelB.textContent = 'Cancelar';
+      cancelB.addEventListener('click', function(){
+        var reason = prompt('Motivo de la cancelación (el cliente lo va a ver):', 'Sin stock');
+        if (reason === null) return;
+        cancelOrder(o.id, reason);
+      });
+      actions.appendChild(cancelB);
+    }
+    var printB = document.createElement('button'); printB.type='button'; printB.className='btn btn-outline';
+    printB.textContent = 'Imprimir';
+    printB.addEventListener('click', function(){ printOrder(o); });
+    actions.appendChild(printB);
 
-      card.appendChild(pill);
-      card.appendChild(top);
-      card.appendChild(cust);
-      card.appendChild(sub);
-      if (o.items && o.items.length) card.appendChild(ul);
-      card.appendChild(total);
-      if (notes) card.appendChild(notes);
-      card.appendChild(actions);
+    card.appendChild(actions);
+    return card;
+  }
 
-      grid.appendChild(card);
+  function updateOrderStatus(id, status){
+    var orders = loadOrders();
+    var o = orders.filter(function(x){ return x.id === id; })[0];
+    if (!o) return;
+    o.status = status;
+    saveOrders(orders);
+  }
+
+  function cancelOrder(id, reason){
+    var orders = loadOrders();
+    var o = orders.filter(function(x){ return x.id === id; })[0];
+    if (!o) return;
+    o.status = 'cancelado';
+    o.cancelReason = reason || '';
+    saveOrders(orders);
+  }
+
+  function printOrder(o){
+    var area = document.getElementById('printArea');
+    var html = '<h2>Planeta Pizza — ' + (BRANCHES[o.branch] ? BRANCHES[o.branch].name : o.branch) + '</h2>';
+    html += '<p><strong>' + o.code + '</strong> · ' + new Date(o.createdAt).toLocaleString('es-AR') + '</p>';
+    html += '<p>' + (o.customerName||'') + ' · ' + (o.phone||'') + '</p>';
+    html += '<p>' + (o.deliveryType === 'envio' ? ('Envío a: ' + (o.address||'')) : 'Retira en el local') + '</p>';
+    html += '<ul>' + (o.items||[]).map(function(it){
+      return '<li>' + it.qty + 'x ' + it.name + (it.size && it.size!=='unica' ? ' (' + (SIZE_LABELS[it.size]||it.size) + ')' : '') + '</li>';
+    }).join('') + '</ul>';
+    html += '<p><strong>Total: ' + fmt(o.total||0) + '</strong>' + (o.paymentMethod ? (' · ' + o.paymentMethod) : '') + '</p>';
+    if (o.notes) html += '<p>Nota: ' + o.notes + '</p>';
+    area.innerHTML = html;
+    area.hidden = false;
+    window.print();
+    setTimeout(function(){ area.hidden = true; }, 500);
+  }
+  window.addEventListener('afterprint', function(){ document.getElementById('printArea').hidden = true; });
+
+  /* ---------------- /admin: stock por producto, por sucursal ---------------- */
+  function allManageableItems(){
+    var list = [];
+    Object.keys(MENU).forEach(function(cat){
+      if (cat === 'promos') return;
+      MENU[cat].items.forEach(function(item){
+        if (item.nickname === 'Adicional para tu hamburguesa') return;
+        if (item._disabled) return;
+        list.push(item);
+      });
+    });
+    return list;
+  }
+
+  function renderStockList(branch){
+    var wrap = document.getElementById('stockList');
+    wrap.innerHTML = '';
+    var stock = tLoad(KEYS.stock, {});
+    var branchStock = stock[branch] || {};
+    allManageableItems().forEach(function(item){
+      var row = document.createElement('div'); row.className = 'stock-row';
+      var name = document.createElement('span'); name.className = 'stock-row-name'; name.textContent = item.name;
+      var label = document.createElement('label'); label.className = 'switch';
+      var input = document.createElement('input'); input.type = 'checkbox'; input.checked = !!branchStock[item.id];
+      var track = document.createElement('span'); track.className = 'switch-track';
+      input.addEventListener('change', function(){
+        var s = tLoad(KEYS.stock, {});
+        s[branch] = s[branch] || {};
+        s[branch][item.id] = input.checked;
+        tSave(KEYS.stock, s);
+        window.dispatchEvent(new CustomEvent('pp-data-changed', { detail:'stock' }));
+      });
+      label.appendChild(input); label.appendChild(track);
+      row.appendChild(name); row.appendChild(label);
+      wrap.appendChild(row);
     });
   }
 
-  function updateStatus(id, status){
-    if (!dbRef) return;
-    dbRef.collection('orders').doc(id).update({ status: status }).catch(function(){});
+  /* ---------------- /adminSup: productos, precios, promociones ---------------- */
+  function initStaffSup(){
+    document.querySelectorAll('[data-suptab]').forEach(function(btn){
+      btn.onclick = function(){
+        document.querySelectorAll('[data-suptab]').forEach(function(b){ b.setAttribute('aria-pressed', String(b===btn)); });
+        document.getElementById('supProductosPanel').hidden = btn.getAttribute('data-suptab') !== 'productos';
+        document.getElementById('supPromosPanel').hidden = btn.getAttribute('data-suptab') !== 'promos';
+      };
+    });
+    renderSupProducts();
+    renderSupPromos();
+
+    var addBtn = document.getElementById('supAddProductBtn');
+    addBtn.onclick = function(){
+      var form = document.getElementById('supAddProductForm');
+      form.hidden = !form.hidden;
+      if (!form.hidden) renderAddProductForm(form);
+    };
+
+    document.getElementById('supClearMenuBtn').onclick = function(){
+      if (!confirm('Esto deshabilita TODOS los productos actuales de Planeta Pizza (no los borra, podés volver a habilitarlos uno por uno si hace falta). Usalo si vas a cargar la carta de otro negocio desde cero. ¿Continuar?')) return;
+      var ov = tLoad(KEYS.overrides, {});
+      Object.keys(MENU).forEach(function(cat){
+        if (cat === 'promos') return;
+        MENU[cat].items.forEach(function(item){
+          if (item._custom) return;
+          var patch = ov[item.id] || {};
+          patch.disabled = true;
+          ov[item.id] = patch;
+        });
+      });
+      tSave(KEYS.overrides, ov);
+      applyMenuOverrides();
+      renderMenu();
+      renderSupProducts();
+    };
   }
 
-  document.getElementById('backToMenuFromAdmin').addEventListener('click', function(){ goScreen('menu'); });
-  // Nota: el acceso al panel del local se maneja aparte (ruta /admin con contraseña,
-  // a definir). Esta pantalla queda sin botón de entrada en el sitio de pedidos.
+  function slugifyKey(label, used){
+    var base = (label || 'tam').toLowerCase().replace(/[^a-z0-9]+/g, '') || 'tam';
+    var key = base, i = 2;
+    while (used[key]) { key = base + i; i++; }
+    used[key] = true;
+    return key;
+  }
+
+  function renderAddProductForm(form){
+    form.innerHTML = '';
+    var cats = Object.keys(MENU).filter(function(c){ return c !== 'promos'; });
+    form.innerHTML =
+      '<div class="field"><label><input type="checkbox" id="newProdIsExtra"> Es un adicional para agregar DENTRO de una hamburguesa (como "Extra: cheddar"), no un producto de la carta</label></div>' +
+      '<div class="field" id="newProdCatField"><label>Categoría</label><select id="newProdCat">' +
+        cats.map(function(c){ return '<option value="' + c + '">' + MENU[c].label + '</option>'; }).join('') +
+      '</select></div>' +
+      '<div class="field" id="newProdAllowsExtrasField" hidden><label><input type="checkbox" id="newProdAllowsExtras"> Dentro de este producto se pueden elegir adicionales (como pasa con las hamburguesas)</label></div>' +
+      '<div class="field" id="newProdAppliesToField" hidden>' +
+        '<label>¿Para qué hamburguesas aplica este adicional?</label>' +
+        '<p class="hint">Si no marcás ninguna, va a estar disponible para todas las hamburguesas.</p>' +
+        '<div id="newProdAppliesToList"></div>' +
+      '</div>' +
+      '<div class="field"><label>Nombre</label><input type="text" id="newProdName" required></div>' +
+      '<div class="field"><label>Descripción</label><input type="text" id="newProdDesc"></div>' +
+      '<div class="field"><label>Imagen (URL, opcional)</label><input type="text" id="newProdImage" placeholder="assets/mi-foto.jpg"></div>' +
+      '<div class="field" id="newProdSizesField">' +
+        '<label>Tamaños y precios</label>' +
+        '<p class="hint">Un producto simple lleva un solo tamaño ("Único"). Si tiene varias opciones (ej. Chica / Mediana / Grande), agregá una fila por cada una.</p>' +
+        '<div id="newProdSizesList"></div>' +
+        '<button class="btn btn-ghost" type="button" id="newProdAddSizeBtn" style="margin-top:8px;">+ Agregar otro tamaño</button>' +
+      '</div>' +
+      '<button class="btn btn-action" type="button" id="newProdSaveBtn" style="margin-top:16px;">Guardar</button>';
+
+    var sizesList = document.getElementById('newProdSizesList');
+    function addSizeRow(label, price){
+      var row = document.createElement('div'); row.className = 'hours-row';
+      var labelInput = document.createElement('input'); labelInput.type = 'text'; labelInput.placeholder = 'Ej: Chica, Grande, Único'; labelInput.value = label || ''; labelInput.style.maxWidth = '180px';
+      var priceInput = document.createElement('input'); priceInput.type = 'number'; priceInput.min = '0'; priceInput.step = '100'; priceInput.placeholder = 'Precio'; priceInput.value = price || ''; priceInput.style.maxWidth = '140px';
+      var removeBtn = document.createElement('button'); removeBtn.type = 'button'; removeBtn.className = 'btn btn-ghost'; removeBtn.style.minHeight = '40px'; removeBtn.textContent = 'Quitar';
+      removeBtn.addEventListener('click', function(){ if (sizesList.children.length > 1) row.remove(); });
+      row.appendChild(labelInput); row.appendChild(priceInput); row.appendChild(removeBtn);
+      sizesList.appendChild(row);
+    }
+    addSizeRow('Único', '');
+    document.getElementById('newProdAddSizeBtn').addEventListener('click', function(){ addSizeRow('', ''); });
+
+    var isExtraCb = document.getElementById('newProdIsExtra');
+    var catSelect = document.getElementById('newProdCat');
+    var allowsExtrasField = document.getElementById('newProdAllowsExtrasField');
+    var appliesToField = document.getElementById('newProdAppliesToField');
+    var appliesToList = document.getElementById('newProdAppliesToList');
+    MENU.hamburguesas.items.filter(function(it){ return it.allowsExtras; }).forEach(function(b){
+      var label = document.createElement('label'); label.style.display = 'flex'; label.style.gap = '8px'; label.style.marginBottom = '6px';
+      var cb = document.createElement('input'); cb.type = 'checkbox'; cb.value = b.id;
+      label.appendChild(cb); label.appendChild(document.createTextNode(b.name));
+      appliesToList.appendChild(label);
+    });
+    function syncExtraUI(){
+      var isExtra = isExtraCb.checked;
+      document.getElementById('newProdCatField').hidden = isExtra;
+      allowsExtrasField.hidden = isExtra || catSelect.value !== 'hamburguesas';
+      appliesToField.hidden = !isExtra;
+    }
+    isExtraCb.addEventListener('change', syncExtraUI);
+    catSelect.addEventListener('change', syncExtraUI);
+    syncExtraUI();
+
+    document.getElementById('newProdSaveBtn').addEventListener('click', function(){
+      var name = document.getElementById('newProdName').value.trim();
+      if (!name){ alert('Completá el nombre.'); return; }
+      var isExtra = isExtraCb.checked;
+      var category = isExtra ? 'hamburguesas' : catSelect.value;
+
+      var prices = {}, sizeLabels = {}, used = {};
+      Array.prototype.forEach.call(sizesList.children, function(row){
+        var inputs = row.querySelectorAll('input');
+        var label = inputs[0].value.trim();
+        var price = Number(inputs[1].value);
+        if (!price) return;
+        var key = (!label || label.toLowerCase() === 'único' || label.toLowerCase() === 'unico') ? 'unica' : slugifyKey(label, used);
+        prices[key] = price;
+        if (key !== 'unica') sizeLabels[key] = label;
+      });
+      if (!Object.keys(prices).length){ alert('Completá al menos un precio.'); return; }
+
+      var customs = tLoad(KEYS.customItems, []);
+      var record = {
+        id: 'custom-' + Date.now(),
+        category: category,
+        name: name,
+        desc: document.getElementById('newProdDesc').value.trim(),
+        image: document.getElementById('newProdImage').value.trim(),
+        prices: prices,
+        sizeLabels: sizeLabels
+      };
+      if (isExtra){
+        record.nickname = 'Adicional para tu hamburguesa';
+        var appliesTo = [];
+        Array.prototype.forEach.call(appliesToList.querySelectorAll('input:checked'), function(cb){ appliesTo.push(cb.value); });
+        if (appliesTo.length) record.appliesTo = appliesTo;
+      } else if (category === 'hamburguesas' && document.getElementById('newProdAllowsExtras').checked){
+        record.allowsExtras = true;
+      }
+
+      customs.push(record);
+      tSave(KEYS.customItems, customs);
+      applyMenuOverrides();
+      form.hidden = true;
+      renderSupProducts();
+      renderMenu();
+    });
+  }
+
+  function renderSupProducts(){
+    var wrap = document.getElementById('supProductTables');
+    wrap.innerHTML = '';
+    var overrides = tLoad(KEYS.overrides, {});
+    var customs = tLoad(KEYS.customItems, []);
+    var customIds = {}; customs.forEach(function(c){ customIds[c.id] = true; });
+
+    Object.keys(MENU).forEach(function(cat){
+      if (cat === 'promos') return;
+      var table = document.createElement('table'); table.className = 'data-table';
+      var caption = document.createElement('caption'); caption.textContent = MENU[cat].label; table.appendChild(caption);
+      var thead = document.createElement('tr');
+      ['Nombre','Descripción','Imagen (URL)','Precio(s)','Acciones'].forEach(function(h){ var th=document.createElement('th'); th.textContent=h; thead.appendChild(th); });
+      table.appendChild(thead);
+
+      MENU[cat].items.forEach(function(item){
+        if (item.nickname === 'Adicional para tu hamburguesa' && !item._custom) { /* siguen siendo editables igual */ }
+        var row = document.createElement('tr');
+        if (item._disabled) row.classList.add('is-disabled-row');
+
+        var tdName = document.createElement('td');
+        var nameInput = document.createElement('input'); nameInput.type = 'text'; nameInput.value = item.name;
+        tdName.appendChild(nameInput);
+
+        var tdDesc = document.createElement('td');
+        var descInput = document.createElement('input'); descInput.type = 'text'; descInput.value = item.desc || '';
+        tdDesc.appendChild(descInput);
+
+        var tdImage = document.createElement('td');
+        var imageInput = document.createElement('input'); imageInput.type = 'text'; imageInput.placeholder = 'assets/mi-foto.jpg'; imageInput.value = item.image || '';
+        tdImage.appendChild(imageInput);
+
+        var tdPrice = document.createElement('td');
+        var priceInputs = {};
+        Object.keys(item.prices).forEach(function(k){
+          var pf = document.createElement('div'); pf.className = 'price-field';
+          var lbl = document.createElement('span'); lbl.textContent = (k === 'unica') ? 'Precio' : (SIZE_LABELS[k] || k);
+          var inp = document.createElement('input'); inp.type = 'number'; inp.min = '0'; inp.step = '100'; inp.value = item.prices[k];
+          priceInputs[k] = inp;
+          pf.appendChild(lbl); pf.appendChild(inp);
+          tdPrice.appendChild(pf);
+        });
+
+        var tdActions = document.createElement('td');
+        var actions = document.createElement('div'); actions.className = 'inline-actions';
+
+        var saveBtn = document.createElement('button'); saveBtn.type='button'; saveBtn.className='btn btn-primary';
+        saveBtn.textContent = 'Guardar';
+        saveBtn.addEventListener('click', function(){
+          var ov = tLoad(KEYS.overrides, {});
+          var patch = ov[item.id] || {};
+          patch.name = nameInput.value.trim() || item.name;
+          patch.desc = descInput.value.trim();
+          patch.image = imageInput.value.trim();
+          patch.prices = {};
+          Object.keys(priceInputs).forEach(function(k){ patch.prices[k] = Number(priceInputs[k].value) || 0; });
+          patch.disabled = !!item._disabled;
+          ov[item.id] = patch;
+          tSave(KEYS.overrides, ov);
+          applyMenuOverrides();
+          renderMenu();
+          renderSupProducts();
+        });
+        actions.appendChild(saveBtn);
+
+        var toggleBtn = document.createElement('button'); toggleBtn.type='button'; toggleBtn.className='btn btn-ghost';
+        toggleBtn.textContent = item._disabled ? 'Habilitar' : 'Deshabilitar';
+        toggleBtn.addEventListener('click', function(){
+          if (!item._disabled && !confirm('¿Deshabilitar "' + item.name + '"? Dejará de verse en la carta hasta que lo vuelvas a habilitar.')) return;
+          var ov = tLoad(KEYS.overrides, {});
+          var patch = ov[item.id] || { prices: {} };
+          patch.disabled = !item._disabled;
+          ov[item.id] = patch;
+          tSave(KEYS.overrides, ov);
+          applyMenuOverrides();
+          renderMenu();
+          renderSupProducts();
+        });
+        actions.appendChild(toggleBtn);
+
+        if (customIds[item.id]){
+          var delBtn = document.createElement('button'); delBtn.type='button'; delBtn.className='btn btn-ghost';
+          delBtn.textContent = 'Eliminar';
+          delBtn.addEventListener('click', function(){
+            if (!confirm('¿Eliminar "' + item.name + '" definitivamente?')) return;
+            var list = tLoad(KEYS.customItems, []).filter(function(c){ return c.id !== item.id; });
+            tSave(KEYS.customItems, list);
+            MENU[cat].items = MENU[cat].items.filter(function(it){ return it.id !== item.id; });
+            renderMenu();
+            renderSupProducts();
+          });
+          actions.appendChild(delBtn);
+        }
+
+        tdActions.appendChild(actions);
+        row.appendChild(tdName); row.appendChild(tdDesc); row.appendChild(tdImage); row.appendChild(tdPrice); row.appendChild(tdActions);
+        table.appendChild(row);
+      });
+
+      wrap.appendChild(table);
+    });
+  }
+
+  function renderSupPromos(){
+    var list = document.getElementById('promoList');
+    list.innerHTML = '';
+    tLoad(KEYS.promos, []).forEach(function(p){
+      var card = document.createElement('div'); card.className = 'promo-card';
+      var left = document.createElement('div');
+      var h4 = document.createElement('h4'); h4.textContent = p.title;
+      var desc = document.createElement('p'); desc.textContent = p.desc;
+      left.appendChild(h4); left.appendChild(desc);
+      var del = document.createElement('button'); del.type='button'; del.className='btn btn-ghost';
+      del.textContent = 'Eliminar';
+      del.addEventListener('click', function(){
+        if (!confirm('¿Eliminar la promoción "' + p.title + '"?')) return;
+        var remaining = tLoad(KEYS.promos, []).filter(function(x){ return x.id !== p.id; });
+        tSave(KEYS.promos, remaining);
+        applyPromoOverrides();
+        renderSupPromos();
+        renderMenu();
+      });
+      card.appendChild(left); card.appendChild(del);
+      list.appendChild(card);
+    });
+  }
+
+  document.getElementById('supPromoForm').addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var title = document.getElementById('promoTitle').value.trim();
+    if (!title) return;
+    var promos = tLoad(KEYS.promos, []);
+    promos.push({ id: Date.now(), title: title, desc: document.getElementById('promoDesc').value.trim() });
+    tSave(KEYS.promos, promos);
+    applyPromoOverrides();
+    ev.target.reset();
+    renderSupPromos();
+    renderMenu();
+  });
+
+  /* ---------------- /adminPizzeriaPrivado ---------------- */
+  function randomPassword(){ return Math.random().toString(36).slice(2, 8); }
+
+  function deleteTenantData(tenantId){
+    Object.keys(KEYS).forEach(function(k){ try{ localStorage.removeItem(tenantKey(KEYS[k], tenantId)); }catch(e){} });
+    var accs = loadStaffAccounts();
+    Object.keys(accs).forEach(function(u){ if (accs[u].tenant === tenantId) delete accs[u]; });
+    saveStaffAccounts(accs);
+  }
+
+  function renderTenantsSection(wrap){
+    var tenants = loadTenants();
+    var activeId = getActiveTenantId();
+    var box = document.createElement('div'); box.className = 'panel privado-branch-form';
+    var html = '<h3>Pizzerías registradas</h3>' +
+      '<p class="hint">Cada pizzería tiene su propio link para que sus clientes pidan — pueden estar varias recibiendo pedidos al mismo tiempo, cada una viendo solo lo suyo. Esta es la única pantalla desde donde se pueden crear, elegir o borrar pizzerías.</p>';
+    tenants.forEach(function(t){
+      var link = tenantLink(t.id);
+      html += '<div class="stock-row" style="flex-wrap:wrap; align-items:flex-start;">' +
+        '<div style="flex:1; min-width:220px;">' +
+          '<span class="stock-row-name">' + t.name + (t.id === activeId ? ' <span class="stock-badge" style="color:var(--basil); border-color:var(--basil);">Link predeterminado</span>' : '') + (t.id === privadoEditingTenant ? ' <em style="color:var(--ink-soft); font-weight:400;">(editando)</em>' : '') + '</span>' +
+          '<div style="display:flex; gap:8px; margin-top:6px; align-items:center;">' +
+            '<input type="text" readonly value="' + link + '" style="min-height:36px; padding:6px 10px; font-size:.8rem; flex:1; min-width:180px;" onclick="this.select()">' +
+            '<button class="btn btn-ghost" type="button" data-copy-link="' + link + '" style="min-height:36px; padding:6px 10px; font-size:.78rem;">Copiar</button>' +
+            '<a class="btn btn-ghost" href="' + link + '" target="_blank" rel="noopener" style="min-height:36px; padding:6px 10px; font-size:.78rem;">Abrir</a>' +
+          '</div>' +
+        '</div>' +
+        '<div class="inline-actions">' +
+          '<button class="btn btn-ghost" type="button" data-edit-tenant="' + t.id + '">Editar esta</button>' +
+          (t.id === activeId ? '' : '<button class="btn btn-ghost" type="button" data-activate-tenant="' + t.id + '">Usar como predeterminada</button>') +
+          '<button class="btn btn-ghost" type="button" data-delete-tenant="' + t.id + '">Eliminar</button>' +
+        '</div>' +
+      '</div>';
+    });
+    html += '<div style="margin-top:16px;">' +
+      '<div class="field"><label>Nombre de la nueva pizzería</label><input type="text" id="new-tenant-name" placeholder="Ej: Pizzería del Puerto"></div>' +
+      '<button class="btn btn-primary" type="button" id="new-tenant-create">+ Crear nueva pizzería</button>' +
+    '</div>';
+    box.innerHTML = html;
+    wrap.appendChild(box);
+
+    box.querySelectorAll('[data-copy-link]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var link = btn.getAttribute('data-copy-link');
+        if (navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(link).then(function(){
+            var old = btn.textContent; btn.textContent = '¡Copiado!';
+            setTimeout(function(){ btn.textContent = old; }, 1500);
+          }).catch(function(){ prompt('Copiá el link:', link); });
+        } else {
+          prompt('Copiá el link:', link);
+        }
+      });
+    });
+    box.querySelectorAll('[data-edit-tenant]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        privadoEditingTenant = btn.getAttribute('data-edit-tenant');
+        refreshDataForContext();
+        initStaffPrivado();
+      });
+    });
+    box.querySelectorAll('[data-activate-tenant]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        setActiveTenantId(btn.getAttribute('data-activate-tenant'));
+        initStaffPrivado();
+      });
+    });
+    box.querySelectorAll('[data-delete-tenant]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var id = btn.getAttribute('data-delete-tenant');
+        var list = loadTenants();
+        if (list.length <= 1){ alert('Tiene que quedar al menos una pizzería.'); return; }
+        var t = list.filter(function(x){ return x.id === id; })[0];
+        if (!confirm('¿Eliminar "' + (t ? t.name : id) + '"? Se borran todos sus pedidos, productos y cuentas. No se puede deshacer.')) return;
+        saveTenants(list.filter(function(x){ return x.id !== id; }));
+        deleteTenantData(id);
+        var remaining = loadTenants();
+        if (getActiveTenantId() === id) setActiveTenantId(remaining[0].id);
+        if (privadoEditingTenant === id) privadoEditingTenant = remaining[0].id;
+        refreshDataForContext();
+        initStaffPrivado();
+      });
+    });
+    document.getElementById('new-tenant-create').addEventListener('click', function(){
+      var name = document.getElementById('new-tenant-name').value.trim();
+      if (!name){ alert('Completá el nombre de la nueva pizzería.'); return; }
+      var used = {}; tenants.forEach(function(t){ used[t.id] = true; });
+      var id = slugifyKey(name, used);
+      var list = loadTenants();
+      list.push({ id:id, name:name, createdAt:Date.now() });
+      saveTenants(list);
+      saveJSON(tenantKey(KEYS.business, id), {
+        siteName: name,
+        removedBranches: ['centro', 'guadalupe'],
+        branches: { principal: { name:'Local principal', address:'', phones:[''] } }
+      });
+
+      var supUser = 'adminsup_' + id, supPass = randomPassword();
+      var branchUser = 'admin_' + id, branchPass = randomPassword();
+      var accs = loadStaffAccounts();
+      accs[supUser] = { password:supPass, role:'sup', label:name + ' · Productos', tenant:id };
+      accs[branchUser] = { password:branchPass, role:'admin', branch:'principal', label:name + ' · Principal', tenant:id };
+      saveStaffAccounts(accs);
+
+      privadoEditingTenant = id;
+      refreshDataForContext();
+      initStaffPrivado();
+      alert('Pizzería "' + name + '" creada.\n\nSu link para clientes:\n' + tenantLink(id) + '\n\nCuentas generadas (anotalas, no se vuelven a mostrar):\n/adminSup → usuario: ' + supUser + ' / contraseña: ' + supPass + '\n/admin → usuario: ' + branchUser + ' / contraseña: ' + branchPass);
+    });
+  }
+
+  function initStaffPrivado(){
+    var wrap = document.getElementById('privadoForms');
+    wrap.innerHTML = '';
+    renderTenantsSection(wrap);
+    var biz = tLoad(KEYS.business, {});
+
+    var brandBox = document.createElement('div'); brandBox.className = 'panel privado-branch-form';
+    brandBox.innerHTML =
+      '<h3>Nombre y marca del negocio</h3>' +
+      '<p class="hint">Esto es lo que hace que el sitio sea de "Planeta Pizza". El día que este mismo sitio se lo vendas a otra pizzería, cambiás estos datos acá y pasa a ser de ellos, sin tocar nada del código.</p>' +
+      '<div class="field"><label>Nombre del negocio</label><input type="text" id="biz-sitename" value="' + (document.getElementById('heroTitleText').textContent) + '"></div>' +
+      '<div class="field"><label>Texto corto del sello (logo redondo)</label><input type="text" id="biz-sealtext" value="' + (document.getElementById('headerSealBand').textContent) + '"></div>' +
+      '<div class="field"><label>Año de fundación (se ve en el pie de página)</label><input type="text" id="biz-foundedyear" value="' + (document.getElementById('footerSealYear').textContent) + '"></div>' +
+      '<div class="field"><label>Frase corta bajo el nombre (portada)</label><input type="text" id="biz-eyebrow" value="' + (document.getElementById('heroEyebrowText').textContent) + '"></div>' +
+      '<div class="field"><label>Descripción de la portada</label><textarea id="biz-herodesc">' + (document.getElementById('heroDescText').textContent) + '</textarea></div>' +
+      '<div class="field"><label>Imagen de fondo de la portada (URL)</label><input type="text" id="biz-herobg" value="' + (biz.heroBgUrl || '') + '" placeholder="assets/hero-pizza.jpg"></div>' +
+      '<button class="btn btn-primary" type="button" id="biz-save-brand">Guardar nombre y marca</button>';
+    wrap.appendChild(brandBox);
+    document.getElementById('biz-save-brand').addEventListener('click', function(){
+      var fresh = tLoad(KEYS.business, {});
+      fresh.siteName = document.getElementById('biz-sitename').value.trim();
+      fresh.sealText = document.getElementById('biz-sealtext').value.trim();
+      fresh.foundedYear = document.getElementById('biz-foundedyear').value.trim();
+      fresh.eyebrow = document.getElementById('biz-eyebrow').value.trim();
+      fresh.heroDesc = document.getElementById('biz-herodesc').value.trim();
+      fresh.heroBgUrl = document.getElementById('biz-herobg').value.trim();
+      tSave(KEYS.business, fresh);
+      applyBusinessOverrides();
+      alert('Nombre y marca actualizados.');
+    });
+
+    var COLOR_FIELDS = [
+      { key:'cream', label:'Fondo general (oscuro)' },
+      { key:'surface', label:'Fondo de tarjetas y paneles' },
+      { key:'ink', label:'Texto principal' },
+      { key:'flare', label:'Color de marca (logo, bordes, etiquetas)' },
+      { key:'action', label:'Color de los botones de acción (Agregar, Confirmar)' }
+    ];
+    var currentColors = getComputedStyle(document.documentElement);
+    var colorsBox = document.createElement('div'); colorsBox.className = 'panel privado-branch-form';
+    var colorsHtml = '<h3>Paleta de colores</h3><p class="hint">Elegí los colores clave del sitio. El resto de los tonos se ajustan solos a partir de estos.</p>';
+    COLOR_FIELDS.forEach(function(f){
+      var current = (biz.colors && biz.colors[f.key]) || currentColors.getPropertyValue('--' + f.key).trim();
+      colorsHtml += '<div class="field"><label>' + f.label + '</label>' +
+        '<input type="color" id="biz-color-' + f.key + '" value="' + current + '" style="width:70px; height:44px; padding:4px; min-height:44px;"></div>';
+    });
+    colorsHtml += '<button class="btn btn-primary" type="button" id="biz-save-colors">Guardar colores</button>';
+    colorsBox.innerHTML = colorsHtml;
+    wrap.appendChild(colorsBox);
+    document.getElementById('biz-save-colors').addEventListener('click', function(){
+      var fresh = tLoad(KEYS.business, {});
+      fresh.colors = fresh.colors || {};
+      COLOR_FIELDS.forEach(function(f){ fresh.colors[f.key] = document.getElementById('biz-color-' + f.key).value; });
+      tSave(KEYS.business, fresh);
+      applyBusinessOverrides();
+      alert('Colores actualizados.');
+    });
+
+    Object.keys(BRANCHES).forEach(function(id){
+      var b = BRANCHES[id];
+      var box = document.createElement('div'); box.className = 'panel privado-branch-form';
+      box.innerHTML =
+        '<h3>' + b.name + '</h3>' +
+        '<div class="field"><label>Nombre de la sucursal</label><input type="text" id="biz-name-' + id + '" value="' + b.name + '"></div>' +
+        '<div class="field"><label>Dirección</label><input type="text" id="biz-addr-' + id + '" value="' + b.address + '"></div>' +
+        '<div class="field"><label>Teléfono para mostrar</label><input type="text" id="biz-phone-' + id + '" value="' + (b.phones[0]||'') + '"></div>' +
+        '<div class="inline-actions">' +
+          '<button class="btn btn-primary" type="button" id="biz-save-' + id + '">Guardar ' + b.name + '</button>' +
+          '<button class="btn btn-ghost" type="button" id="biz-remove-' + id + '">Eliminar esta sucursal</button>' +
+        '</div>';
+      wrap.appendChild(box);
+      document.getElementById('biz-save-' + id).addEventListener('click', function(){
+        var fresh = tLoad(KEYS.business, {});
+        fresh.branches = fresh.branches || {};
+        fresh.branches[id] = {
+          name: document.getElementById('biz-name-' + id).value.trim() || b.name,
+          address: document.getElementById('biz-addr-' + id).value.trim() || b.address,
+          phones: [document.getElementById('biz-phone-' + id).value.trim() || b.phones[0]]
+        };
+        tSave(KEYS.business, fresh);
+        applyBusinessOverrides();
+        renderFooterInfo();
+        renderBranchToggles();
+        alert('Datos de ' + b.name + ' actualizados.');
+      });
+      document.getElementById('biz-remove-' + id).addEventListener('click', function(){
+        if (Object.keys(BRANCHES).length <= 1){ alert('Tiene que quedar al menos una sucursal.'); return; }
+        if (!confirm('¿Eliminar "' + b.name + '" como sucursal? No se puede deshacer desde acá.')) return;
+        var fresh = tLoad(KEYS.business, {});
+        fresh.removedBranches = fresh.removedBranches || [];
+        if (fresh.removedBranches.indexOf(id) === -1) fresh.removedBranches.push(id);
+        if (fresh.branches) delete fresh.branches[id];
+        tSave(KEYS.business, fresh);
+        applyBusinessOverrides();
+        renderFooterInfo();
+        renderBranchToggles();
+        renderMenu();
+        initStaffPrivado();
+      });
+    });
+
+    var addBranchBox = document.createElement('div'); addBranchBox.className = 'panel privado-branch-form';
+    addBranchBox.innerHTML =
+      '<h3>+ Agregar una sucursal</h3>' +
+      '<div class="field"><label>Nombre</label><input type="text" id="biz-new-branch-name" placeholder="Ej: Norte"></div>' +
+      '<div class="field"><label>Dirección</label><input type="text" id="biz-new-branch-addr"></div>' +
+      '<div class="field"><label>Teléfono para mostrar</label><input type="text" id="biz-new-branch-phone"></div>' +
+      '<button class="btn btn-primary" type="button" id="biz-add-branch">Agregar sucursal</button>';
+    wrap.appendChild(addBranchBox);
+    document.getElementById('biz-add-branch').addEventListener('click', function(){
+      var name = document.getElementById('biz-new-branch-name').value.trim();
+      if (!name){ alert('Completá el nombre de la sucursal.'); return; }
+      var used = {}; Object.keys(BRANCHES).forEach(function(k){ used[k] = true; });
+      var id = slugifyKey(name, used);
+      var fresh = tLoad(KEYS.business, {});
+      fresh.branches = fresh.branches || {};
+      fresh.branches[id] = {
+        name: name,
+        address: document.getElementById('biz-new-branch-addr').value.trim(),
+        phones: [document.getElementById('biz-new-branch-phone').value.trim()]
+      };
+      tSave(KEYS.business, fresh);
+      applyBusinessOverrides();
+      renderFooterInfo();
+      renderBranchToggles();
+      initStaffPrivado();
+    });
+
+    var hoursBox = document.createElement('div'); hoursBox.className = 'panel privado-branch-form';
+    var hoursHtml = '<h3>Horarios (ambas sucursales)</h3>';
+    HOURS.forEach(function(h, i){
+      hoursHtml += '<div class="hours-row"><span>Franja ' + (i+1) + '</span>' +
+        '<input type="text" id="biz-hour-from-' + i + '" value="' + h.from + '"> a ' +
+        '<input type="text" id="biz-hour-to-' + i + '" value="' + h.to + '"></div>';
+    });
+    hoursHtml += '<button class="btn btn-primary" type="button" id="biz-save-hours">Guardar horarios</button>';
+    hoursBox.innerHTML = hoursHtml;
+    wrap.appendChild(hoursBox);
+    document.getElementById('biz-save-hours').addEventListener('click', function(){
+      var fresh = tLoad(KEYS.business, {});
+      fresh.hours = HOURS.map(function(h, i){
+        return { from: document.getElementById('biz-hour-from-' + i).value.trim() || h.from, to: document.getElementById('biz-hour-to-' + i).value.trim() || h.to };
+      });
+      tSave(KEYS.business, fresh);
+      applyBusinessOverrides();
+      renderFooterInfo();
+      renderOpenStatus();
+      alert('Horarios actualizados.');
+    });
+
+    var logoBox = document.createElement('div'); logoBox.className = 'panel privado-branch-form';
+    logoBox.innerHTML =
+      '<h3>Logo</h3>' +
+      '<p class="hint">Pegá la dirección (URL) de una imagen, o el nombre de un archivo dentro de la carpeta "assets" del proyecto.</p>' +
+      '<div class="field"><input type="text" id="biz-logo" value="' + (biz.logoUrl || '') + '" placeholder="assets/logo-planeta.jpg"></div>' +
+      '<button class="btn btn-primary" type="button" id="biz-save-logo">Guardar logo</button>';
+    wrap.appendChild(logoBox);
+    document.getElementById('biz-save-logo').addEventListener('click', function(){
+      var fresh = tLoad(KEYS.business, {});
+      fresh.logoUrl = document.getElementById('biz-logo').value.trim();
+      tSave(KEYS.business, fresh);
+      applyBusinessOverrides();
+      alert('Logo actualizado.');
+    });
+  }
+
+  /* ---------------- cliente: perfil / registro de contacto ---------------- */
+  var profileOverlay = document.getElementById('profileModalOverlay');
+  document.getElementById('profileBtn').addEventListener('click', function(){
+    document.getElementById('profileSavedNote').hidden = true;
+    profileOverlay.hidden = false;
+  });
+  document.getElementById('profileModalCloseBtn').addEventListener('click', function(){ profileOverlay.hidden = true; });
+  profileOverlay.addEventListener('click', function(ev){ if (ev.target === profileOverlay) profileOverlay.hidden = true; });
+
+  document.getElementById('profileForm').addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var contact = {
+      name: document.getElementById('profileName').value.trim(),
+      phone: document.getElementById('profilePhone').value.trim(),
+      email: document.getElementById('profileEmail').value.trim(),
+      createdAt: Date.now()
+    };
+    if (!contact.name && !contact.phone && !contact.email) return;
+    var contacts = tLoad(KEYS.contacts, []);
+    contacts.push(contact);
+    tSave(KEYS.contacts, contacts);
+    document.getElementById('profileSavedNote').hidden = false;
+  });
+
+  /* ---------------- sincronización entre pestañas / misma pestaña ---------------- */
+  function handleDataChange(){
+    refreshDataForContext();
+    var routeKey = currentRouteKey();
+    if (routeKey === 'admin'){
+      var session = getSession();
+      if (session) renderStaffAdmin(session.branch);
+      if (!document.getElementById('adminStockPanel').hidden && session) renderStockList(session.branch);
+    }
+    if (routeKey === 'adminsup'){ renderSupProducts(); renderSupPromos(); }
+    if (!routeKey && state.screen === 'myorders') renderMyOrdersScreen();
+    if (!routeKey && state.screen === 'confirm' && currentConfirmOrderId){
+      var confirmOrder = loadOrders().filter(function(o){ return o.id === currentConfirmOrderId; })[0];
+      if (confirmOrder) renderConfirmStatus(confirmOrder);
+    }
+  }
+  window.addEventListener('storage', function(ev){
+    if (!ev.key) return;
+    var isTenantKey = Object.keys(KEYS).some(function(k){ return ev.key.indexOf(KEYS[k] + '__') === 0; });
+    var isGlobalKey = ev.key === TENANTS_KEY || ev.key === ACTIVE_TENANT_KEY || ev.key === ACCOUNTS_KEY;
+    if (isTenantKey || isGlobalKey) handleDataChange();
+  });
+  window.addEventListener('pp-data-changed', handleDataChange);
 
   /* ---------------- init ---------------- */
-  renderTabs();
-  renderMenu();
-  renderCartBits();
-  renderBranchToggles();
   renderOpenStatus();
   syncHeaderHeight();
   setupTabsSentinel();
   window.addEventListener('resize', syncHeaderHeight);
   window.addEventListener('load', syncHeaderHeight);
   setInterval(renderOpenStatus, 60000);
+  route();
 })();
 </script>
